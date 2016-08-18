@@ -1,0 +1,37 @@
+<data-ng-include src="'views/partials/header.html'"></data-ng-include>
+<section>
+  <div show-during-resolve class="loader">   
+  <center><img src="images/spinner.gif"  alt="Opensrp"/></center>
+</div>
+    <div class="container">
+        <div class="row">            
+            <div class="row"> <!-- main col left -->               
+              <div class="col-sm-12 col-md-12">
+                <div id="top" class="login-container">                  
+                    <a href="#/camp/add">
+                      <i class="glyphicon glyphicon-list-alt"></i>        
+                   <span>Add Camp</span>
+                   </a>
+                    <div flash-message="5000" ></div>
+                    <div id="message"></div>
+                    <table>
+                      <tr><td>Camp Name</td><td>Camp Date</td><td>Village Name</td></tr>                                 
+                      <tr ng-repeat="user in Users">
+                        <td style="width: 10%"><a href="/#/user/{{user.value.user_name}}" >{{user.value.user_name}}</a> </td>
+                        <td style="width: 10%"><span ng-repeat="role in user.value.roles"><a href="/#/role/{{role.id}}" >{{role.name}}</a><br/></span></td>
+                        <td style="width: 10%">{{user.value.status}}</td>
+                      </tr>
+                    </table>
+                    <div class="spinner" ng-show="loading"> <center><img src="images/spinner.gif"  alt="Opensrp"/></center></div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</section>
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+app/index.hmtl
+
+<script src="scripts/camp/controllers/camp.js"></script>
+
+
+
+app/script/app.js 
+
+
+.config(function ($routeProvider,$locationProvider) {
+    $routeProvider
+      .when('/camp', {
+        templateUrl: 'views/camp/index.html',
+        controller: 'CampCtrl',
+        controllerAs: 'camp'        
+      })
+  })

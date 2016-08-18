@@ -1,0 +1,34 @@
+app/index.hmtl
+
+<script src="scripts/camp/controllers/camp.js"></script>
+
+
+
+app/script/app.js 
+
+
+.config(function ($routeProvider,$locationProvider) {
+    $routeProvider
+      .when('/camp', {
+        templateUrl: 'views/camp/index.html',
+        controller: 'CampCtrl',
+        controllerAs: 'camp'        
+      })
+  })
+
+.config(function ($routeProvider,$locationProvider) {
+    $routeProvider
+      .when('/camp/add', {
+        templateUrl: 'views/camp/camp_add_edit.html',
+        controller: 'CampCtrl',
+        controllerAs: 'camp'        
+      })
+  })
+  .config(function ($routeProvider,$locationProvider) {
+    $routeProvider
+      .when('/camp/edit:id', {
+        templateUrl: 'views/camp/camp_add_edit.html',
+        controller: 'CampCtrl',
+        controllerAs: 'camp'        
+      })
+  })
