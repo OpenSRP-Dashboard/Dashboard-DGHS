@@ -1,3 +1,5 @@
+ <script type="text/javascript" src="views/camp/assets/js/jquery-ui.js"></script>
+ <link href="views/camp/assets/css/jquery-ui.css" rel="stylesheet">
 <data-ng-include src="'views/partials/header.html'"></data-ng-include>
 <section>    
     <div class="container">
@@ -10,170 +12,83 @@
                     <p class="lead form-signin-heading"></p>                    
                     <form  name="camp" ng-submit="save()">                    
 					<div class="row">          
-					         <div class="col-sm-4 col-md-4">
-                    <label>Session Name</label>  
-                    <input type="text" class="form-control" ng-required="true" id="session_name" name="session_name" ng-model="formData.session_name" placeholder="Given Name">
-                    <div ng-messages="camp.session_name.$error">
-                      <div ng-message="required" class="maspro">
-                        Given Name is required
-                      </div>
-                    </div>                    
-                    </div>
-                    <div class="col-sm-4 col-md-4">
-                    <label>Middle Name</label>  
-                    <input type="text" class="form-control" ng-required="true" id="middle_name" name="middle_name" ng-model="formData.middle_name" placeholder="Middle Name">
-                    <br/>
-                    <div ng-messages="camp.middle_name.$error">
-                      <div ng-message="required" class="maspro">
-                        Middle Name is required
-                      </div>
-                    </div>
-                    </div>
-                    <div class="col-sm-4 col-md-4">
-                    <label>Family Name</label>  
-                    <input type="text" class="form-control" ng-required="true" id="family_name" name="family_name" ng-model="formData.family_name" placeholder="Family Name">
-                    <div ng-messages="addUser.family_name.$error">
-                      <div ng-message="required" class="maspro">
-                        Family Name is required
-                      </div>
-                    </div>
-                    </div>
+						<div class="col-sm-4 col-md-4">
+						<label>Session name</label>  
+						<input type="text" class="form-control" ng-required="true" id="session_name" name="session_name" ng-model="formData.session_name" placeholder="Session name">
+						<div ng-messages="camp.session_name.$error">
+						<div ng-message="required" class="maspro">
+						   Session name is required
+						</div>
+						</div>                    
+						</div>
+						<div class="col-sm-4 col-md-4">
+						<label>Session Location</label>  
+						<input type="text" class="form-control" id="village_name" name="session_location" ng-model="formData.session_location" placeholder="Session Location">
+						</div>
+						<div class="col-sm-4 col-md-4">
+						<label>Total HH no.</label>  
+						<input type="number" class="form-control"  id="total_hh" name="total_hh" ng-model="formData.total_hh" placeholder="Total HH Number">
+						</div>					
 					</div>
 					
 					 <div class="row">
-                    <div class="col-sm-4 col-md-4">
-                    <label>Contact Number</label>  
-                    <input type="number" class="form-control" ng-required="true" id="contact_number" name="contact_number" ng-model="formData.contact_number" placeholder="Contact Number"  ng-minlength="11" ng-maxlength="11">
-                    <!-- pattern="[0-9]{11}" -->
-                    <div ng-messages="addUser.contact_number.$error" >
-                      <div ng-message="number" class="maspro">
-                        Enter a valid number
-                      </div>
-                      <div ng-message="minlength" class="maspro">
-                       Number should contain 11 digits
-                      </div>
-                      <div ng-message="maxlength" class="maspro">
-                        Number should contain 11 digits
-                      </div>
-                    </div>
-					          </div>
-                    <div class="col-sm-4 col-md-4">
-                    <label>Personal Address</label>  
-                    <input type="text" class="form-control" ng-required="true" id="personal_address" name="personal_address" ng-model="formData.personal_address" placeholder="Personal Address">
-                    </div>
-                    <div class="col-sm-4 col-md-4">
-                    <label>Email</label>  
-                    <input type="email" class="form-control" ng-required="true" id="email" name="email" ng-model="formData.email" placeholder="Email">                    
-                    <div ng-messages="addUser.email.$error" ng-messages-multiple>
-                      <div ng-message="required" class="maspro">
-                        Email is required
-                      </div>
-                      <div ng-message="email" class="maspro">
-                        Provide a valid email address
-                      </div>
-					          </div>                      
-                    </div>                    
-                   </div>
-                   <div class="row">
-                    <div class="col-sm-4 col-md-4">
-                    <label>Passwofrd</label>  
-                    <input type="password" class="form-control" ng-required="true" id="password" name="password" ng-model="formData.password" placeholder="Password" ng-minLength="6" ng-pattern="/^[a-zA-Z0-9]*$/">  
-                    <div ng-messages="addUser.password.$error" >
-                    <div ng-message="required" class="maspro">
-                        Enter a password
-                      </div>                      
-                      <div ng-message="minlength" class="maspro">
-                        password should contain at least 6 characters
-                      </div>                     
-                      <div ng-message="pattern" class="maspro">
-                        Must be alphanumeric
-                      </div>                       
-                    </div>                       
-                    </div>
-                    </div>
+                    
+						<div class="col-sm-4 col-md-4">
+						<label>Total population</label>  
+						<input type="number" class="form-control"  id="total_population" name="total_population" ng-model="formData.total_population" placeholder="Total population">
+						</div>
+						<div class="col-sm-4 col-md-4">
+						<label>15 yrs aged adolescent no.</label>  
+						<input type="number" class="form-control"  id="total_adolescent" name="total_adolescent" ng-model="formData.total_adolescent" placeholder="15 yrs aged adolescent no.">                    
+						</div>
+						
+						<div class="col-sm-4 col-md-4">
+						<label>15-49 yrs aged women no.</label>  
+						<input type="number" class="form-control" id="total_women" name="total_women" ng-model="formData.total_women" placeholder="15-49 yrs aged women no.">  
+											   
+						</div>
+					</div>
+                   
 				   
 				   <div class="row">
-                    <div class="col-sm-4 col-md-4">
-                    <label>User Name</label>  
-						<input type="text" class="form-control" ng-required="true" id="user_name" name="user_name" ng-model="formData.user_name" placeholder="User Name length should be between 6 to 20" ng-minLength="6" ng-maxLength="20" username-available ng-model-options="{ updateOn: 'blur' }" ng-disabled="ifEdit"> 
-                    <!-- pattern=".{4,20}" means acceptable length is 4 to 20 -->                
-                    <div ng-messages="addUser.user_name.$error" >
-                      <div ng-message="required" class="maspro">
-                        Enter a user name
-                      </div>                      
-                      <div ng-message="minlength" class="maspro">
-                        User name should contain at least 6 characters
-                      </div>
-                      <div ng-message="maxlength" class="maspro">
-                        User name should contain at most 20 characters
-                      </div>
-                      <div ng-message="usernameAlreadyTaken" class="maspro">
-                        This user name is already taken. Try another one
-                      </div>                                            
-                    </div>
-                    <div ng-if="addUser.$pending.usernameExists">checking....</div>
-                    </div>                   
-                     <div class="col-sm-4 col-md-4">
-                    <label>Gender</label>  
-                    <select id="" class="form-control" name="gender" ng-required="true">
-                      <option ng-click="formData.gender=''" value="">Select Gender </option>
-                      <option ng-click="formData.gender='Male'" value="Male">Male </option>
-                      <option ng-click="formData.gender='Female'" value="Female">Female </option>
-                      <option ng-click="formData.gender='Other'" value="Other">Other </option>               
-                    </select>
-                    </div>
-                    <div ng-messages="addUser.gender.$error">
-                      <div ng-message="required" class="maspro"> 
-                        something is in display
-                      </div>
-                    </div>
-                    <div class="col-sm-4 col-md-4">
-                    <label>Select Supervisor</label>  
-                    <select id="" class="form-control" name="parent" >
-                      <option ng-click="formData.parent={}" value="">Select Parent </option>
-                      <option ng-repeat="user in users"  ng-click="formData.parent={'user_name': user.name, 'id':user.id}" value="{{user.name}}" ng-selected="user.name == formData.parent.user_name">{{user.name}}</option>
-                    </select>
-                    </div>
+						<div class="col-sm-4 col-md-4">
+						<label>0-11 month aged child no.</label>  
+							<input type="number" class="form-control"  id="total_child0" name="total_child0" ng-model="formData.total_child0" placeholder="0-11 month aged child no."> 
+					   
+						</div>                   
+						<div class="col-sm-4 col-md-4">
+						<label>12-23 month aged child no.</label>  
+							<input type="number" class="form-control"  id="total_child1" name="total_child1" ng-model="formData.total_child1" placeholder="12-23 month aged child no."> 
+					   
+						</div> 
+						<div class="col-sm-4 col-md-4">
+						<label>0-5 yrs aged child no.</label>  
+							<input type="number" class="form-control"  id="total_child2" name="total_child2" ng-model="formData.total_child2" placeholder="0-5 yrs aged child no."> 
+					   
+						</div>                     
 					</div>
 					
+					
+					<div class="col-md-12">						
+						<div class="row  form-group" id="prescription">
+						  <div class="col-md-2">
+							<label>Date</label>
+							<input type="text" class="form-control" ng-required="true" id="session_date" name="session_date" ng-model="formData.session_date" placeholder="Session date">
+						  </div>
+						  <div class="col-md-2" id="batch">
+							<label>Status</label><br />
+							 <input type="checkbox" id="status" class="role_method" ng-model="formData.status" ng-false-value ="'InActive'" ng-true-value="'Active'">
+						  </div>
+						   </div>
+						  <div style="clear:both"></div>
+						  <br />
+					  <div id="addCourse" class="btn btn-primary">Add Date</div>
+					</div>
 					<div class="row">
-					<div class="col-sm-4 col-md-4">
-                    <label>Select Subordinate</label> 
-					<br/> 
-                    <span ng-repeat="user in users">
-                    <!-- <input ng-checked="checked(access)" type="checkbox"  class="role_method" ng-model="formData.accessTokens[$index]" ng-true-value="'{{access}}'">{{access}} -->
-                    <input type="checkbox" ng-click="formData.selectedChildren[user.name] = !formData.selectedChildren[user.name]" ng-checked="formData.selectedChildren[user.name]"> {{user.name}}
-                    </span>
-                    </div>
-                     
-					 <div class="col-sm-4 col-md-4">
-                    <label>Roles</label>  
-					<br/>
-                    <span ng-repeat="role in roles" >
-                    <input type="checkbox" ng-click="roleCheckboxClicked(role.name)" ng-checked="formData.selectedRoles[role.name]"> 
-                    {{role.name}} -- {{formData.selectedRoles[role.name]}}
-                    </span>
-                    <input type="checkbox" id="decoyCheckbox" name="decoyCheckbox" ng-model="formData.decoyCheckbox"  style="display:none" ng-required="true">
-                    <!-- decoy-for-checkbox-group -->
-                    <div ng-messages="addUser.decoyCheckbox.$error">
-                      <div ng-message="required" class="maspro">
-                        At least one role has to be selected
-                      </div>
-                      <!-- <div ng-message="atLeastOneCheckboxIsChecked">
-                        At least one role has to be selected
-                      </div> -->
-                    </div>
-                    </div>
-					 <div class="col-sm-4 col-md-4"> 
-                    <label> Status : </label><br/>
-                    <input type="checkbox"  class="role_method" ng-model="formData.status" ng-false-value ="'InActive'" ng-true-value="'Active'">
-                    <br />
-                    <div id="message"></div>
-					</div>
-					</div>
-          					<div class="col-sm-4 col-md-4">
+          			<div class="col-sm-4 col-md-4">
                     <button type="submit" ng-disabled="addUser.$invalid" id="submit"  class="btn btn-lg btn-primary btn-block">Submit</button>
-					</div> 
+					</div>
+					</div>
                    </form>      
                    <div class="spinner" ng-show="loading"> <center><img src="images/spinner.gif"  alt="Opensrp"/></center></div>
                   </div>            
@@ -184,3 +99,41 @@
         </div>
     </div>     
 </section>
+
+
+  <script>
+  $( function() {
+    $( "#session_date" ).datepicker();
+  } );
+  
+  $(document).on('click','.remove', function(){
+      $(this).parent().parent().remove();
+    });
+
+$("#addCourse").on("click",function(){
+  var date = $("#session_date").val();
+  var status = $('#status:checked').val();
+  console.log(status);          
+  if(date == "" || status == ""){
+    return ;
+  } 
+    $("#prescription").append('<div>'+
+      '<div  style="clear:both" class="rowss"> '+
+      '<div class="col-md-2">'+ 
+          '<label> &nbsp;</label>'+
+          '<input  type="text" name="course[]" readonly="true" value="'+date+'" class="form-control">'+ 
+      '</div>'+
+      '<div class="col-md-2">'+ 
+          '<label> &nbsp;</label> <br />'+
+          '<input type="checkbox" id="status" class="role_method" ng-model="formData.status" ng-false-value ="InActive" ng-true-value="Active">'+ 
+      '</div>'+
+      
+      '<div class="col-md-1"><label>&nbsp;</label>'+
+              '<button  type="button"'+
+                'class="btn  btn-md remove">'+
+                '<span class="glyphicon" aria-hidden="true">Delete</span></button>'+
+            '</div>'+
+      
+      '</div>');
+});
+  </script>

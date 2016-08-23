@@ -22,10 +22,68 @@
                         <td style="width: 10%">{{user.value.status}}</td>
                       </tr>
                     </table>
-                    <div class="spinner" ng-show="loading"> <center><img src="images/spinner.gif"  alt="Opensrp"/></center></div>
+                    <!--<div class="spinner" ng-show="loading"> <center><img src="images/spinner.gif"  alt="Opensrp"/></center></div> -->
                   </div>
                 </div>
             </div>
+        </div>
+        <div class="row">
+ <h2 class="text-center">{{ camp.calendarTitle }}</h2>
+    <div class="col-md-6 text-center">
+      <div class="btn-group">
+
+        <button
+          class="btn btn-primary"
+          mwl-date-modifier
+          date="camp.viewDate"
+          decrement="camp.calendarView">
+          Previous
+        </button>
+        <button
+          class="btn btn-default"
+          mwl-date-modifier
+          date="camp.viewDate"
+          set-to-today>
+          Today
+        </button>
+        <button
+          class="btn btn-primary"
+          mwl-date-modifier
+          date="camp.viewDate"
+          increment="camp.calendarView">
+          Next
+        </button>
+      </div>
+    </div>
+
+    <br class="visible-xs visible-sm">
+
+    <div class="col-md-6 text-center">
+      <div class="btn-group">
+        <label class="btn btn-primary" ng-model="camp.calendarView" uib-btn-radio="'year'">Year</label>
+        <label class="btn btn-primary" ng-model="camp.calendarView" uib-btn-radio="'month'">Month</label>
+        <label class="btn btn-primary" ng-model="camp.calendarView" uib-btn-radio="'week'">Week</label>
+        <label class="btn btn-primary" ng-model="camp.calendarView" uib-btn-radio="'day'">Day</label>
+      </div>
+    </div>
+
+  </div>
+
+  <br>
+
+  <mwl-calendar
+    events="camp.events"
+    view="camp.calendarView"
+    view-title="camp.calendarTitle"
+    view-date="camp.viewDate"
+    on-event-click="camp.eventClicked(calendarEvent)"
+    on-event-times-changed="camp.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+    cell-is-open="camp.isCellOpen"
+    day-view-start="06:00"
+    day-view-end="22:59"
+    day-view-split="30"
+    cell-modifier="camp.modifyCell(calendarCell)">
+  </mwl-calendar>
         </div>
     </div>    
 </section>

@@ -32,3 +32,16 @@ app/script/app.js
         controllerAs: 'camp'        
       })
   })
+
+
+bower install --save angular-bootstrap-calendar
+
+
+app/scripts/app.js
+
+ modify  app.js such as 
+
+.module('opensrpSiteApp', ['mwl.calendar', 'ui.bootstrap'])
+
+
+
