@@ -8,10 +8,10 @@
  * Controller of the opensrpSiteApp
  */
 angular.module('opensrpSiteApp')
-  .controller('CampCtrl', function ($scope,$http,$rootScope,$q,Base64,OPENSRP_WEB_BASE_URL,ngDialog,Page,AclService,calendarConfig) {
+  .controller('CampCtrl', function ($scope,$http,$rootScope,$q,Base64,OPENSRP_WEB_BASE_URL,ngDialog,Page,AclService,calendarConfig,$window) {
     
     var vm = this;
-console.log(vm);
+
     //These variables MUST be set as a minimum for the calendar to work
     vm.calendarView = 'month';
     vm.viewDate = new Date();
@@ -90,5 +90,55 @@ console.log(vm);
       $event.stopPropagation();
       event[field] = !event[field];
     };
+    $scope.formData = [];
+    $scope.campDates = [];
+    $scope.campDate = [];
+    $scope.statusValue = [];
+    $scope.show = false;
     
+    $scope.addCampDate = function(){
+      
+      if ($scope.formData.date == undefined || $scope.formData.date == ''
+          || $scope.formData.status == undefined || $scope.formData.status == '' ) {
+         $scope.show = true;
+      }else{
+        $scope.campDates.push({'session_date':$scope.formData.date,'status':$scope.formData.status});
+        console.log($scope.campDates);     
+        $scope.formData.date ="";
+        $scope.formData.status ="";
+        $scope.show = false;
+      }
+    }
+    $scope.removeCampDate = function(date){     
+      for(var i = $scope.campDates.length - 1; i >= 0; i--) {
+        if($scope.campDates[i].session_date === date) {
+           $scope.campDates.splice(i, 1);
+        }
+      }
+      
+    }
+    $scope.statuses = [
+        {'name': 'InActive','value':0},
+        {'name': 'Active','value':1}
+        
+    ];
+   window.sta = $scope.statuses;
+   $scope.save = function(){
+       console.log($scope);
+       $window.location = '/#/camp/date/1';
+      }
+    
+    $scope.save = function() {
+      console.log($scope.formData);
+       var postData = {"camp_dates":$scope.campDates,"created_by":"sohel","session_name":$scope.formData.session_name,"health_assistant":"","total_hh":$scope.formData.session_name.total_hh,
+       "total_population":$scope.formData.total_population,"total_adolescent":$scope.formData.total_adolescent,
+       "total_women":$scope.formData.total_women,"total_child0":$scope.formData.total_child0,
+       "total_child1":$scope.formData.total_child1,"total_child2":$scope.formData.total_child2,
+       "created_at":"","contact":"","session_location":$scope.formData.session_location
+       };
+      
+      console.log(JSON.stringify(postData));
+     
+        
+    };
   });

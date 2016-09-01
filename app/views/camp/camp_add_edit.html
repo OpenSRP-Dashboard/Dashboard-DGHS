@@ -69,71 +69,64 @@
 					</div>
 					
 					
-					<div class="col-md-12">						
-						<div class="row  form-group" id="prescription">
+					<div class="row">						
+						<div class="row">
 						  <div class="col-md-2">
-							<label>Date</label>
-							<input type="text" class="form-control" ng-required="true" id="session_date" name="session_date" ng-model="formData.session_date" placeholder="Session date">
+							<label>Date(*)</label>
+							<input type="text" id="session_date" class="form-control" ng-model="formData.date" placeholder="Session date">
 						  </div>
 						  <div class="col-md-2" id="batch">
-							<label>Status</label><br />
-							 <input type="checkbox" id="status" class="role_method" ng-model="formData.status" ng-false-value ="'InActive'" ng-true-value="'Active'">
+							<label>Status(*)</label><br />
+							<select id="status"  ng-model="formData.status" class="form-control" name="f1_gn_q11_elem1">
+								<option  value="">Select Status </option>
+								<option ng-repeat="union in statuses"   value="{{union.name}}">{{union.name}}</option>
+							</select>
 						  </div>
-						   </div>
 						  <div style="clear:both"></div>
-						  <br />
-					  <div id="addCourse" class="btn btn-primary">Add Date</div>
+						  <div class="col-md-4">
+						  <div ng-show="show"> Please select date & status...</div>
+						  </div>
+						</div>						
+						  <div style="clear:both"></div>
+						  <div class="row  form-group">
+							<fieldset  data-ng-repeat="campDate in campDates">
+								<div class="col-md-2">
+								<input type="text" readonly="true"  class="form-control" ng-model="campDate.session_date" name="" value="{{campDate.session_date}}">
+								</div>
+								<div class="col-md-2">
+								<input type="text" readonly="true" class="form-control"  ng-model="campDate.status" value="{{campDate.status}}">
+								</div>
+								<div class="col-md-2">
+								<div  ng-click="removeCampDate('{{campDate.session_date}}')" class="btn btn-primary">remove</div>
+								</div>
+							</fieldset>
+							
+							
+						   </div>
+						<div class="row">
+							<div class="col-sm-3 col-md-3">
+								<div  ng-click="addCampDate()" class="btn btn-lg btn-primary btn-block">Add Camp Date</div>
+							</div>
+						</div>
+						
 					</div>
 					<div class="row">
           			<div class="col-sm-4 col-md-4">
-                    <button type="submit" ng-disabled="addUser.$invalid" id="submit"  class="btn btn-lg btn-primary btn-block">Submit</button>
+                    <button style="float:right" type="submit" ng-disabled="addUser.$invalid" id="submit"  class="btn btn-lg btn-primary btn-block">Submit</button>
 					</div>
 					</div>
                    </form>      
                    <div class="spinner" ng-show="loading"> <center><img src="images/spinner.gif"  alt="Opensrp"/></center></div>
                   </div>            
                 </div>               
-                   {{formData | json}} 
+                  <!-- {{formData | json}}  -->
             </div>
             
         </div>
     </div>     
 </section>
-
-
   <script>
   $( function() {
-    $( "#session_date" ).datepicker();
+    $( "#session_date" ).datepicker({ dateFormat: 'yy-mm-dd',minDate:"0", });
   } );
-  
-  $(document).on('click','.remove', function(){
-      $(this).parent().parent().remove();
-    });
-
-$("#addCourse").on("click",function(){
-  var date = $("#session_date").val();
-  var status = $('#status:checked').val();
-  console.log(status);          
-  if(date == "" || status == ""){
-    return ;
-  } 
-    $("#prescription").append('<div>'+
-      '<div  style="clear:both" class="rowss"> '+
-      '<div class="col-md-2">'+ 
-          '<label> &nbsp;</label>'+
-          '<input  type="text" name="course[]" readonly="true" value="'+date+'" class="form-control">'+ 
-      '</div>'+
-      '<div class="col-md-2">'+ 
-          '<label> &nbsp;</label> <br />'+
-          '<input type="checkbox" id="status" class="role_method" ng-model="formData.status" ng-false-value ="InActive" ng-true-value="Active">'+ 
-      '</div>'+
-      
-      '<div class="col-md-1"><label>&nbsp;</label>'+
-              '<button  type="button"'+
-                'class="btn  btn-md remove">'+
-                '<span class="glyphicon" aria-hidden="true">Delete</span></button>'+
-            '</div>'+
-      
-      '</div>');
-});
   </script>
