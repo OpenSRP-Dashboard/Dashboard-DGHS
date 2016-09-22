@@ -8,8 +8,11 @@
             <div class="row"> <!-- main col left -->                           
               <div class="col-sm-12 col-md-12">
                 <div id="top" class="login-container">
-                    <h2 class="form-signin-heading">Add Camp</h2>
-                    <p class="lead form-signin-heading"></p>                    
+                    <h2 class="form-signin-heading">Add Session</h2>
+                    <p class="lead form-signin-heading"></p> 
+                    <div flash-message="5000" ></div>
+            <div id="message"></div>
+                   
                     <form  name="camp" ng-submit="save()">                    
 					<div class="row">          
 						<div class="col-sm-4 col-md-4">
@@ -130,3 +133,32 @@
     $( "#session_date" ).datepicker({ dateFormat: 'yy-mm-dd',minDate:"0", });
   } );
   </script>
+  
+   <script>
+
+$(function(){
+  
+  
+$("#role").autocomplete({
+  minLength: 2,
+  source: function( request, response ) {    
+    $.ajax({          
+      url: siteurl+"Students/students/",
+      dataType: "json", 
+      data: {
+              q: request.term
+            },     
+      success: function( data ) {
+        
+        var patients = [];
+        for(var i=0;i<data.length;i++){          
+            patients.push(data[i].Student.name+" -"+data[i].Student.id_number); 
+          }
+          response( patients );
+        }
+      });
+    },
+  });   
+});
+
+</script>
