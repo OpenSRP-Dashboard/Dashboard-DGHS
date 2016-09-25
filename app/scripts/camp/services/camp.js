@@ -25,6 +25,28 @@ angular.module('opensrpSiteApp')
           
         });       
      }
+
+     this.edit = function(data,$window,Flash){
+        console.log(333);
+        $("#submit").attr('disabled','disabled');
+        $("#submit").html("Please Wait");
+        var apiURLs = OPENSRP_WEB_BASE_URL+"/edit-camp";       
+        $http.post(apiURLs, data).success(function (data) {
+          $("#submit").html("Submit");
+          $('#submit').prop('disabled', false);
+          if (data == 1) {            
+            var message = '<strong>Successfully updated  sesion. </strong> ';
+            Flash.create('success', message, 'custom-class');
+            $window.location = '/#/camp';
+          }else{
+             $("#message").html("<p class='lead'>Failed to update session</p>");
+            $( "#message" ).delay(3000).fadeOut( "slow" );
+          }
+          
+        });       
+     }
+
+
    	
    	this.dateFormatterTodayInYYYYMMDD = function(){
    		var today = new Date();
