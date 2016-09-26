@@ -1,5 +1,8 @@
- <script type="text/javascript" src="views/camp/assets/js/jquery-ui.js"></script>
- <link href="views/camp/assets/css/jquery-ui.css" rel="stylesheet">
+ <link rel="stylesheet" href="views/camp/assets/css/bootstrap-datepicker.css">
+ 
+ <script src="views/camp/assets/js/jquery-1.9.1.js"></script>
+ <script src="views/camp/assets/js/bootstrap-datepicker.js"></script>
+ 
 <data-ng-include src="'views/partials/header.html'"></data-ng-include>
 <section>    
     <div class="container">
@@ -76,7 +79,8 @@
 						<div class="row">
 						  <div class="col-md-2">
 							<label>Date(*)</label>
-							<input type="text" id="session_date" class="form-control" ng-model="formData.date" placeholder="Session date">
+							<input type="text" id="session_date" class="form-control" 
+							ng-model="date" placeholder="Session date">
 						  </div>
 						  <div class="col-md-2" id="batch">
 							<label>Status(*)</label><br />
@@ -85,6 +89,8 @@
 								<option ng-repeat="union in statuses"   value="{{union.name}}">{{union.name}}</option>
 							</select>
 						  </div>
+
+						 
 						  <div style="clear:both"></div>
 						  <div class="col-md-4">
 						  <div ng-show="show"> Please select date & status...</div>
@@ -128,15 +134,31 @@
         </div>
     </div>     
 </section>
-  <script>
-  $( function() {
-    $( "#session_date" ).datepicker({ dateFormat: 'yy-mm-dd',minDate:"0", });
-  } );
-  </script>
+ <script type="text/javascript">
+            // When the document is ready
+            $(document).ready(function () {
+                
+                $('#session_date').datepicker({
+                    format: "yyyy-mm-dd",
+                    startDate: new Date(),
+                }).on('changeDate', function(e){
+				    $(this).datepicker('hide');
+				});
+ 
+            
+            });
+
+            $("#session_date").on("dp.change", function() {
+
+        $scope.selecteddate = $("#datetimepicker").val();
+        alert("selected date is " + $scope.selecteddate);
+
+    });
+        </script>
   
    <script>
 
-$(function(){
+/*$(function(){
   
   
 $("#role").autocomplete({
@@ -160,5 +182,5 @@ $("#role").autocomplete({
     },
   });   
 });
-
+*/
 </script>

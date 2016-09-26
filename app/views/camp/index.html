@@ -1,79 +1,111 @@
 <data-ng-include src="'views/partials/header.html'"></data-ng-include>
-<section>
-  
-  <div show-during-resolve class="loader">   
-    <center><img src="images/spinner.gif"  alt="Opensrp"/></center>
-  </div>
+
+<!--<link rel="stylesheet" href="assets/css/MarkerCluster.css" />
+<link rel="stylesheet" href="assets/css/MarkerCluster.Default.css" /> -->
+<section>  
   <div class="container">
-    <div class="row">            
-      <div class="row"> <!-- main col left -->               
-        <div class="col-sm-12 col-md-12">
-          <div id="top" class="login-container">                  
-            <a href="#/camp/add">
-              <i class="glyphicon glyphicon-list-alt"></i>        
-              <span>Add Camp</span>
-            </a>
-            <div flash-message="5000" ></div>
-            <div id="message"></div>
-
-
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="row">
+      <data-ng-include src="'views/partials/left-sidebar.html'"></data-ng-include>            
+      <div class="col-sm-9 col-md-9">
+          <div show-during-resolve class="loader">   
+              <center><img src="images/spinner.gif"  alt="Opensrp"/></center>
+          </div>
+          
+                          
+          
+    
+          <div class="row">
+            <div class="col-xs-12 col-lg-12">
+                <!-- content accordion  start -->           
+              <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                  <div class="panel-heading2" role="tab" id="headingOne">
+                    <table>
+                      <thead> <!--table head-->
+                        <tr style="background:none">
+                          <th style="width:228px; font-size:12px;">
+                               Session Name                                                 
+                          </th>
+                          <th style="width:157px;">
+                              Session Location
+                          </th>
+                          <th style="width:150px;">
+                            Health Assistant                               
+                          </th>
+                          <th style="width:154px;">
+                            Session Date                                                              
+                          </th>
+                                            
+                        </tr>
+                      </thead><!--//table head-->
+                    </table>                        
+                  </div>  <!--end panel-heading2 -->                     
+                </div> <!--end panel panel-default -->
+                <div ng-repeat="sessions in data">   
+                <div class="panel panel-default" ng-repeat="session_dates in sessions.camp_dates">
+                  <div class="panel-heading2" role="tab" id="headingTwo2">
+                    <table class="table table-striped collapsed"  data-toggle="collapse" data-parent="#accordion2" href="#{{session_dates.timestamp}}{{session_dates.session_date}}" aria-expanded="false" aria-controls="collapseTwo">
+                      <thead>
+                        <tr>
+                          <th style="width:150px;">                                           
+                            {{sessions.session_name}} -  [{{session_dates.session_date}}]   
+                          </th>                                       
+                          <th style="width:100px;">{{sessions.session_location}}</th>
+                          <th style="width:100px;">{{sessions.health_assistant}}</th>
+                          <th style="width:100px;">{{session_dates.session_date}}</th>
+                         <!-- <th style="width:100px;"></th>  -->
+                        </tr>
+                      </thead>
+                    </table><!--//table body-->
+                  </div> <!--end  panel-heading2 -->
+                  <div id="{{session_dates.timestamp}}{{session_dates.session_date}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">                    
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-md-4 col-lg-4 " align="center">
+                        <div><strong> Session name:</strong> {{sessions.session_name}}</div>
+                        <div><strong>Session Location:</strong> {{sessions.session_location}}</div>
+                        <div><strong>Health_assistant:</strong> {{sessions.health_assistant}}</div>
+                        <div><strong>Total HH:</strong> {{sessions.total_hh}}</div>
+                        <div><strong>15 yrs aged adolescent no.:</strong> {{sessions.total_adolescent}}</div>
+                         <div><strong>Total population.:</strong> {{sessions.total_population}}</div>
+                        </div>
+                        <div class=" col-md-4 col-lg-4 ">                                           
+                          
+                            <div><strong>0-11 month aged child no.:</strong> {{sessions.total_child0}}</div>
+                            <div><strong>12-23 month aged child no.:</strong> {{sessions.total_child1}}</div>
+                            <div><strong>0-5 yrs aged child no.:</strong> {{sessions.total_child2}}</div>
+                            <div><strong>15-49 yrs aged women no.:</strong> {{sessions.total_women}}</div>
 
-      <div class="col-md-6 text-center">
-        <div class="btn-group">
 
-          <button
-          class="btn btn-primary"
-          mwl-date-modifier
-          date="camp.viewDate"
-          decrement="camp.calendarView">
-          Previous
-        </button>
-        <button
-        class="btn btn-default"
-        mwl-date-modifier
-        date="camp.viewDate"
-        set-to-today>
-        Today
-      </button>
-      <button
-      class="btn btn-primary"
-      mwl-date-modifier
-      date="camp.viewDate"
-      increment="camp.calendarView">
-      Next
-    </button>
-  </div>
-</div>
+                          </div>
+                        </div> <!-- row end-->
 
-<br class="visible-xs visible-sm">
-<h2 class="text-center">{{ camp.calendarTitle }}</h2>
+                      </div>  <!-- end panel-body-->                                                 
+                  </div>    <!--end panel-collapse collapse -->                  
+                </div> <!-- end panel panel-default -->
 
 
-</div>
 
-<br>
+             
 
-<mwl-calendar
-  events="camp.events"
-  view="camp.calendarView"
-  view-title="camp.calendarTitle"
-  view-date="camp.viewDate"
-  on-event-click="camp.eventClicked(calendarEvent)"
-  on-event-times-changed="camp.eventTimesChanged(calendarEvent); calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
-  cell-is-open="camp.isCellOpen"
-  day-view-start="06:00"
-  day-view-end="22:59"
-  day-view-split="30"
-  cell-modifier="camp.modifyCell(calendarCell)">
-</mwl-calendar>
-</div>
-</div>    
+            </div> <!--end ng-repeat="sessions in data" -->
+            </div><!-- end panel-group-->
+          </div> <!-- end col-xs-12 col-lg-12-->
+        </div><!--end row -->
+
+
+        <div class="row">
+          <div class="col-md-3 col-lg-10 ">
+            <pagination page="currentPage" boundary-links="true" max-size="6" total-items="totalItems" items-per-page="entryLimit"></pagination>
+          </div>                
+        </div>
+      </div><!-- col-sm-9 col-md-9  end -->
+
+
+    </div> <!--end row -->
+  </div>   <!--end container -->  
 </section>
+
 
 
 
