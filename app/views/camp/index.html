@@ -41,54 +41,26 @@
                     </table>                        
                   </div>  <!--end panel-heading2 -->                     
                 </div> <!--end panel panel-default -->
-                <div ng-repeat="sessions in data">   
-                <div class="panel panel-default" ng-repeat="session_dates in sessions.camp_dates">
+                 
+                <div class="panel panel-default" ng-repeat="session_dates in data | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
                   <div class="panel-heading2" role="tab" id="headingTwo2">
                     <table class="table table-striped collapsed"  data-toggle="collapse" data-parent="#accordion2" href="#{{session_dates.timestamp}}{{session_dates.session_date}}" aria-expanded="false" aria-controls="collapseTwo">
                       <thead>
                         <tr>
                           <th style="width:150px;">                                           
-                            {{sessions.session_name}} -  [{{session_dates.session_date}}]   
+                            {{session_dates.session_name}} -  [{{session_dates.session_date}}]   
                           </th>                                       
-                          <th style="width:100px;">{{sessions.session_location}}</th>
-                          <th style="width:100px;">{{sessions.health_assistant}}</th>
+                          <th style="width:100px;">{{session_dates.session_location}}</th>
+                          <th style="width:100px;">{{session_dates.health_assistant}}</th>
                           <th style="width:100px;">{{session_dates.session_date}}</th>
                          <!-- <th style="width:100px;"></th>  -->
                         </tr>
                       </thead>
                     </table><!--//table body-->
                   </div> <!--end  panel-heading2 -->
-                  <div id="{{session_dates.timestamp}}{{session_dates.session_date}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">                    
-                    <div class="panel-body">
-                      <div class="row">
-                        <div class="col-md-4 col-lg-4 " align="center">
-                        <div><strong> Session name:</strong> {{sessions.session_name}}</div>
-                        <div><strong>Session Location:</strong> {{sessions.session_location}}</div>
-                        <div><strong>Health_assistant:</strong> {{sessions.health_assistant}}</div>
-                        <div><strong>Total HH:</strong> {{sessions.total_hh}}</div>
-                        <div><strong>15 yrs aged adolescent no.:</strong> {{sessions.total_adolescent}}</div>
-                         <div><strong>Total population.:</strong> {{sessions.total_population}}</div>
-                        </div>
-                        <div class=" col-md-4 col-lg-4 ">                                           
-                          
-                            <div><strong>0-11 month aged child no.:</strong> {{sessions.total_child0}}</div>
-                            <div><strong>12-23 month aged child no.:</strong> {{sessions.total_child1}}</div>
-                            <div><strong>0-5 yrs aged child no.:</strong> {{sessions.total_child2}}</div>
-                            <div><strong>15-49 yrs aged women no.:</strong> {{sessions.total_women}}</div>
-
-
-                          </div>
-                        </div> <!-- row end-->
-
-                      </div>  <!-- end panel-body-->                                                 
-                  </div>    <!--end panel-collapse collapse -->                  
+                                   
                 </div> <!-- end panel panel-default -->
-
-
-
-             
-
-            </div> <!--end ng-repeat="sessions in data" -->
+           
             </div><!-- end panel-group-->
           </div> <!-- end col-xs-12 col-lg-12-->
         </div><!--end row -->

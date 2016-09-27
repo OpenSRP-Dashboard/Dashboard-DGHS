@@ -22,26 +22,14 @@ angular.module('opensrpSiteApp')
   });
   if($location.path() =='/camp'){
        
-    var apiURLs = OPENSRP_WEB_BASE_URL+"/all-camp";
+    var apiURLs = OPENSRP_WEB_BASE_URL+"/all-camp-date";
     var deferred = $q.defer();
     var allCamp = $http.get(apiURLs, { cache: false});               
     $q.all([allCamp]).then(function(results){           
       $scope.data = results[0].data; 
-      console.log($scope.data);   
-      /*vm.events = [];
-      for (var i = 0; i < $scope.data.length; i++) {
-        var campDates = $scope.data[i].camp_dates;      
-        for (var j = 0; j < campDates.length; j++) {
-         var second= new Date(campDates[j].session_date);
-         var days = Camp.getDateDiff(first,second);
-         if(days <= 7){         
-          console.log(33);
-          
-        }else if(days <=15){
-          console.log(33);
-        }else{
-          console.log(33);
-        }*/
+      console.log($scope.data); 
+      Camp.data($scope,$scope.data); 
+      
  
 });
      

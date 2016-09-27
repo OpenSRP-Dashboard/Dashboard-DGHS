@@ -1,9 +1,24 @@
 'use strict';
 
 angular.module('opensrpSiteApp')
-   .service('Camp', function ($q, $http, OPENSRP_WEB_BASE_URL, $rootScope) {     
+   .service('Camp', function ($q, $http, OPENSRP_WEB_BASE_URL, $rootScope,filterFilter) {     
 
-   	this.save = function(data,$window,Flash){
+var cams = null;       
+        var apiURLs = OPENSRP_WEB_BASE_URL+"/all-camp-date"; 
+        var campData = $http.get(apiURLs, { cache: false}).success(function (data) {
+            cams = data;
+            
+        });  
+return{
+
+  promise: campData,
+            setData: function (data) {
+                cams = data;
+            },
+            Data: function () {              
+                return cams;
+            },
+   	save: function(data,$window,Flash){
         console.log(333);
         $("#submit").attr('disabled','disabled');
         $("#submit").html("Please Wait");
@@ -24,9 +39,9 @@ angular.module('opensrpSiteApp')
           }
           
         });       
-     }
+     },
 
-     this.edit = function(data,$window,Flash){
+     edit: function(data,$window,Flash){
         console.log(333);
         $("#submit").attr('disabled','disabled');
         $("#submit").html("Please Wait");
@@ -44,11 +59,20 @@ angular.module('opensrpSiteApp')
           }
           
         });       
-     }
+     },
 
+     data: function($scope,data){
+       console.log(333)
+        $scope.sortReverse  = false;
+        $scope.currentPage = 1;
+        $scope.totalItems = data.length;        
+        $scope.entryLimit = 10; // items per page
+        console.log($scope.entryLimit);
+        $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
 
+     },
    	
-   	this.dateFormatterTodayInYYYYMMDD = function(){
+   	dateFormatterTodayInYYYYMMDD : function(){
    		var today = new Date();
 	    var dd = today.getDate();
 	    var mm = today.getMonth()+1; //January is 0!
@@ -61,8 +85,8 @@ angular.module('opensrpSiteApp')
 	    }
 	    today = yyyy+'-'+mm+'-'+dd;
 	    return today;	    
-	}
-	this.getCampList = function($rootScope,$scope,$q){
+	},
+	getCampList : function($rootScope,$scope,$q){
         var apiURLs = OPENSRP_WEB_BASE_URL+"/all-camp";
         var deferred = $q.defer();
         $http.get(apiURLs, { cache: false})
@@ -73,9 +97,9 @@ angular.module('opensrpSiteApp')
         }); 
        return deferred.promise;
         
-  }
+  },
 
-  this.getDateDiff = function(first,second){
+  getDateDiff: function(first,second){
     var one = new Date(first.getFullYear(), first.getMonth(), first.getDate());
     var two = new Date(second.getFullYear(), second.getMonth(), second.getDate());
 
@@ -84,6 +108,8 @@ angular.module('opensrpSiteApp')
     var millisBetween = two.getTime() - one.getTime();
     var days = millisBetween / millisecondsPerDay;
     return Math.floor(days);
-  }
+  },
+
+}
         
 });

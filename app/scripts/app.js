@@ -9,7 +9,8 @@
  * Main module of the application.
  */
 angular
-  .module('opensrpSiteApp', ['ngAnimate','ngCookies','ngResource','ngRoute','angular-momentjs','ngSanitize','ngTouch','ui.bootstrap','ngDialog','angular-mapbox','nvd3','chart.js','checklist-model','mm.acl','flash', 'ngMessages', 'ui.bootstrap'])
+  
+  .module('opensrpSiteApp', ['ngBootstrap','ngAnimate','ngCookies','ngResource','ngRoute','angular-momentjs','ngSanitize','ngTouch','ui.bootstrap','ngDialog','angular-mapbox','nvd3','chart.js','checklist-model','mm.acl','flash', 'ngMessages'])
   .constant('OPENSRP_WEB_BASE_URL', 'http://192.168.22.55:1234/192.168.22.55:9979')  
   .constant("COUCHURL",'http://192.168.22.158:1337/192.168.22.158:5984')
   .config(['AclServiceProvider', function (AclServiceProvider) {
@@ -39,7 +40,9 @@ angular
       .when('/camp', {
         templateUrl: 'views/camp/index.html',
         controller: 'CampCtrl',
-        controllerAs: 'camp'        
+        controllerAs: 'camp' ,
+       
+
       })
   })
   
