@@ -3,21 +3,8 @@
 angular.module('opensrpSiteApp')
    .service('Camp', function ($q, $http, OPENSRP_WEB_BASE_URL, $rootScope,filterFilter) {     
 
-var cams = null;       
-        var apiURLs = OPENSRP_WEB_BASE_URL+"/all-camp-date"; 
-        var campData = $http.get(apiURLs, { cache: false}).success(function (data) {
-            cams = data;
-            
-        });  
-return{
 
-  promise: campData,
-            setData: function (data) {
-                cams = data;
-            },
-            Data: function () {              
-                return cams;
-            },
+return{ 
    	save: function(data,$window,Flash){
         console.log(333);
         $("#submit").attr('disabled','disabled');
@@ -109,6 +96,29 @@ return{
     var days = millisBetween / millisecondsPerDay;
     return Math.floor(days);
   },
+  getCampById: function($scope,id){
+    var apiURLs = OPENSRP_WEB_BASE_URL+"/camp?id="+id;
+    var deferred = $q.defer();
+    var camp = $http.get(apiURLs, { cache: false});               
+      $q.all([camp]).then(function(results){
+        var camp = results[0].data;
+        
+        $scope.formData.session_name = camp.session_name;
+        $scope.formData.session_location = camp.session_location;
+        $scope.formData.total_hh = parseInt(camp.total_hh);
+        $scope.formData.total_population = parseInt(camp.total_population);
+        $scope.formData.total_adolescent = parseInt(camp.total_adolescent);
+        $scope.formData.total_women = parseInt(camp.total_women);
+        $scope.formData.total_child0 = parseInt(camp.total_child0);
+        $scope.formData.total_child1 = parseInt(camp.total_child1);
+        $scope.formData.total_child2 = parseInt(camp.total_child2);
+
+        for (var i = 0; i < camp.camp_dates.length; i++) {
+          $scope.campDates.push({'session_date':camp.camp_dates[i].session_date,'status':camp.camp_dates[i].status});
+        }
+
+    });   
+  }
 
 }
         

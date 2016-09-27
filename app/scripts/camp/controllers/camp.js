@@ -17,26 +17,17 @@ angular.module('opensrpSiteApp')
   $scope.campDate = [];
   $scope.statusValue = [];
   $scope.show = false;
- $("#session_date").on("change", function() {
-        $scope.formData.date = $("#session_date").val();
-  });
-  if($location.path() =='/camp'){
-       
-    var apiURLs = OPENSRP_WEB_BASE_URL+"/all-camp-date";
-    var deferred = $q.defer();
-    var allCamp = $http.get(apiURLs, { cache: false});               
-    $q.all([allCamp]).then(function(results){           
-      $scope.data = results[0].data; 
-      console.log($scope.data); 
-      Camp.data($scope,$scope.data); 
-      
- 
-});
-     
-}else if($location.path() == '/camp/add'){
-  
+  var url = $location.path().split("/")[2];
+  console.log($location.path().split("/")[2]);
 
-  $scope.addCampDate = function(){
+  $scope.removeCampDate = function(date){     
+    for(var i = $scope.campDates.length - 1; i >= 0; i--) {
+      if($scope.campDates[i].session_date === date) {
+       $scope.campDates.splice(i, 1);
+     }
+   }
+  }
+   $scope.addCampDate = function(){
    
     console.log($scope.formData.date);
     if ($scope.formData.date == undefined || $scope.formData.date == ''
@@ -50,24 +41,30 @@ angular.module('opensrpSiteApp')
       $scope.show = false;
     }
   }
-  $scope.removeCampDate = function(date){     
-    for(var i = $scope.campDates.length - 1; i >= 0; i--) {
-      if($scope.campDates[i].session_date === date) {
-       $scope.campDates.splice(i, 1);
-     }
-   }
-
-  }
+ $("#session_date").on("change", function() {
+        $scope.formData.date = $("#session_date").val();
+  });
+  if(url =='list'){       
+    var apiURLs = OPENSRP_WEB_BASE_URL+"/all-camp-date";
+    var deferred = $q.defer();
+    var allCamp = $http.get(apiURLs, { cache: false});               
+    $q.all([allCamp]).then(function(results){           
+      $scope.data = results[0].data; 
+      console.log($scope.data); 
+      Camp.data($scope,$scope.data); 
+    });
+     
+}else if(url == 'add'){
   $scope.statuses = [
   {'name': 'InActive','value':0},
   {'name': 'Active','value':1}
 
   ];
   window.sta = $scope.statuses;
-  $scope.save = function(){
+  /*$scope.save = function(){
    console.log($scope);
    $window.location = '/#/camp/date/1';
-  }
+  }*/
 
 
   $scope.save = function() {    
@@ -83,33 +80,12 @@ angular.module('opensrpSiteApp')
     Camp.save(angular.toJson($scope.postData),$window,Flash);    
   };
 
- }else {
-
-  var apiURLs = OPENSRP_WEB_BASE_URL+"/camp?id="+$routeParams.id;
-  var deferred = $q.defer();
-  var camp = $http.get(apiURLs, { cache: false});               
-    $q.all([camp]).then(function(results){
-      var camp = results[0].data;
-      console.log(camp);
-      $scope.formData.session_name = camp.session_name;
-      $scope.formData.session_location = camp.session_location;
-      $scope.formData.total_hh = parseInt(camp.total_hh);
-      $scope.formData.total_population = parseInt(camp.total_population);
-      $scope.formData.total_adolescent = parseInt(camp.total_adolescent);
-      $scope.formData.total_women = parseInt(camp.total_women);
-      $scope.formData.total_child0 = parseInt(camp.total_child0);
-      $scope.formData.total_child1 = parseInt(camp.total_child1);
-      $scope.formData.total_child2 = parseInt(camp.total_child2);
-
-      for (var i = 0; i < camp.camp_dates.length; i++) {
-        $scope.campDates.push({'session_date':camp.camp_dates[i].session_date,'status':camp.camp_dates[i].status});
-      }
-
-  });   
+ }else if(url =="edit") {
+  console.log($routeParams.id);
+  Camp.getCampById($scope,$routeParams.id );
 
     $scope.save = function() {
-    console.log($scope.formData);     
-
+    
     $scope.postData = {"camp_dates":$scope.campDates,"created_by":$rootScope.username,
     "session_name":$scope.formData.session_name,"health_assistant":"sohel",
     "total_hh":$scope.formData.total_hh,
@@ -124,6 +100,10 @@ angular.module('opensrpSiteApp')
   Camp.edit(angular.toJson($scope.postData),$window,Flash);
 }
 
-}// end else if
+}else if($routeParams.camp_id != ""){
+  console.log($routeParams.camp_id)
+  Camp.getCampById($scope,$routeParams.camp_id );
+  $scope.session_date = $routeParams.date;
+}
 
 });

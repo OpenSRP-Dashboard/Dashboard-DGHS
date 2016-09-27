@@ -37,7 +37,7 @@ angular
   })
   .config(function ($routeProvider,$locationProvider) {
     $routeProvider
-      .when('/camp', {
+      .when('/camp/list', {
         templateUrl: 'views/camp/index.html',
         controller: 'CampCtrl',
         controllerAs: 'camp' ,
@@ -58,6 +58,14 @@ angular
     $routeProvider
       .when('/camp/edit/:id', {
         templateUrl: 'views/camp/camp_add_edit.html',
+        controller: 'CampCtrl',
+        controllerAs: 'camp'        
+      })
+  })
+  .config(function ($routeProvider,$locationProvider) {
+    $routeProvider
+      .when('/camp/view/:camp_id/:date', {
+        templateUrl: 'views/camp/view.html',
         controller: 'CampCtrl',
         controllerAs: 'camp'        
       })

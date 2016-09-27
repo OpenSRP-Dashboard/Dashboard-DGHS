@@ -35,7 +35,9 @@
                           <th style="width:154px;">
                             Session Date                                                              
                           </th>
-                                            
+                          <th style="width:154px;">
+                            Actions                                                             
+                          </th>                                            
                         </tr>
                       </thead><!--//table head-->
                     </table>                        
@@ -53,7 +55,7 @@
                           <th style="width:100px;">{{session_dates.session_location}}</th>
                           <th style="width:100px;">{{session_dates.health_assistant}}</th>
                           <th style="width:100px;">{{session_dates.session_date}}</th>
-                         <!-- <th style="width:100px;"></th>  -->
+                          <th style="width:100px;"><a href="/#/camp/edit/{{session_dates.session_id}}">Edit</a>     &nbsp;<a href="/#/camp/view/{{session_dates.session_id}}/{{session_dates.session_date}}">View</a></th> 
                         </tr>
                       </thead>
                     </table><!--//table body-->
