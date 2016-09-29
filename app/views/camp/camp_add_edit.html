@@ -73,6 +73,55 @@
 					   
 						</div>                     
 					</div>
+
+
+					<div class="row">
+						<div class="col-sm-4 col-md-4">
+						<label>Thana</label><br />
+						<select ng-model="formData.thana" ng-change="getUnion()">
+							<option value="">Please Select Thana</option>
+							<option ng-selected = selectd('{{formData.union}}',thanaList) ng-repeat="thana in thanaList" value="{{thana.id}}">{{thana.name}}</option>
+						</select> 
+							
+					   
+						</div>                   
+						<div class="col-sm-4 col-md-4">
+						<label>Union</label> <br />
+						<select ng-model="formData.union" ng-change="getWard()">
+							<option ng-selected="selected" value="">Please Select Union</option>
+							<option ng-selected = selectd('{{formData.union}}',unionList) ng-repeat="union in unionList" value="{{union.id}}">{{union.name}}</option>
+						</select>  
+							
+					   
+						</div> 
+						<div class="col-sm-4 col-md-4">
+						<label>Ward</label> <br />
+						<select ng-model="formData.ward" ng-change="getUnit()">
+							<option value="">Please Select Ward</option>
+							<option ng-selected = selectd('{{formData.union}}',wardList) ng-repeat="ward in wardList" value="{{ward.id}}">{{ward.name}}</option>
+						</select>   
+							
+					   
+						</div>                     
+					</div>
+					<div class="row">
+						<div class="col-sm-4 col-md-4">
+						<label>Unit</label> <br />
+						<select ng-model="formData.unit" ng-change="getHealthAssistant()">
+							<option value="">Please Select Unit</option>
+							<option ng-selected = selectd('{{formData.union}}',unitList) ng-repeat="unit in unitList" value="{{unit.id}}">{{unit.name}}</option>
+						</select> 
+					   
+						</div>                   
+						<div class="col-sm-4 col-md-4">
+						<label>Health Assistant</label>  <br />
+						<select ng-model="formData.health_assistant">
+							<option value="">Please Select Health Assistant</option>
+							<option  ng-repeat="healthAssistant in healthAssistantList">{{healthAssistant.name}}</option>
+						</select> 							
+						</div> 
+						                   
+					</div>
 					
 					
 					<div class="row">						
