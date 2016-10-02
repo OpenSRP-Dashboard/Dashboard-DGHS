@@ -4,6 +4,7 @@
  <script src="views/camp/assets/js/bootstrap-datepicker.js"></script>
  
 <data-ng-include src="'views/partials/header.html'"></data-ng-include>
+
 <section>    
     <div class="container">
         <div class="row">
@@ -80,7 +81,7 @@
 						<label>Thana</label><br />
 						<select ng-model="formData.thana" ng-change="getUnion()">
 							<option value="">Please Select Thana</option>
-							<option ng-selected = selectd('{{formData.union}}',thanaList) ng-repeat="thana in thanaList" value="{{thana.id}}">{{thana.name}}</option>
+							<option ng-selected = selectd('{{formData.thana}}',thanaList) ng-repeat="thana in thanaList" value="{{thana.id}}">{{thana.name}}</option>
 						</select> 
 							
 					   
@@ -88,7 +89,7 @@
 						<div class="col-sm-4 col-md-4">
 						<label>Union</label> <br />
 						<select ng-model="formData.union" ng-change="getWard()">
-							<option ng-selected="selected" value="">Please Select Union</option>
+							<option  value="">Please Select Union</option>
 							<option ng-selected = selectd('{{formData.union}}',unionList) ng-repeat="union in unionList" value="{{union.id}}">{{union.name}}</option>
 						</select>  
 							
@@ -98,7 +99,7 @@
 						<label>Ward</label> <br />
 						<select ng-model="formData.ward" ng-change="getUnit()">
 							<option value="">Please Select Ward</option>
-							<option ng-selected = selectd('{{formData.union}}',wardList) ng-repeat="ward in wardList" value="{{ward.id}}">{{ward.name}}</option>
+							<option ng-selected = selectd('{{formData.ward}}',wardList) ng-repeat="ward in wardList" value="{{ward.id}}">{{ward.name}}</option>
 						</select>   
 							
 					   
@@ -107,9 +108,10 @@
 					<div class="row">
 						<div class="col-sm-4 col-md-4">
 						<label>Unit</label> <br />
+						
 						<select ng-model="formData.unit" ng-change="getHealthAssistant()">
 							<option value="">Please Select Unit</option>
-							<option ng-selected = selectd('{{formData.union}}',unitList) ng-repeat="unit in unitList" value="{{unit.id}}">{{unit.name}}</option>
+							<option ng-selected = selectdd('{{formData.unit}}',unitList) ng-repeat="unit in unitList" value="{{unit.id}}">{{unit.name}}</option>
 						</select> 
 					   
 						</div>                   

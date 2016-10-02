@@ -95,13 +95,41 @@ angular.module('opensrpSiteApp')
     var days = millisBetween / millisecondsPerDay;
     return Math.floor(days);
   },
+  getLocation: function($scope,id){
+    var apiURLs = OPENSRP_WEB_BASE_URL+"/camp?id="+id;
+    var camp = $http.get(apiURLs, { cache: false});
+    var thanaAPIURL = OPENSRP_WEB_BASE_URL+"/get-upazillas";
+    var locations =  $http.get(thanaAPIURL, { cache: false});
+    
+    $q.all([camp,locations]).then(function(results){
+      $scope.camp = results[0].data;
+      //console.log("Camp");
+      //console.log($scope.camp);
+      $scope.thanaList = results[1].data;
+      var unionListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.camp.camp_dates[0].thana;
+      var unionList = $http.get(unionListURL, { cache: false});
+      var wardListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.camp.camp_dates[0].union;
+      var wardList = $http.get(wardListURL, { cache: false});
+      var unitListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.camp.camp_dates[0].ward;
+      var unitList = $http.get(unitListURL, { cache: false});
+      $q.all([unionList,wardList,unitList]).then(function(response){
+        $scope.unionList = response[0].data;
+        $scope.wardList = response[1].data;
+        $scope.unitList = response[2].data;
+        //console.log("Union");
+        //console.log($scope.unions);
+      });
+      
+     }); 
+  },
+
   getCampById: function($scope,id){
     var apiURLs = OPENSRP_WEB_BASE_URL+"/camp?id="+id;
     var deferred = $q.defer();
     var camp = $http.get(apiURLs, { cache: false});               
     $q.all([camp]).then(function(results){
       var camp = results[0].data; 
-      console.log(camp);       
+      //console.log(camp);       
       $scope.formData.session_name = camp.session_name;
       $scope.formData.session_location = camp.session_location;
       $scope.formData.total_hh = parseInt(camp.total_hh);
@@ -116,6 +144,7 @@ angular.module('opensrpSiteApp')
       $scope.formData.union = camp.camp_dates[0].union;
       $scope.formData.ward = camp.camp_dates[0].ward;
       $scope.formData.unit = camp.camp_dates[0].unit;
+      //$scope.unitEdit = camp.camp_dates[0].unit;
       for (var i = 0; i < camp.camp_dates.length; i++) {
         $scope.campDates.push({'session_date':camp.camp_dates[i].session_date,'status':camp.camp_dates[i].status});
       }
