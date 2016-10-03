@@ -7,168 +7,141 @@
 
 <section>    
     <div class="container">
-        <div class="row">
-            
+        <div class="row">            
             <div class="row"> <!-- main col left -->                           
-              <div class="col-sm-12 col-md-12">
-                <div id="top" class="login-container">
-                    <h2 class="form-signin-heading">Add Session</h2>
-                    <p class="lead form-signin-heading"></p> 
-                    <div flash-message="5000" ></div>
-            <div id="message"></div>
-                   
-                    <form  name="camp" ng-submit="save()">                    
-					<div class="row">          
-						<div class="col-sm-4 col-md-4">
-						<label>Session name</label>  
-						<input type="text" class="form-control" ng-required="true" id="session_name" name="session_name" ng-model="formData.session_name" placeholder="Session name">
-						<div ng-messages="camp.session_name.$error">
-						<div ng-message="required" class="maspro">
-						   Session name is required
-						</div>
-						</div>                    
-						</div>
-						<div class="col-sm-4 col-md-4">
-						<label>Session Location</label>  
-						<input type="text" class="form-control" id="village_name" name="session_location" ng-model="formData.session_location" placeholder="Session Location">
-						</div>
-						<div class="col-sm-4 col-md-4">
-						<label>Total HH no.</label>  
-						<input type="number" class="form-control"  id="total_hh" name="total_hh" ng-model="formData.total_hh" placeholder="Total HH Number">
-						</div>					
-					</div>
-					
-					 <div class="row">
-                    
-						<div class="col-sm-4 col-md-4">
-						<label>Total population</label>  
-						<input type="number" class="form-control"  id="total_population" name="total_population" ng-model="formData.total_population" placeholder="Total population">
-						</div>
-						<div class="col-sm-4 col-md-4">
-						<label>15 yrs aged adolescent no.</label>  
-						<input type="number" class="form-control"  id="total_adolescent" name="total_adolescent" ng-model="formData.total_adolescent" placeholder="15 yrs aged adolescent no.">                    
-						</div>
-						
-						<div class="col-sm-4 col-md-4">
-						<label>15-49 yrs aged women no.</label>  
-						<input type="number" class="form-control" id="total_women" name="total_women" ng-model="formData.total_women" placeholder="15-49 yrs aged women no.">  
-											   
-						</div>
-					</div>
-                   
-				   
-				   <div class="row">
-						<div class="col-sm-4 col-md-4">
-						<label>0-11 month aged child no.</label>  
-							<input type="number" class="form-control"  id="total_child0" name="total_child0" ng-model="formData.total_child0" placeholder="0-11 month aged child no."> 
-					   
-						</div>                   
-						<div class="col-sm-4 col-md-4">
-						<label>12-23 month aged child no.</label>  
-							<input type="number" class="form-control"  id="total_child1" name="total_child1" ng-model="formData.total_child1" placeholder="12-23 month aged child no."> 
-					   
-						</div> 
-						<div class="col-sm-4 col-md-4">
-						<label>0-5 yrs aged child no.</label>  
-							<input type="number" class="form-control"  id="total_child2" name="total_child2" ng-model="formData.total_child2" placeholder="0-5 yrs aged child no."> 
-					   
-						</div>                     
-					</div>
-
-
-					<div class="row">
-						<div class="col-sm-4 col-md-4">
-						<label>Thana</label><br />
-						<select  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()">
-							<!-- <option value="">Please Select Thana</option>
-							<option ng-selected = selectd('{{formData.thana}}',thanaList) ng-repeat="thana in thanaList" value="{{thana.id}}">{{thana.name}}</option> -->
-						</select> 
-							
-					   
-						</div>                   
-						<div class="col-sm-4 col-md-4">
-						<label>Union</label> <br />
-						<select ng-options="union.name for union in unionList" ng-model="formData.union" ng-change="getWard()">
-							<!-- <option  value="">Please Select Union</option>
-							<option ng-selected = selectd('{{formData.union}}',unionList) ng-repeat="union in unionList" value="{{union.id}}">{{union.name}}</option> -->
-						</select>  
-							
-					   
-						</div> 
-						<div class="col-sm-4 col-md-4">
-						<label>Ward</label> <br />
-						<select ng-options="ward.name for ward in wardList" ng-model="formData.ward" ng-change="getUnit()">
-							<!-- <option value="">Please Select Ward</option>
-							<option ng-selected = selectd('{{formData.ward}}',wardList) ng-repeat="ward in wardList" value="{{ward.id}}">{{ward.name}}</option> -->
-						</select>   
-							
-					   
-						</div>                     
-					</div>
-					<div class="row">
-						<div class="col-sm-4 col-md-4">
-						<label>Unit</label> <br />
-						
-						<select ng-options="unit.name for unit in unitList" ng-model="formData.unit" ng-change="getHealthAssistant()">
-							
-						</select> 
-					   
-						</div>                   
-						<div class="col-sm-4 col-md-4">
-						<label>Health Assistant</label>  <br />
-						<select ng-model="formData.health_assistant">
-							<option value="">Please Select Health Assistant</option>
-							<option  ng-repeat="healthAssistant in healthAssistantList">{{healthAssistant.name}}</option>
-						</select> 							
-						</div> 
-						                   
-					</div>
-					
-					
-					<div class="row">						
-						<div class="row">
-						  <div class="col-md-2">
-							<label>Date(*)</label>
-							<input type="text" id="session_date" class="form-control" 
-							ng-model="date" placeholder="Session date">
-						  </div>
-						  <div class="col-md-2" id="batch">
-							<label>Status(*)</label><br />
-							<select id="status"  ng-model="formData.status" class="form-control" name="f1_gn_q11_elem1">
-								<option  value="">Select Status </option>
-								<option ng-repeat="union in statuses"   value="{{union.name}}">{{union.name}}</option>
-							</select>
-						  </div>
-
-						 
-						  <div style="clear:both"></div>
-						  <div class="col-md-4">
-						  <div ng-show="show"> Please select date & status...</div>
-						  </div>
-						</div>						
-						  <div style="clear:both"></div>
-						  <div class="row  form-group">
-							<fieldset  data-ng-repeat="campDate in campDates">
-								<div class="col-md-2">
-								<input type="text" readonly="true"  class="form-control" ng-model="campDate.session_date" name="" value="{{campDate.session_date}}">
+              	<div class="col-sm-12 col-md-12">
+                	<div id="top" class="login-container">
+                    	<h2 class="form-signin-heading">Add Session</h2>
+                    	<p class="lead form-signin-heading"></p> 
+                    	<div flash-message="5000" ></div>
+            			<div id="message"></div>                   
+                    	<form  name="camp" ng-submit="save()">                    
+						<div class="row">          
+							<div class="col-sm-4 col-md-4">
+								<label>Session name</label>  
+								<input type="text" class="form-control" ng-required="true" id="session_name" name="session_name" ng-model="formData.session_name" placeholder="Session name">
+								<div ng-messages="camp.session_name.$error">
+								<div ng-message="required" class="maspro">
+								   Session name is required
 								</div>
-								<div class="col-md-2">
-								<input type="text" readonly="true" class="form-control"  ng-model="campDate.status" value="{{campDate.status}}">
+								</div>                    
 								</div>
-								<div class="col-md-2">
-								<div  ng-click="removeCampDate('{{campDate.session_date}}')" class="btn btn-primary">remove</div>
+								<div class="col-sm-4 col-md-4">
+								<label>Session Location</label>  
+								<input type="text" class="form-control" id="village_name" name="session_location" ng-model="formData.session_location" placeholder="Session Location">
 								</div>
-							</fieldset>
-							
-							
-						   </div>
-						<div class="row">
-							<div class="col-sm-3 col-md-3">
-								<div  ng-click="addCampDate()" class="btn btn-lg btn-primary btn-block">Add Camp Date</div>
+								<div class="col-sm-4 col-md-4">
+								<label>Total HH no.</label>  
+								<input type="number" class="form-control"  id="total_hh" name="total_hh" ng-model="formData.total_hh" placeholder="Total HH Number">
+							</div>					
+						</div>
+					
+					 	<div class="row">                    
+							<div class="col-sm-4 col-md-4">
+								<label>Total population</label>  
+								<input type="number" class="form-control"  id="total_population" name="total_population" ng-model="formData.total_population" placeholder="Total population">
+								</div>
+								<div class="col-sm-4 col-md-4">
+								<label>15 yrs aged adolescent no.</label>  
+								<input type="number" class="form-control"  id="total_adolescent" name="total_adolescent" ng-model="formData.total_adolescent" placeholder="15 yrs aged adolescent no.">                    
+								</div>
+								
+								<div class="col-sm-4 col-md-4">
+								<label>15-49 yrs aged women no.</label>  
+								<input type="number" class="form-control" id="total_women" name="total_women" ng-model="formData.total_women" placeholder="15-49 yrs aged women no."> 
 							</div>
 						</div>
-						
-					</div>
+                   
+				   
+				   		<div class="row">
+							<div class="col-sm-4 col-md-4">
+								<label>0-11 month aged child no.</label>  
+									<input type="number" class="form-control"  id="total_child0" name="total_child0" ng-model="formData.total_child0" placeholder="0-11 month aged child no."> 
+							   
+								</div>                   
+								<div class="col-sm-4 col-md-4">
+								<label>12-23 month aged child no.</label>  
+									<input type="number" class="form-control"  id="total_child1" name="total_child1" ng-model="formData.total_child1" placeholder="12-23 month aged child no."> 
+							   
+								</div> 
+								<div class="col-sm-4 col-md-4">
+								<label>0-5 yrs aged child no.</label>  
+									<input type="number" class="form-control"  id="total_child2" name="total_child2" ng-model="formData.total_child2" placeholder="0-5 yrs aged child no.">
+						   
+							</div>                     
+						</div>
+						<div class="row">
+							<div class="col-sm-4 col-md-4">
+								<label>Thana</label><br />
+								<select   ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()" required><option></option> 							
+								</select> 
+								</div>                   
+								<div class="col-sm-4 col-md-4">
+								<label>Union</label> <br />
+								<select ng-options="union.name for union in unionList" ng-model="formData.union" ng-change="getWard()" required><option></option> 
+								</select> 
+								</div> 
+								<div class="col-sm-4 col-md-4">
+								<label>Ward</label> <br />
+								<select ng-options="ward.name for ward in wardList" ng-model="formData.ward" ng-change="getUnit()" required><option></option> 							
+								</select>						   
+							</div>                     
+						</div>
+						<div class="row">
+							<div class="col-sm-4 col-md-4">
+								<label>Unit</label> <br />								
+								<select ng-options="unit.name for unit in unitList" ng-model="formData.unit" ng-change="getHealthAssistant()" required><option></option> 
+								</select> 							   
+								</div>                   
+								<div class="col-sm-4 col-md-4">
+								<label>Health Assistant</label>  <br />
+								<select ng-options="healthAssistant.name for healthAssistant in healthAssistantList" ng-model="formData.health_assistant">
+									<option value=""></option>
+									
+								</select> 							
+							</div> 						                   
+						</div>
+					
+					
+						<div class="row">						
+							<div class="row">
+								<div class="col-md-2">
+									<label>Date(*)</label>
+									<input type="text" id="session_date" class="form-control" 
+									ng-model="date" placeholder="Session date">
+								</div>
+								<div class="col-md-2" id="batch">
+									<label>Status(*)</label><br />
+									<select id="status"  ng-model="formData.status" class="form-control" name="f1_gn_q11_elem1">
+										<option  value="">Select Status </option>
+										<option ng-repeat="union in statuses"   value="{{union.name}}">{{union.name}}</option>
+									</select>
+								</div>								 
+								<div style="clear:both"></div>
+								<div class="col-md-4">
+									<div ng-show="show"> Please select date & status...</div>
+								</div>
+							</div>						
+						  	<div style="clear:both"></div>
+						  	<div class="row  form-group">
+								<fieldset  data-ng-repeat="campDate in campDates">
+									<div class="col-md-2">
+										<input type="text" readonly="true"  class="form-control" ng-model="campDate.session_date" name="" value="{{campDate.session_date}}">
+									</div>
+									<div class="col-md-2">
+										<input type="text" readonly="true" class="form-control"  ng-model="campDate.status" value="{{campDate.status}}">
+									</div>
+									<div class="col-md-2">
+										<div  ng-click="removeCampDate('{{campDate.session_date}}')" class="btn btn-primary">remove</div>
+									</div>
+								</fieldset>
+						   	</div>
+							<div class="row">
+								<div class="col-sm-3 col-md-3">
+									<div  ng-click="addCampDate()" class="btn btn-lg btn-primary btn-block">Add Camp Date</div>
+								</div>
+							</div>						
+						</div>
 					<div class="row">
           			<div class="col-sm-4 col-md-4">
                     <button style="float:right" type="submit" ng-disabled="addUser.$invalid" id="submit"  class="btn btn-lg btn-primary btn-block">Submit</button>
@@ -201,36 +174,9 @@
             $("#session_date").on("dp.change", function() {
 
         $scope.selecteddate = $("#datetimepicker").val();
-        alert("selected date is " + $scope.selecteddate);
+       
 
     });
-        </script>
+ </script>
   
-   <script>
-
-/*$(function(){
-  
-  
-$("#role").autocomplete({
-  minLength: 2,
-  source: function( request, response ) {    
-    $.ajax({          
-      url: siteurl+"Students/students/",
-      dataType: "json", 
-      data: {
-              q: request.term
-            },     
-      success: function( data ) {
-        
-        var patients = [];
-        for(var i=0;i<data.length;i++){          
-            patients.push(data[i].Student.name+" -"+data[i].Student.id_number); 
-          }
-          response( patients );
-        }
-      });
-    },
-  });   
-});
-*/
-</script>
+   

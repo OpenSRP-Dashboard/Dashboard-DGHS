@@ -50,44 +50,50 @@ angular.module('opensrpSiteApp')
   $q.all([thanas]).then(function(results){
           $scope.thanaList = results[0].data;
   });
-  $scope.unionList =[{"id":"232dffr232","name":"UBC"},{"id":"2w3432232","name":"UDBC"},{"id":"2cfr32232","name":"UEBC"}];
-  $scope.getUnion = function(){
-      
-      if($scope.formData.thana ==""){
-        $scope.unionList =[];        
-       
-      }else{
-        
-          var unionListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.thana;
+  
+  $scope.getUnion = function(){      
+      if($scope.formData.thana.id ==""){
+        $scope.unionList =[]; 
+      }else{        
+          var unionListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.thana.id;
           var unionList = $http.get(unionListURL, { cache: false});
           $q.all([unionList]).then(function(results){
           $scope.unionList = results[0].data;
-        });
-        //$scope.unionList =[{"id":"232dffr232","name":"UBC"},{"id":"2w3432232","name":"UDBC"},{"id":"2cfr32232","name":"UEBC"}];
+        });       
       }
+      $scope.wardList = [];
+      $scope.unitList = [];
+      $scope.healthAssistantList = [];
     }
-    $scope.getWard = function(){
-      
-      var wardListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.union;
+    $scope.getWard = function(){      
+      var wardListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.union.id;
       var wardList = $http.get(wardListURL, { cache: false});
       $q.all([wardList]).then(function(results){
         $scope.wardList = results[0].data;
-      });
-       //$scope.wardList =[{"id":"rff232232","name":"WUBC"},{"id":"rffgg232232","name":"WUDBC"},{"id":"rgtff232232","name":"WUEBC"}];
+      }); 
+      $scope.unitList = []; 
+      $scope.healthAssistantList = [];   
     }
 
-    $scope.getUnit = function(){
-      
-      var wardListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.ward;
+    $scope.getUnit = function(){      
+      var wardListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.ward.id;
       var units = $http.get(wardListURL, { cache: false});
       $q.all([units]).then(function(results){
         $scope.unitList = results[0].data;
       });
-       //$scope.unitList =[{"id":"rffrtf232232","name":"UWUBC"},{"id":"rffet232232","name":"UWUDBC"},{"id":"rrtf232232","name":"UWUEBC"}];
+       $scope.healthAssistantList = [];
+    }
 
+    $scope.getHealthAssistant = function(){      
+      var assistantListListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.unit.id;
+      var assistants = $http.get(assistantListListURL, { cache: false});
+      $q.all([assistants]).then(function(results){
+        $scope.healthAssistantList = results[0].data;
+        $scope.healthAssistantList =[{"name":"sohel"},{"name":"asif"},{"name":"numera"}];
+      });
     }
     
-      $scope.healthAssistantList =[{"name":"sohel"},{"name":"asif"},{"name":"numera"}];
+    //$scope.healthAssistantList =[{"name":"sohel"},{"name":"asif"},{"name":"numera"}];
   
   
   $scope.removeCampDate = function(date){     
@@ -134,7 +140,7 @@ angular.module('opensrpSiteApp')
 
     $scope.save = function() {    
         $scope.postData = {"camp_dates":$scope.campDates,"created_by":$rootScope.username,
-        "session_name":$scope.formData.session_name,"health_assistant":$scope.formData.health_assistant,
+        "session_name":$scope.formData.session_name,"health_assistant":$scope.formData.health_assistant.name,
         "total_hh":$scope.formData.total_hh,
         "total_population":$scope.formData.total_population,
         "total_adolescent":$scope.formData.total_adolescent,
@@ -149,13 +155,11 @@ angular.module('opensrpSiteApp')
       Camp.save(angular.toJson($scope.postData),$window,Flash);    
     };
 
-  }else if(url =="edit") {   // edit page
-    //Camp.getCampById($scope,$routeParams.id );
-    $scope.datas = Camp.getLocation($scope,$routeParams.id);
-   
+  }else if(url =="edit") {   // edit page    
+    $scope.datas = Camp.getLocationAndCamp($scope,$routeParams.id);   
     $scope.save = function() {    
       $scope.postData = {"camp_dates":$scope.campDates,"created_by":$rootScope.username,
-      "session_name":$scope.formData.session_name,"health_assistant":$scope.formData.health_assistant,
+      "session_name":$scope.formData.session_name,"health_assistant":$scope.formData.health_assistant.name,
       "total_hh":$scope.formData.total_hh,
       "total_population":$scope.formData.total_population,
       "total_adolescent":$scope.formData.total_adolescent,

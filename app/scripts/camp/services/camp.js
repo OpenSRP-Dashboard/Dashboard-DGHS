@@ -88,14 +88,13 @@ angular.module('opensrpSiteApp')
   getDateDiff: function(first,second){
     var one = new Date(first.getFullYear(), first.getMonth(), first.getDate());
     var two = new Date(second.getFullYear(), second.getMonth(), second.getDate());
-
     // Do the math.
     var millisecondsPerDay = 1000 * 60 * 60 * 24;
     var millisBetween = two.getTime() - one.getTime();
     var days = millisBetween / millisecondsPerDay;
     return Math.floor(days);
   },
-  getLocation: function($scope,id){
+  getLocationAndCamp: function($scope,id){
     // get camp data with id for edit camp data
     var apiURLs = OPENSRP_WEB_BASE_URL+"/camp?id="+id;
     var camp = $http.get(apiURLs, { cache: false});
@@ -129,46 +128,15 @@ angular.module('opensrpSiteApp')
       $q.all([unionList,wardList,unitList]).then(function(response){
         $scope.unionList = response[0].data;
         $scope.wardList = response[1].data;
-        $scope.unitList = response[2].data;
-        var thana = "thana";
-        
-        /*for(var i =0;i<$scope.thanaList.length;i++){          
-          if ($scope.camp.camp_dates[0].thana == $scope.thanaList[i].id ) {              
-            $scope.formData[thana] = $scope.thanaList[i] ;                                      
-            break;
-          }             
-        }*/
-
-       
-       /* for(var i =0;i<$scope.unionList.length;i++){ 
-          if ($scope.camp.camp_dates[0].union == $scope.unionList[i].id ) {  
-            $scope.formData.union = $scope.unionList[i] ;                                      
-            break;
-          }             
-        }*/
+        $scope.unitList = response[2].data;       
         //for thana selected options
         setSelectedValue($scope.camp.camp_dates[0].thana,$scope.thanaList,'thana',$scope);
          //for union selected options
         setSelectedValue($scope.camp.camp_dates[0].union,$scope.unionList,'union',$scope);
-        
-       /* for(var i =0;i<$scope.wardList.length;i++){ 
-          if ($scope.camp.camp_dates[0].ward == $scope.wardList[i].id ) {  
-            $scope.formData.ward = $scope.wardList[i] ;                                      
-            break;
-          }             
-        }*/
         // for ward selected options
         setSelectedValue($scope.camp.camp_dates[0].ward,$scope.wardList,'ward',$scope);
         //for unit selected options
         setSelectedValue($scope.camp.camp_dates[0].unit,$scope.unitList,'unit',$scope);
-        
-        /*for(var i =0;i<$scope.unitList.length;i++){ 
-          if ($scope.camp.camp_dates[0].unit == $scope.unitList[i].id ) {  
-          $scope.formData.unit = $scope.unitList[i] ;                                      
-            break;
-          }             
-        }*/
-
        
       });
       
