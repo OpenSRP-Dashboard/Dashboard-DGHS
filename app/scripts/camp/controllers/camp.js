@@ -141,16 +141,16 @@ angular.module('opensrpSiteApp')
         "total_women":$scope.formData.total_women,"total_child0":$scope.formData.total_child0,
         "total_child1":$scope.formData.total_child1,"total_child2":$scope.formData.total_child2,
         "created_at":today,"contact":"ff","session_location":$scope.formData.session_location,
-        "thana":$scope.formData.thana,
-        "union":$scope.formData.union,"ward":$scope.formData.ward,
-        "unit":$scope.formData.unit,
+        "thana":$scope.formData.thana.id,
+        "union":$scope.formData.union.id,"ward":$scope.formData.ward.id,
+        "unit":$scope.formData.unit.id,
       }; 
       console.log(angular.toJson($scope.postData));
       Camp.save(angular.toJson($scope.postData),$window,Flash);    
     };
 
   }else if(url =="edit") {   // edit page
-    Camp.getCampById($scope,$routeParams.id );
+    //Camp.getCampById($scope,$routeParams.id );
     $scope.datas = Camp.getLocation($scope,$routeParams.id);
    
     $scope.save = function() {    
@@ -163,10 +163,10 @@ angular.module('opensrpSiteApp')
       "total_child1":$scope.formData.total_child1,"total_child2":$scope.formData.total_child2,
       "created_at":today,"contact":"ff","session_location":$scope.formData.session_location,
       "session_id":$routeParams.id,
-      "thana":$scope.formData.thana,
-      "union":$scope.formData.union,
-      "ward":$scope.formData.ward,
-      "unit":$scope.formData.unit,
+      "thana":$scope.formData.thana.id,
+      "union":$scope.formData.union.id,
+      "ward":$scope.formData.ward.id,
+      "unit":$scope.formData.unit.id,
       };   
       console.log(angular.toJson($scope.postData));
       Camp.edit(angular.toJson($scope.postData),$window,Flash);
