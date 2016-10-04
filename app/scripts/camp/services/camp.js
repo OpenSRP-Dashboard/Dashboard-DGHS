@@ -48,15 +48,13 @@ angular.module('opensrpSiteApp')
      });       
     },
 
-    data: function($scope,data){
-     console.log(333)
+    data: function($scope,data){     
      $scope.sortReverse  = false;
      $scope.currentPage = 1;
      $scope.totalItems = data.length;        
         $scope.entryLimit = 10; // items per page
         console.log($scope.entryLimit);
         $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
-
       },
 
     dateFormatterTodayInYYYYMMDD : function(){
@@ -84,7 +82,6 @@ angular.module('opensrpSiteApp')
    }); 
     return deferred.promise;       
   },
-
   getDateDiff: function(first,second){
     var one = new Date(first.getFullYear(), first.getMonth(), first.getDate());
     var two = new Date(second.getFullYear(), second.getMonth(), second.getDate());
@@ -93,6 +90,27 @@ angular.module('opensrpSiteApp')
     var millisBetween = two.getTime() - one.getTime();
     var days = millisBetween / millisecondsPerDay;
     return Math.floor(days);
+  },
+  getCampById: function($scope,id){
+    var apiURLs = OPENSRP_WEB_BASE_URL+"/camp?id="+id;
+    var camp = $http.get(apiURLs, { cache: false});
+    $q.all([camp]).then(function(results){
+      $scope.camp = results[0].data; 
+      $scope.formData.session_name = $scope.camp.session_name;
+      $scope.formData.session_location = $scope.camp.session_location;
+      $scope.formData.total_hh = parseInt($scope.camp.total_hh);
+      $scope.formData.total_population = parseInt($scope.camp.total_population);
+      $scope.formData.total_adolescent = parseInt($scope.camp.total_adolescent);
+      $scope.formData.total_women = parseInt($scope.camp.total_women);
+      $scope.formData.total_child0 = parseInt($scope.camp.total_child0);
+      $scope.formData.total_child1 = parseInt($scope.camp.total_child1);
+      $scope.formData.total_child2 = parseInt($scope.camp.total_child2);
+      for (var i = 0; i < $scope.camp.camp_dates.length; i++) {
+        $scope.campDates.push({'session_date':$scope.camp.camp_dates[i].session_date,'status':$scope.camp.camp_dates[i].status});
+      }
+
+      });
+    
   },
   getLocationAndCamp: function($scope,id){
     // get camp data with id for edit camp data

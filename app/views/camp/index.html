@@ -15,7 +15,7 @@
               <form  name="camp" ng-submit="search()">    
               <div class="col-md-2"> 
                 <label>Thana</label>              
-                <select class="form-control"  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()"><option></option>              
+                <select class="form-control"  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()" required><option></option>              
                 </select> 
               </div>
               <div class="col-md-2"> 
@@ -25,7 +25,7 @@
               </div>
               <div class=" col-md-2">
                 <label>Ward</label>                 
-                <select class="form-control" ng-options="ward.name for ward in wardList" ng-model="formData.ward" ng-change="getUnit()" required><option></option>               
+                <select class="form-control" ng-options="ward.name for ward in wardList" ng-model="formData.ward" ng-change="getUnit()"><option></option>               
                 </select> 
               </div>
               
@@ -48,10 +48,21 @@
               </form>   
             </div> <!-- main col right -->                           
           </div><!--/row-->
-           <div class="row"> <a href="#/camp/add"> Add new</a></div>            
-          
-    
+                   
           <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                <h3 style="float:right" class="btn btn-info btn-lg">
+                  <a style="color:white" href="#/camp/add"> Add new camp</a></h3>
+              </div>
+            </div>
+          </div>
+          <div style="clear:both"></div>
+          <div class="row" >
+            <div class="alert alert-danger" ng-show="emptyDataShowHide"> No camp found....</div>
+          </div>
+          <div class="row" ng-show="dataShowHide">
             <div class="col-xs-12 col-lg-12">
                 <!-- content accordion  start -->           
               <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
@@ -60,7 +71,7 @@
                     <table>
                       <thead> <!--table head-->
                         <tr style="background:none">
-                          <th style="width:228px; font-size:12px;">
+                          <th style="width:228px;">
                                Session Name                                                 
                           </th>
                           <th style="width:157px;">
@@ -86,30 +97,31 @@
                     <table class="table table-striped collapsed"  data-toggle="collapse" data-parent="#accordion2" href="#{{session_dates.timestamp}}{{session_dates.session_date}}" aria-expanded="false" aria-controls="collapseTwo">
                       <thead>
                         <tr>
-                          <th style="width:150px;">                                           
+                          <td style="width:150px;">                                           
                             {{session_dates.session_name}} -  [{{session_dates.session_date}}]   
-                          </th>                                       
-                          <th style="width:100px;">{{session_dates.session_location}}</th>
-                          <th style="width:100px;">{{session_dates.health_assistant}}</th>
-                          <th style="width:100px;">{{session_dates.session_date}}</th>
-                          <th style="width:100px;"><a href="/#/camp/edit/{{session_dates.session_id}}">Edit</a>     &nbsp;<a href="/#/camp/view/{{session_dates.session_id}}/{{session_dates.session_date}}">View</a></th> 
+                          </td>                                       
+                          <td style="width:100px;">{{session_dates.session_location}}</td>
+                          <td style="width:100px;">{{session_dates.health_assistant}}</td>
+                          <td style="width:100px;">{{session_dates.session_date}}</td>
+                          <td style="width:100px;"><a href="/#/camp/edit/{{session_dates.session_id}}">Edit</a>     &nbsp;<a href="/#/camp/view/{{session_dates.session_id}}/{{session_dates.session_date}}/{{session_dates.status}}">View</a></td> 
                         </tr>
                       </thead>
-                    </table><!--//table body-->
+                    </table><!--//table body-->                    
+
                   </div> <!--end  panel-heading2 -->
                                    
                 </div> <!-- end panel panel-default -->
-           
+              <div class="row">
+                <div class="col-md-3 col-lg-10 ">
+                  <pagination page="currentPage" boundary-links="true" max-size="6" total-items="totalItems" items-per-page="entryLimit"></pagination>
+                </div>                
+              </div>
             </div><!-- end panel-group-->
           </div> <!-- end col-xs-12 col-lg-12-->
         </div><!--end row -->
 
 
-        <div class="row">
-          <div class="col-md-3 col-lg-10 ">
-            <pagination page="currentPage" boundary-links="true" max-size="6" total-items="totalItems" items-per-page="entryLimit"></pagination>
-          </div>                
-        </div>
+        
       </div><!-- col-sm-9 col-md-9  end -->
 
 

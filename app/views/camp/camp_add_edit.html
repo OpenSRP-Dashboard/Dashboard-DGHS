@@ -11,7 +11,7 @@
             <div class="row"> <!-- main col left -->                           
               	<div class="col-sm-12 col-md-12">
                 	<div id="top" class="login-container">
-                    	<h2 class="form-signin-heading">Add Session</h2>
+                    	<h2 class="form-signin-heading" ng-bind-html="addEdit"></h2>
                     	<p class="lead form-signin-heading"></p> 
                     	<div flash-message="5000" ></div>
             			<div id="message"></div>                   
@@ -73,7 +73,7 @@
 						<div class="row">
 							<div class="col-sm-4 col-md-4">
 								<label>Thana</label><br />
-								<select   ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()" required><option></option> 							
+								<select   ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()" required><option></option> 					
 								</select> 
 								</div>                   
 								<div class="col-sm-4 col-md-4">
@@ -119,8 +119,13 @@
 								</div>								 
 								<div style="clear:both"></div>
 								<div class="col-md-4">
-									<div ng-show="show"> Please select date & status...</div>
+									<div class="alert alert-danger" ng-show="show"> Please select date & status...</div>
+									<div ng-show="campDateShow" class="alert alert-danger">
+									  	<strong>Info!</strong> Please set camp date
+									</div>
 								</div>
+								
+
 							</div>						
 						  	<div style="clear:both"></div>
 						  	<div class="row  form-group">
@@ -158,24 +163,17 @@
     </div>     
 </section>
  <script type="text/javascript">
-            // When the document is ready
-            $(document).ready(function () {
-                
-                $('#session_date').datepicker({
-                    format: "yyyy-mm-dd",
+    // When the document is ready
+   	$(document).ready(function () {                
+        $('#session_date').datepicker({
+             format: "yyyy-mm-dd",
                     startDate: new Date(),
-                }).on('changeDate', function(e){
-				    $(this).datepicker('hide');
-				});
- 
-            
-            });
-
-            $("#session_date").on("dp.change", function() {
-
-        $scope.selecteddate = $("#datetimepicker").val();
-       
-
+            }).on('changeDate', function(e){
+			$(this).datepicker('hide');
+		}); 
+    });
+    $("#session_date").on("dp.change", function() {
+    $scope.selecteddate = $("#datetimepicker").val();
     });
  </script>
   

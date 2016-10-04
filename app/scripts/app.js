@@ -64,7 +64,7 @@ angular
   })
   .config(function ($routeProvider,$locationProvider) {
     $routeProvider
-      .when('/camp/view/:camp_id/:date', {
+      .when('/camp/view/:camp_id/:date/:status', {
         templateUrl: 'views/camp/view.html',
         controller: 'CampCtrl',
         controllerAs: 'camp'        
