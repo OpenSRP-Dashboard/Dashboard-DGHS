@@ -123,7 +123,6 @@ angular.module('opensrpSiteApp')
     $q.all([camp,locations]).then(function(results){
       $scope.camp = results[0].data;      
       $scope.thanaList = results[1].data;
-
       $scope.formData.session_name = $scope.camp.session_name;
       $scope.formData.session_location = $scope.camp.session_location;
       $scope.formData.total_hh = parseInt($scope.camp.total_hh);
@@ -141,12 +140,18 @@ angular.module('opensrpSiteApp')
       var unionList = $http.get(unionListURL, { cache: false});
       var wardListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.camp.camp_dates[0].union;
       var wardList = $http.get(wardListURL, { cache: false});
+      
       var unitListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.camp.camp_dates[0].ward;
       var unitList = $http.get(unitListURL, { cache: false});
-      $q.all([unionList,wardList,unitList]).then(function(response){
+      
+      var userListURL = OPENSRP_WEB_BASE_URL+"/get-data-senders-by-location?locationId="+$scope.camp.camp_dates[0].unit;
+      var userList = $http.get(userListURL, { cache: false});
+      
+      $q.all([unionList,wardList,unitList,userList]).then(function(response){
         $scope.unionList = response[0].data;
         $scope.wardList = response[1].data;
-        $scope.unitList = response[2].data;       
+        $scope.unitList = response[2].data;   
+        $scope.healthAssistantList = response[3].data;            
         //for thana selected options
         setSelectedValue($scope.camp.camp_dates[0].thana,$scope.thanaList,'thana',$scope);
          //for union selected options
@@ -155,6 +160,7 @@ angular.module('opensrpSiteApp')
         setSelectedValue($scope.camp.camp_dates[0].ward,$scope.wardList,'ward',$scope);
         //for unit selected options
         setSelectedValue($scope.camp.camp_dates[0].unit,$scope.unitList,'unit',$scope);
+        setSelectedValueForUser($scope.camp.camp_dates[0].health_assistant,$scope.healthAssistantList,'health_assistant',$scope);
        
       });
       
@@ -164,6 +170,15 @@ angular.module('opensrpSiteApp')
 function setSelectedValue(id,list,variable,$scope){
   for(var i =0;i<list.length;i++){ 
     if (id == list[i].id ) {  
+      $scope.formData[variable] = list[i] ;                                      
+      break;
+    }             
+  }
+}
+
+function setSelectedValueForUser(name,list,variable,$scope){	
+  for(var i =0;i<list.length;i++){ 
+    if (name == list[i].user_name ) {
       $scope.formData[variable] = list[i] ;                                      
       break;
     }             

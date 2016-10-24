@@ -8,7 +8,7 @@
  * Controller of the opensrpSiteApp
  */
 angular.module('opensrpSiteApp')
- .controller('CampCtrl', function ($scope,$http,$rootScope,$routeParams,$q,$location,Flash,Base64,OPENSRP_WEB_BASE_URL,ngDialog,Page,AclService,$window,Camp) {
+ .controller('CampCtrl', function ($scope,$http,$rootScope,$routeParams,$q,$location,Flash,Base64,OPENSRP_WEB_BASE_URL,ngDialog,AclService,$window,Camp) {
   var today = Camp.dateFormatterTodayInYYYYMMDD();
   var first= new Date(today);  
   $scope.formData = [];
@@ -84,11 +84,11 @@ angular.module('opensrpSiteApp')
     }
 
     $scope.getHealthAssistant = function(){      
-      var assistantListListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.unit.id;
+      var assistantListListURL = OPENSRP_WEB_BASE_URL+"/get-data-senders-by-location?locationId="+$scope.formData.unit.id;
       var assistants = $http.get(assistantListListURL, { cache: false});
       $q.all([assistants]).then(function(results){
         $scope.healthAssistantList = results[0].data;
-        $scope.healthAssistantList =[{"name":"sohel"},{"name":"asif"},{"name":"numera"}];
+        $scope.healthAssistantList =results[0].data;
       });
     }
     
@@ -158,7 +158,7 @@ angular.module('opensrpSiteApp')
       if(!angular.isObject($scope.formData.health_assistant)){
         health_assistant = "";
       }else{
-        health_assistant = $scope.formData.health_assistant.name;
+        health_assistant = $scope.formData.health_assistant.user_name;
       }
       
       var apiURLs = OPENSRP_WEB_BASE_URL+"/camp/search?thana="+thana+"&union="+union
@@ -205,7 +205,7 @@ angular.module('opensrpSiteApp')
         $scope.campDateShow = false;
         console.log($scope.campDates.length);  
         $scope.postData = {"camp_dates":$scope.campDates,"created_by":$rootScope.username,
-        "session_name":$scope.formData.session_name,"health_assistant":$scope.formData.health_assistant.name,
+        "session_name":$scope.formData.session_name,"health_assistant":$scope.formData.health_assistant.user_name,
         "total_hh":$scope.formData.total_hh,
         "total_population":$scope.formData.total_population,
         "total_adolescent":$scope.formData.total_adolescent,
@@ -233,7 +233,7 @@ angular.module('opensrpSiteApp')
     console.log("edit");  
     $scope.save = function() {    
       $scope.postData = {"camp_dates":$scope.campDates,"created_by":$rootScope.username,
-      "session_name":$scope.formData.session_name,"health_assistant":$scope.formData.health_assistant.name,
+      "session_name":$scope.formData.session_name,"health_assistant":$scope.formData.health_assistant.user_name,
       "total_hh":$scope.formData.total_hh,
       "total_population":$scope.formData.total_population,
       "total_adolescent":$scope.formData.total_adolescent,
