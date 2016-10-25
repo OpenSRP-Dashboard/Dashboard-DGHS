@@ -181,6 +181,23 @@ angular
           }]
         }
       })
+      .when('/user/:name/location', {
+        templateUrl: 'views/acl/user_location.html',
+        controller: 'UserCtrl',
+        controllerAs: 'user',
+        resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('User Assign Edit')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }
+      })
       .when('/privileges', {
         templateUrl: 'views/acl/privileges.html',
         controller: 'PrivilegeCtrl',
@@ -235,6 +252,54 @@ angular
             return $q.reject('Unauthorized');
           
           }
+          }]
+        }
+      })
+      .when('/locations', {
+        templateUrl: 'views/acl/locations.html',
+        controller: 'LocationCtrl',
+        resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('User List')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }
+      })
+      .when('/locations/:id', {
+        templateUrl: 'views/acl/location_add_edit.html',
+        controller: 'LocationCtrl',
+        resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('User List')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }
+      })
+      .when('/locations/add', {
+        templateUrl: 'views/acl/location_add_edit.html',
+        controller: 'LocationCtrl',
+        resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('User List')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
           }]
         }
       })
