@@ -18,13 +18,10 @@
                     	<form  name="camp" ng-submit="save()">                    
 						<div class="row">          
 							<div class="col-sm-4 col-md-4">
-								<label>Session name</label>  
-								<input type="text" class="form-control" ng-required="true" id="session_name" name="session_name" ng-model="formData.session_name" placeholder="Session name">
-								<div ng-messages="camp.session_name.$error">
-								<div ng-message="required" class="maspro">
-								   Session name is required
-								</div>
-								</div>                    
+								<label>Session name</label>  <br />
+								
+								<select ng-options="ward for ward in sessionNameList" ng-model="formData.session_name" required><option></option> 							
+								</select>                   
 								</div>
 								<div class="col-sm-4 col-md-4">
 								<label>Session Location</label>  
@@ -131,13 +128,16 @@
 						  	<div class="row  form-group">
 								<fieldset  data-ng-repeat="campDate in campDates">
 									<div class="col-md-2">
+										
 										<input type="text" readonly="true"  class="form-control" ng-model="campDate.session_date" name="" value="{{campDate.session_date}}">
 									</div>
 									<div class="col-md-2">
 										<input type="text" readonly="true" class="form-control"  ng-model="campDate.status" value="{{campDate.status}}">
 									</div>
 									<div class="col-md-2">
-										<div  ng-click="removeCampDate('{{campDate.session_date}}')" class="btn btn-primary">remove</div>
+									
+										<div ng-show="removeShowHide('{{campDate.deleted}}')"  ng-click="removeCampDate('{{campDate.session_date}}')" class="btn btn-primary">remove</div>
+										
 									</div>
 								</fieldset>
 						   	</div>

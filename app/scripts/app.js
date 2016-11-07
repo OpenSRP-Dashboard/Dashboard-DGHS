@@ -12,7 +12,7 @@ angular
   
   .module('opensrpSiteApp', ['ngBootstrap','ngAnimate','ngCookies','ngResource','ngRoute','angular-momentjs','ngSanitize','ngTouch','ui.bootstrap','ngDialog','angular-mapbox','nvd3','chart.js','checklist-model','mm.acl','flash', 'ngMessages'])
   .constant('OPENSRP_WEB_BASE_URL', 'http://192.168.22.55:1234/192.168.22.55:9979')  
-  .constant("COUCHURL",'http://192.168.22.158:1337/192.168.22.55:5984')
+  .constant("COUCHURL",'http://192.168.22.55:1234/192.168.22.55:5984')
   .config(['AclServiceProvider', function (AclServiceProvider) {
     var myConfig = {
       storage: 'sessionStorage',  // localStorage
@@ -41,7 +41,18 @@ angular
         templateUrl: 'views/camp/index.html',
         controller: 'CampCtrl',
         controllerAs: 'camp' ,
-       
+        resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('Camp List')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }
 
       })
   })
@@ -51,7 +62,19 @@ angular
       .when('/camp/add', {
         templateUrl: 'views/camp/camp_add_edit.html',
         controller: 'CampCtrl',
-        controllerAs: 'camp'        
+        controllerAs: 'camp' ,
+         resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('Add Camp')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }       
       })
   })
   .config(function ($routeProvider,$locationProvider) {
@@ -59,7 +82,19 @@ angular
       .when('/camp/edit/:id', {
         templateUrl: 'views/camp/camp_add_edit.html',
         controller: 'CampCtrl',
-        controllerAs: 'camp'        
+        controllerAs: 'camp',
+         resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('Edit Camp')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }       
       })
   })
   .config(function ($routeProvider,$locationProvider) {
@@ -67,7 +102,19 @@ angular
       .when('/camp/view/:camp_id/:date/:status', {
         templateUrl: 'views/camp/view.html',
         controller: 'CampCtrl',
-        controllerAs: 'camp'        
+        controllerAs: 'camp' ,
+         resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('View Camp')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }       
       })
   })
   
@@ -102,7 +149,7 @@ angular
         resolve : {
           'userData':function(Role){ return Role.promise;},
           'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('Add Role')){
+            if(AclService.can('Role List')){
               // Has proper permissions
               return true;
             } else {
@@ -136,7 +183,7 @@ angular
         controllerAs: 'user',
         resolve : {
           'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('User Assign')){
+            if(AclService.can('Add User')){
               // Has proper permissions
               return true;
             } else {
@@ -170,7 +217,7 @@ angular
         controllerAs: 'user',
         resolve : {
           'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('User Assign Edit')){
+            if(AclService.can('Edit User')){
               // Has proper permissions
               return true;
             } else {
@@ -187,7 +234,7 @@ angular
         controllerAs: 'user',
         resolve : {
           'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('User Assign Edit')){
+            if(AclService.can('User Location Assign')){
               // Has proper permissions
               return true;
             } else {
@@ -205,7 +252,7 @@ angular
         resolve : {
           //'userData':function(privilegeService){ return privilegeService.promise;},
           'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('Acl')){
+            if(AclService.can('User List')){
               // Has proper permissions
               //console.log('is it true?' + AclService.can('Elco Details'));
               return true;
@@ -225,7 +272,7 @@ angular
         resolve : {
           //'userData':function(testService){ return testService.promise;},
           'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('Acl')){
+            if(AclService.can('User List')){
               // Has proper permissions
               //console.log('is it true?' + AclService.can('Elco Details'));
               return true;
@@ -243,7 +290,7 @@ angular
         controllerAs: 'PrivilegeCtrl',
         resolve : {          
           'acl' : ['$q', 'AclService', function($q, AclService){
-          if(AclService.can('Acl')){
+          if(AclService.can('User List')){
             // Has proper permissions
             //console.log('is it true?' + AclService.can('Elco Details'));
             return true;
@@ -260,7 +307,7 @@ angular
         controller: 'LocationCtrl',
         resolve : {
           'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('User List')){
+            if(AclService.can('Location List')){
               // Has proper permissions
               return true;
             } else {
@@ -276,7 +323,7 @@ angular
         controller: 'LocationCtrl',
         resolve : {
           'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('User List')){
+            if(AclService.can('Edit Location')){
               // Has proper permissions
               return true;
             } else {
@@ -292,7 +339,7 @@ angular
         controller: 'LocationCtrl',
         resolve : {
           'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('User List')){
+            if(AclService.can('Add Location')){
               // Has proper permissions
               return true;
             } else {

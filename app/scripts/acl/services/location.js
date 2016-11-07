@@ -48,10 +48,12 @@ angular.module('opensrpSiteApp')
               break;
             }
           }   
-
+		console.log(data);
           $scope.sortedTags = [];
           //$scope.sortedTags.push(rootTag);
+          
           var currentTag = $scope.rootTag;
+          console.log(currentTag)
           for(var i = 0; i < data.length - 1; i++){
             for(var j= 0; j< data.length; j++){
               if(data[j].parentTagId === currentTag.id){
@@ -288,8 +290,15 @@ angular.module('opensrpSiteApp')
               $scope.currentTagId = $scope.sortedTags[i].id;
               $scope.selectedTagName = results[1].data.tagName;
               $scope.textboxReached = true;
-              $scope.currentParentId =  results[1].data['parent' + $scope.sortedTags[i-1].name].id ;
-              $scope.currentParentName = results[1].data['parent' + $scope.sortedTags[i-1].name].name;
+              if($scope.sortedTags[i-1]){
+                $scope.currentParentId =  results[1].data['parent' + $scope.sortedTags[i-1].name].id ;
+                $scope.currentParentName = results[1].data['parent' + $scope.sortedTags[i-1].name].name;
+              }
+              else{
+                $scope.currentParentId =  results[1].data['parentDivision'].id ;
+                $scope.currentParentName = results[1].data['parentDivision'].name;
+              }
+              
             }
             if(found == 0){
               $scope.show[$scope.sortedTags[i].name] = true;

@@ -13,6 +13,7 @@ angular.module('opensrpSiteApp')
   var first= new Date(today);  
   $scope.formData = [];
   $scope.campDates = [];
+  $scope.sessionNameList = [];
   $scope.campDate = [];
   $scope.statusValue = [];
   $scope.show = false;
@@ -35,7 +36,14 @@ angular.module('opensrpSiteApp')
     };
    
   }
-
+  $scope.removeShowHide = function(condition){
+	  
+	  if(condition == 'true' || condition==""){
+		  return true
+	  }else{
+		return false;
+	 }	
+  }
   $scope.selectd = function(id,list){
      //console.log(list.length);
     for (var i = 0; i <list.length; i++) {
@@ -108,7 +116,7 @@ angular.module('opensrpSiteApp')
       || $scope.formData.status == undefined || $scope.formData.status == '' ) {
      $scope.show = true;
     }else{
-      $scope.campDates.push({'session_date':$scope.formData.date,'status':$scope.formData.status});
+      $scope.campDates.push({'session_date':$scope.formData.date,'status':$scope.formData.status,'deleted':true});
       console.log($scope.campDates);     
       $scope.formData.date ="";
       $scope.formData.status ="";
@@ -199,7 +207,7 @@ angular.module('opensrpSiteApp')
      
   }else if(url == 'add'){  // add page
     $scope.addEdit = "Add Session";
-
+	Camp.getCampList($scope);
     $scope.save = function() { 
      
         $scope.campDateShow = false;

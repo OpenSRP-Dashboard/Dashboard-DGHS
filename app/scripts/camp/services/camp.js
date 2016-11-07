@@ -112,17 +112,36 @@ angular.module('opensrpSiteApp')
       });
     
   },
+  getCampList: function($scope){
+    var apiURLs = OPENSRP_WEB_BASE_URL+"/camp-name";
+    var campNameList = $http.get(apiURLs, { cache: false});
+    $q.all([campNameList]).then(function(results){
+      $scope.sessionNameList = results[0].data;      
+		console.log($scope.sessionNameList);
+      });
+    
+  },
   getLocationAndCamp: function($scope,id){
     // get camp data with id for edit camp data
     var apiURLs = OPENSRP_WEB_BASE_URL+"/camp?id="+id;
     var camp = $http.get(apiURLs, { cache: false});
+   
     // get thana list to show on select box
     var thanaAPIURL = OPENSRP_WEB_BASE_URL+"/get-upazillas";
     var locations =  $http.get(thanaAPIURL, { cache: false});
     
-    $q.all([camp,locations]).then(function(results){
+     var apiURLs = OPENSRP_WEB_BASE_URL+"/camp-name";
+    var campNameList = $http.get(apiURLs, { cache: false});
+    
+    
+    $q.all([camp,locations,campNameList]).then(function(results){
+		
       $scope.camp = results[0].data;      
       $scope.thanaList = results[1].data;
+      $scope.sessionNameList = results[2].data;
+      
+      setSessionNameSelected($scope.camp.session_name,$scope.sessionNameList,'session_name',$scope);
+      
       $scope.formData.session_name = $scope.camp.session_name;
       $scope.formData.session_location = $scope.camp.session_location;
       $scope.formData.total_hh = parseInt($scope.camp.total_hh);
@@ -133,8 +152,9 @@ angular.module('opensrpSiteApp')
       $scope.formData.total_child1 = parseInt($scope.camp.total_child1);
       $scope.formData.total_child2 = parseInt($scope.camp.total_child2);
       for (var i = 0; i < $scope.camp.camp_dates.length; i++) {
-        $scope.campDates.push({'session_date':$scope.camp.camp_dates[i].session_date,'status':$scope.camp.camp_dates[i].status});
+        $scope.campDates.push({'session_date':$scope.camp.camp_dates[i].session_date,'status':$scope.camp.camp_dates[i].status,'deleted':$scope.camp.camp_dates[i].deleted});
       }
+      
 
       var unionListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.camp.camp_dates[0].thana;
       var unionList = $http.get(unionListURL, { cache: false});
@@ -184,5 +204,14 @@ function setSelectedValueForUser(name,list,variable,$scope){
     }             
   }
 }
+
+function setSessionNameSelected(name,list,variable,$scope){
+	for(var i =0;i<list.length;i++){ 
+    if (name == list[i] ) {
+      $scope.formData[variable] = list[i] ;                                      
+      break;
+    }             
+  }
+}	
 
 });
