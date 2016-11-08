@@ -19,7 +19,7 @@ angular.module('opensrpSiteApp')
   $scope.show = false;
   var url = $location.path().split("/")[2];
   console.log(url);
-  
+  $scope.can = AclService.can;
 
   $scope.selectdd = function(id,list){     
 

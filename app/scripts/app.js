@@ -83,7 +83,7 @@ angular
         templateUrl: 'views/camp/camp_add_edit.html',
         controller: 'CampCtrl',
         controllerAs: 'camp',
-         resolve : {
+        resolve : {
           'acl' : ['$q', 'AclService', function($q, AclService){
             if(AclService.can('Edit Camp')){
               // Has proper permissions
@@ -114,7 +114,7 @@ angular
             
             }
           }]
-        }       
+        }      
       })
   })
   
@@ -164,7 +164,7 @@ angular
         templateUrl: 'views/acl/role-edit.html',
         controller: 'RoleCtrl',
         controllerAs: 'role',
-        resolve : {
+       resolve : {
           'acl' : ['$q', 'AclService', function($q, AclService){
             if(AclService.can('Role Edit')){
               // Has proper permissions
@@ -252,7 +252,7 @@ angular
         resolve : {
           //'userData':function(privilegeService){ return privilegeService.promise;},
           'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('User List')){
+            if(AclService.can('Privilege List')){
               // Has proper permissions
               //console.log('is it true?' + AclService.can('Elco Details'));
               return true;
@@ -272,7 +272,7 @@ angular
         resolve : {
           //'userData':function(testService){ return testService.promise;},
           'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('User List')){
+            if(AclService.can('Add Privilege')){
               // Has proper permissions
               //console.log('is it true?' + AclService.can('Elco Details'));
               return true;
@@ -290,7 +290,7 @@ angular
         controllerAs: 'PrivilegeCtrl',
         resolve : {          
           'acl' : ['$q', 'AclService', function($q, AclService){
-          if(AclService.can('User List')){
+          if(AclService.can('Edit Privilege')){
             // Has proper permissions
             //console.log('is it true?' + AclService.can('Elco Details'));
             return true;

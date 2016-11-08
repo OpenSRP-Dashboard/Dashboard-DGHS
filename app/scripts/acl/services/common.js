@@ -291,6 +291,7 @@ angular.module('opensrpSiteApp')
               console.log(data[i] + " -privilege name");
               AclService.addAbility(member, data[i]);
             }
+            console.log(data);
             /*for(var i=0; i< Object.keys($rootScope.aclAccess.accessTokens).length ; i++){
               AclService.addAbility(member, $rootScope.aclAccess.accessTokens[Object.keys($rootScope.aclAccess.accessTokens)[i]])
             }*/
