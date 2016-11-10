@@ -8,13 +8,15 @@
  * Controller of the opensrpSiteApp
  */
 angular.module('opensrpSiteApp')
-   .controller('LoginCtrl', function ($scope,$rootScope, $location, $http, $window,$timeout, Authentication, Login,Common) {
+   .controller('LoginCtrl', function ($scope,$rootScope, $location,$q, $http, $window,$timeout,OPENSRP_WEB_BASE_URL, Authentication, Login,Common) {
        $scope.loading = false;
 
         $scope.loginUser = function () {
             $scope.loading = true;
             Login.login($scope.username, $scope.password).then(function (result) {		           
-                if (result === true) {            
+                if (result === true) {  
+					
+		            
                     Authentication.authenticate($scope.username, $scope.password);
                     Common.acl($timeout,$rootScope,$http,$scope.username,$window,Authentication,$location,$scope); 
                    // Common.bypassAcl($scope, $window);

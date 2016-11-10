@@ -35,6 +35,29 @@ angular
         
       })
   })
+  
+  .config(function ($routeProvider,$locationProvider) {
+    $routeProvider
+      .when('/household/list', {
+        templateUrl: 'views/register/household_list.html',
+        controller: 'HouseholdController',
+        controllerAs: 'HC' ,
+        resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('Camp List')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }
+
+      })
+  })
+  
   .config(function ($routeProvider,$locationProvider) {
     $routeProvider
       .when('/camp/list', {

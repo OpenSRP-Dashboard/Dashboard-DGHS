@@ -32,14 +32,22 @@
         
           <li  class="dropdown-header" ng-show="can('User List')"><a href="#/users"><i class="glyphicon glyphicon-chevron-right"></i><span> Users</span></a> </li>
           <li ng-show="can('User List')"><a href="#/roles"><i class="glyphicon glyphicon-chevron-right"></i><span> Roles</span></a> </li>
-                          <li ng-show="can('User List')"><a href="#/privileges"><i class="glyphicon glyphicon-chevron-right"></i><span> Privileges</span></a> </li>                          
-                          <li ng-show="can('User List')"><a href="#/locations"><i class="glyphicon glyphicon-chevron-right"></i><span> Locations</span></a> </li>                          
+          <li ng-show="can('User List')"><a href="#/privileges"><i class="glyphicon glyphicon-chevron-right"></i><span> Privileges</span></a> </li>                          
+          <li ng-show="can('User List')"><a href="#/locations"><i class="glyphicon glyphicon-chevron-right"></i><span> Locations</span></a> </li>                          
+         
+      </ul>
+    </li> 
+    <li>
+      <a id="export" href="">Register </a>
+      <ul>
+          <li ng-show="can('User List')"><a href="#/household/list"><i class="glyphicon glyphicon-chevron-right"></i><span> Household</span></a> </li>
+          <li ng-show="can('User List')"><a href="#"><i class="glyphicon glyphicon-chevron-right"></i><span> Woman</span></a> </li>                          
+          <li ng-show="can('User List')"><a href="#"><i class="glyphicon glyphicon-chevron-right"></i><span> Child</span></a> </li>                          
          
       </ul>
     </li> 
     
-    
-    
+     
 	 <li>
       <a href="/#/camp/list">  Camp </a>
     </li> 

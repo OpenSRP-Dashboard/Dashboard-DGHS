@@ -8,22 +8,24 @@
  * Service in the opensrpSiteApp.
  */
 angular.module('opensrpSiteApp')
-  .service('Authentication', function ($rootScope,$http,$timeout, $cookies,AclService, BasicAuth, Base64,OPENSRP_WEB_BASE_URL,Common) {
+  .service('Authentication', function ($rootScope,$http,$timeout,$q, $window,$location,$cookies,AclService, BasicAuth, Base64,OPENSRP_WEB_BASE_URL,Common) {
     'use strict';
 
     this.authenticate = function (username, password) {
-        BasicAuth.setCredentials(username, password);
+        BasicAuth.setCredentials(username, password);        
+        
     };
     this.clearCredentials = function() {
         BasicAuth.clearCredentials();
     };
     this.isAuthenticated = function () {
-        var authdata = $cookies.get('authdata');
+        var authdata = $cookies.get('authdata');        
         if (!authdata) {
             return false;
         }
         $rootScope.username = Base64.decode(authdata).split(':')[0];
         $rootScope.password = Base64.decode(authdata).split(':')[1];
+        
         
         //Common.acl($timeout,$rootScope,$http);               
         return true;
@@ -42,6 +44,7 @@ angular.module('opensrpSiteApp')
     this.clearCredentials = function () {
         document.execCommand('ClearAuthenticationCache');
         $cookies.remove('authdata');
+        $cookies.remove('userRoleName');
         $http.defaults.headers.common.Authorization = 'Basic ';
     };
   })

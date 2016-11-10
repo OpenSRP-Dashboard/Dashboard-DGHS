@@ -291,15 +291,14 @@ angular.module('opensrpSiteApp')
               console.log(data[i] + " -privilege name");
               AclService.addAbility(member, data[i]);
             }
+            console.log("ddddddddddd");
             console.log(data);
             /*for(var i=0; i< Object.keys($rootScope.aclAccess.accessTokens).length ; i++){
               AclService.addAbility(member, $rootScope.aclAccess.accessTokens[Object.keys($rootScope.aclAccess.accessTokens)[i]])
             }*/
             $scope.loading = false;
             $window.location = '/#/';
-            /*$rootScope.formdata = {a:'1', b:'2'};
-             $location.path('/search').search($rootScope.formdata);
-             */
+            
           }else{
             //$("#message").html("<p class='lead'>Please contact with administrator</p>");
             //Authentication.clearCredentials();   
