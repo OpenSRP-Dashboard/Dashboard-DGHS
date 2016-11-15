@@ -68,19 +68,23 @@
                       <thead> <!--table head-->
                         <tr style="background:none">
                           <th style="width:228px;">
-                               Household Name                                                 
+                               Child Name                                                 
                           </th>
                           <th style="width:157px;">
-                              Health Assistant
+                              Child Mother
                           </th>
                           <th style="width:150px;">
-                            Mobile                               
+                            Child Father                        
                           </th>
                           <th style="width:154px;">
-                            Member                                                              
+                            Date of Birth                                                             
                           </th>
                           <th style="width:154px;">
-                            Household ID                                                              
+                            Registration No.                                                              
+                          </th>
+
+                          <th style="width:157px;">
+                              Health Asistant
                           </th>
                           <th style="width:154px;">
                             Actions                                                             
@@ -91,19 +95,21 @@
                   </div>  <!--end panel-heading2 -->                     
                 </div> <!--end panel panel-default -->
                  
-                <div class="panel panel-default" ng-repeat="household in data | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                <div class="panel panel-default" ng-repeat="child in data | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
                   <div class="panel-heading2" role="tab" id="headingTwo2">
-                    <table class="table table-striped collapsed"  data-toggle="collapse" data-parent="#accordion2" href="#{{household.caseId}}" aria-expanded="false" aria-controls="collapseTwo">
+                    <table class="table table-striped collapsed"  data-toggle="collapse" data-parent="#accordion2" href="#{{child.caseId}}" aria-expanded="false" aria-controls="collapseTwo">
                       <thead>
                         <tr>
                           <td style="width:150px;">                                           
-                            {{household.HoH_Fname}} {{household.HoH_Lname}}   
-                          </td>                                       
-                          <td style="width:100px;">{{household.PROVIDERID}}</td>
-                          <td style="width:100px;">{{household.HoH_Mobile_No}}</td>
-                          <td style="width:100px;">{{household.HH_Member_No}}</td>
-                          <td style="width:100px;">{{household.HHID}}</td>
-                          <td style="width:100px;"><a href="/#/camp/edit/{{session_dates.session_id}}">View Member</a>  </td> 
+                            {{child.Member_Fname}} {{child.Member_LName}}   
+                          </td>  
+                           <td style="width:100px;">{{child.Child_mother_name}}</td>
+                          
+                          <td style="width:100px;">{{child.Child_father_name}}</td>
+                          <td style="width:100px;">{{child.Child_dob}}</td>
+                          <td style="width:100px;">{{child.Reg_No}}</td>
+                          <td style="width:100px;">{{child.PROVIDERID}}</td>
+                          <td style="width:100px;"><a href="/#/child/view/{{child.caseId}}">View Details</a>  </td> 
                         </tr>
                       </thead>
                     </table><!--//table body-->                    

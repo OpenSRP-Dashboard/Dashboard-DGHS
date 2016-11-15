@@ -57,6 +57,51 @@ angular
 
       })
   })
+
+  .config(function ($routeProvider,$locationProvider) {
+    $routeProvider
+      .when('/woman/list', {
+        templateUrl: 'views/register/woman_list.html',
+        controller: 'WomanController',
+        controllerAs: 'WC' ,
+        resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('Camp List')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }
+
+      })
+  })
+
+
+  .config(function ($routeProvider,$locationProvider) {
+    $routeProvider
+      .when('/child/list', {
+        templateUrl: 'views/register/child_list.html',
+        controller: 'ChildController',
+        controllerAs: 'CC' ,
+        resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('Camp List')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }
+
+      })
+  })
   
   .config(function ($routeProvider,$locationProvider) {
     $routeProvider

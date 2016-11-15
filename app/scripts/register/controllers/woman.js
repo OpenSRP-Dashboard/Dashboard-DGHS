@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('opensrpSiteApp')
-   .controller('HouseholdController', function ($scope,$rootScope,$cookies, $routeParams,$q,$location, $http, $window,$timeout,OPENSRP_WEB_BASE_URL,AclService, HouseholdService,LocationTree,DataService) {
+   .controller('WomanController', function ($scope,$rootScope,$cookies, $routeParams,$q,$location, $http, $window,$timeout,OPENSRP_WEB_BASE_URL,AclService, HouseholdService,LocationTree,DataService) {
         
-      $scope.can = AclService.can; 
+     $scope.can = AclService.can; 
      LocationTree.location_tree($scope);
            
       $scope.search = function(){
@@ -16,23 +16,25 @@ angular.module('opensrpSiteApp')
 		  if($scope.formData.thana =='undefined'){
 			thana ="";
 		  }else{
-			var  type = "type=Household";
-			thana = "&UPAZILLA="+'"'+$scope.formData.thana.name+'"';			
+			var  type = "type=Members&Is_woman=1";
+			thana = "&Member_UPAZILLA="+'"'+$scope.formData.thana.name+'"';			
 		  }
 		  if(!angular.isObject($scope.formData.union)){
 			union = "";
-		  }else{			
-			union = "&UNION="+'"'+$scope.formData.union.name+'"';
+		  }else{
+			console.log(444);
+			union = "&Member_UNION="+'"'+$scope.formData.union.name+'"';
 		  }
 		  if(!angular.isObject($scope.formData.ward)){
 			ward = "";
-		  }else{			  
-			ward = "&WARD="+'"'+$scope.formData.ward.name+'"';
+		  }else{
+			  console.log(333)
+			ward = "&Member_WARD="+'"'+$scope.formData.ward.name+'"';
 		  }
 		  if(!angular.isObject($scope.formData.unit)){
 			unit = "";
 		  }else{
-			unit = "&BLOCK="+'"'+$scope.formData.unit.name+'"';
+			unit = "&Member_BLOCK="+'"'+$scope.formData.unit.name+'"';
 		  }
 		  if(!angular.isObject($scope.formData.health_assistant)){
 			health_assistant = "";
@@ -40,14 +42,14 @@ angular.module('opensrpSiteApp')
 			health_assistant = "&PROVIDERID="+'"'+$scope.formData.health_assistant.user_name+'"';
 		  }
 		  
-		  var householsAPIURL = OPENSRP_WEB_BASE_URL+"/households/search?"+type+thana+union+ward+unit+health_assistant;
+		  var householsAPIURL = OPENSRP_WEB_BASE_URL+"/member/search?"+type+thana+union+ward+unit+health_assistant;
 		  console.log(householsAPIURL);
 		  var deferred = $q.defer();
 		  var householdData = $http.get(householsAPIURL, { cache: false});               
 		  // search data
 		  $q.all([householdData]).then(function(results){ 
 			        
-			$scope.data = results[0].data.hhRegisterEntries;
+			$scope.data = results[0].data.members;
 			if($scope.data.length ==0){
 			 $scope.dataShowHide = false;
 			 $scope.emptyDataShowHide= true;
@@ -59,7 +61,7 @@ angular.module('opensrpSiteApp')
 		  });
 		}
 		
-		var householsAPIURL = OPENSRP_WEB_BASE_URL+"/households/search?type=Household"+"&PROVIDERID="+$rootScope.username;
+		var householsAPIURL = OPENSRP_WEB_BASE_URL+"/member/search?Is_woman=1&type=Members"+"&PROVIDERID="+$rootScope.username;
 		var deferred = $q.defer();
 		var allHousehold = $http.get(householsAPIURL, { cache: false});               
 		$scope.userRoleName = true;
