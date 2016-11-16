@@ -3,10 +3,10 @@
 angular.module('opensrpSiteApp')
    .controller('HouseholdController', function ($scope,$rootScope,$cookies, $routeParams,$q,$location, $http, $window,$timeout,OPENSRP_WEB_BASE_URL,AclService, HouseholdService,LocationTree,DataService) {
         
-      $scope.can = AclService.can; 
-     LocationTree.location_tree($scope);
+        $scope.can = AclService.can; 
+     	LocationTree.location_tree($scope);
            
-      $scope.search = function(){
+        $scope.search = function(){
 		  $scope.dataShowHide = false;
 		  var thana;
 		  var union;

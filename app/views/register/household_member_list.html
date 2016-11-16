@@ -9,49 +9,7 @@
           <div show-during-resolve class="loader">   
               <center><img src="images/spinner.gif"  alt="Opensrp"/></center>
           </div>
-          <div class="row"> <!-- main col left --> 
-            <div ng-show="userRoleName" class="starter-template3">
-              <form  name="camp" ng-submit="search()">  
-              <!--<div class="col-md-2"> 
-                <label>District</label>              
-                <select class="form-control"  ng-options="district.name for district in districtList" ng-model="formData.district" ng-change="getThana()" required><option></option>              
-                </select> 
-              </div>  --> 
-              <div class="col-md-2"> 
-                <label>Upazila</label>              
-                <select class="form-control"  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()" required><option></option>    
-                </select> 
-              </div>
-              <div class="col-md-2"> 
-                <label>Union</label>                
-                <select class="form-control" ng-options="union.name for union in unionList" ng-model="formData.union" ng-change="getWard()"><option></option> 
-                </select> 
-              </div>
-              <div class=" col-md-2">
-                <label>Ward</label>                 
-                <select class="form-control" ng-options="ward.name for ward in wardList" ng-model="formData.ward" ng-change="getUnit()"><option></option>               
-                </select> 
-              </div>
-              
-              <div class=" col-md-2">
-                <label>Unit</label> 
-                <select class="form-control" ng-options="unit.name for unit in unitList" ng-model="formData.unit" ng-change="getHealthAssistant()"><option></option> 
-                </select> 
-              </div>
-
-              <div class=" col-md-2">
-                <label>Health Assistant</label> 
-               <select class="form-control" ng-options="healthAssistant.user_name for healthAssistant in healthAssistantList" ng-model="formData.health_assistant">
-                  <option value=""></option>                  
-                </select>     
-              </div>
-              <div class=" col-md-2">
-                <br />
-               <button type="submit" class="btn btn-lg btn-primary ">Search</button>    
-              </div>
-              </form>   
-            </div> <!-- main col right -->                           
-          </div><!--/row-->
+          
                    
           <div class="row">
           
@@ -104,7 +62,7 @@
                           <td style="width:100px;">{{household.HoH_Mobile_No}}</td>
                           <td style="width:100px;">{{household.HH_Member_No}}</td>
                           <td style="width:100px;">{{household.HHID}}</td>
-                          <td style="width:100px;"><a href="/#/household/member/{{household.caseId}}">View Member</a>  </td> 
+                          <td style="width:100px;"><a href="/#/camp/edit/{{session_dates.session_id}}">View Member</a>  </td> 
                         </tr>
                       </thead>
                     </table><!--//table body-->                    

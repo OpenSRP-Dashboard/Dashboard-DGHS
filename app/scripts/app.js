@@ -15,7 +15,7 @@ angular
   .constant("COUCHURL",'http://192.168.22.55:1234/192.168.22.55:5984')
   .config(['AclServiceProvider', function (AclServiceProvider) {
     var myConfig = {
-      storage: 'sessionStorage',  // localStorage
+      storage: 'localStorage',  // sessionStorage
       storageKey: 'AppAcl'
     };
     AclServiceProvider.config(myConfig);
@@ -60,6 +60,50 @@ angular
 
   .config(function ($routeProvider,$locationProvider) {
     $routeProvider
+      .when('/household/member/:id', {
+        templateUrl: 'views/register/household_member_list.html',
+        controller: 'HouseholdController',
+        controllerAs: 'HC' ,
+        resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('Camp List')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }
+
+      })
+  })
+
+  .config(function ($routeProvider,$locationProvider) {
+    $routeProvider
+      .when('/woman/view/:id', {
+        templateUrl: 'views/register/woman_view.html',
+        controller: 'WomanController',
+        controllerAs: 'WC' ,
+        resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('Camp List')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }
+
+      })
+  })
+
+  .config(function ($routeProvider,$locationProvider) {
+    $routeProvider
       .when('/woman/list', {
         templateUrl: 'views/register/woman_list.html',
         controller: 'WomanController',
@@ -81,10 +125,33 @@ angular
   })
 
 
+
   .config(function ($routeProvider,$locationProvider) {
     $routeProvider
       .when('/child/list', {
         templateUrl: 'views/register/child_list.html',
+        controller: 'ChildController',
+        controllerAs: 'CC' ,
+        resolve : {
+          'acl' : ['$q', 'AclService', function($q, AclService){
+            if(AclService.can('Camp List')){
+              // Has proper permissions
+              return true;
+            } else {
+              // Does not have permission
+              return $q.reject('Unauthorized');
+            
+            }
+          }]
+        }
+
+      })
+  })
+
+  .config(function ($routeProvider,$locationProvider) {
+    $routeProvider
+      .when('/child/view/:id', {
+        templateUrl: 'views/register/child_view.html',
         controller: 'ChildController',
         controllerAs: 'CC' ,
         resolve : {

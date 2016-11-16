@@ -8,50 +8,7 @@
           <div show-during-resolve class="loader">   
               <center><img src="images/spinner.gif"  alt="Opensrp"/></center>
           </div>
-          <div class="row"> <!-- main col left --> 
-            <div ng-show="userRoleName" class="starter-template3">
-              <form  name="camp" ng-submit="search()">  
-              <!--<div class="col-md-2"> 
-                <label>District</label>              
-                <select class="form-control"  ng-options="district.name for district in districtList" ng-model="formData.district" ng-change="getThana()" required><option></option>              
-                </select> 
-              </div>  --> 
-              <div class="col-md-2"> 
-                <label>Upazila</label>              
-                <select class="form-control"  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()" required><option></option>    
-                </select> 
-              </div>
-              <div class="col-md-2"> 
-                <label>Union</label>                
-                <select class="form-control" ng-options="union.name for union in unionList" ng-model="formData.union" ng-change="getWard()"><option></option> 
-                </select> 
-              </div>
-              <div class=" col-md-2">
-                <label>Ward</label>                 
-                <select class="form-control" ng-options="ward.name for ward in wardList" ng-model="formData.ward" ng-change="getUnit()"><option></option>               
-                </select> 
-              </div>
-              
-              <div class=" col-md-2">
-                <label>Unit</label> 
-                <select class="form-control" ng-options="unit.name for unit in unitList" ng-model="formData.unit" ng-change="getHealthAssistant()"><option></option> 
-                </select> 
-              </div>
-
-              <div class=" col-md-2">
-                <label>Health Assistant</label> 
-               <select class="form-control" ng-options="healthAssistant.user_name for healthAssistant in healthAssistantList" ng-model="formData.health_assistant">
-                  <option value=""></option>                  
-                </select>     
-              </div>
-              <div class=" col-md-2">
-                <br />
-               <button type="submit" class="btn btn-lg btn-primary ">Search</button>    
-              </div>
-              </form>   
-            </div> <!-- main col right -->                           
-          </div><!--/row-->
-                   
+          
           <div class="row">
           
           <div style="clear:both"></div>
@@ -68,13 +25,13 @@
                       <thead> <!--table head-->
                         <tr style="background:none">
                           <th style="width:228px;">
-                               Woman Name                                                 
+                               Child Name                                                 
                           </th>
                           <th style="width:157px;">
-                              Husband
+                              Child Mother
                           </th>
                           <th style="width:150px;">
-                            Woman Information                        
+                            Child Father                        
                           </th>
                           <th style="width:154px;">
                             Date of Birth                                                             
@@ -95,21 +52,21 @@
                   </div>  <!--end panel-heading2 -->                     
                 </div> <!--end panel panel-default -->
                  
-                <div class="panel panel-default" ng-repeat="woman in data | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                <div class="panel panel-default" ng-repeat="child in data | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
                   <div class="panel-heading2" role="tab" id="headingTwo2">
-                    <table class="table table-striped collapsed"  data-toggle="collapse" data-parent="#accordion2" href="#{{woman.caseId}}" aria-expanded="false" aria-controls="collapseTwo">
+                    <table class="table table-striped collapsed"  data-toggle="collapse" data-parent="#accordion2" href="#{{child.caseId}}" aria-expanded="false" aria-controls="collapseTwo">
                       <thead>
                         <tr>
                           <td style="width:150px;">                                           
-                            {{woman.Member_Fname}} {{woman.Member_LName}}   
+                            {{child.Member_Fname}} {{child.Member_LName}}   
                           </td>  
-                           <td style="width:100px;">{{woman.Husband_name}}</td>
+                           <td style="width:100px;">{{child.Child_mother_name}}</td>
                           
-                          <td style="width:100px;">{{woman.WomanInfo}}</td>
-                          <td style="width:100px;">{{woman.calc_dob}}</td>
-                          <td style="width:100px;">{{woman.Reg_No}}</td>
-                          <td style="width:100px;">{{woman.PROVIDERID}}</td>
-                          <td style="width:100px;"><a href="/#/woman/view/{{child.caseId}}">View Details</a>  </td> 
+                          <td style="width:100px;">{{child.Child_father_name}}</td>
+                          <td style="width:100px;">{{child.Child_dob}}</td>
+                          <td style="width:100px;">{{child.Reg_No}}</td>
+                          <td style="width:100px;">{{child.PROVIDERID}}</td>
+                          <td style="width:100px;"><a href="/#/child/view/{{child.caseId}}">View Details</a>  </td> 
                         </tr>
                       </thead>
                     </table><!--//table body-->                    
