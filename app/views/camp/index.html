@@ -13,7 +13,8 @@
               <form  name="camp" ng-submit="search()">    
               <div class="col-md-2"> 
                 <label>Thana</label>              
-                <select class="form-control"  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()" required><option></option>              
+                <select class="form-control"  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()" required>
+                <option></option>              
                 </select> 
               </div>
               <div class="col-md-2"> 
@@ -90,7 +91,7 @@
                   </div>  <!--end panel-heading2 -->                     
                 </div> <!--end panel panel-default -->
                  
-                <div class="panel panel-default" ng-repeat="session_dates in data | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                <div class="panel panel-default" dir-paginate="session_dates in users |itemsPerPage:itemsPerPage" total-items="total_count">
                   <div class="panel-heading2" role="tab" id="headingTwo2">
                     <table class="table table-striped collapsed"  data-toggle="collapse" data-parent="#accordion2" href="#{{session_dates.timestamp}}{{session_dates.session_date}}" aria-expanded="false" aria-controls="collapseTwo">
                       <thead>
@@ -111,7 +112,12 @@
                 </div> <!-- end panel panel-default -->
               <div class="row">
                 <div class="col-md-3 col-lg-10 ">
-                  <pagination page="currentPage" boundary-links="true" max-size="6" total-items="totalItems" items-per-page="entryLimit"></pagination>
+                  <dir-pagination-controls
+                   max-size="8"
+                   direction-links="true"
+                   boundary-links="true" 
+                   on-page-change="getData(newPageNumber)" >
+                </dir-pagination-controls>
                 </div>                
               </div>
             </div><!-- end panel-group-->

@@ -53,18 +53,24 @@ angular.module('opensrpSiteApp')
     };
     return false;
   }
+   
+
+  
   var thanaAPIURL = OPENSRP_WEB_BASE_URL+"/get-upazillas";
   var thanas =  $http.get(thanaAPIURL, { cache: false});
   $q.all([thanas]).then(function(results){
     $scope.thanaList = results[0].data;
     $scope.formData.thana=$scope.thanaList[0];
+    
   });
   
   $scope.getUnion = function(){
+    console.log("Union Start"+ new Date().getTime());
       if(angular.isObject($scope.formData.thana)){
         var unionListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.thana.id;
         var unionList = $http.get(unionListURL, { cache: false});
           $q.all([unionList]).then(function(results){
+            console.log("Union Get Request "+new Date().getTime());
           $scope.unionList = results[0].data;
         }); 
         $scope.wardList = [];
@@ -72,32 +78,38 @@ angular.module('opensrpSiteApp')
         $scope.healthAssistantList = [];
      }
     }
-    $scope.getWard = function(){      
+    $scope.getWard = function(){ 
+    if(angular.isObject($scope.formData.union)){     
       var wardListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.union.id;
       var wardList = $http.get(wardListURL, { cache: false});
       $q.all([wardList]).then(function(results){
         $scope.wardList = results[0].data;
       }); 
       $scope.unitList = []; 
-      $scope.healthAssistantList = [];   
+      $scope.healthAssistantList = []; 
+      }  
     }
 
-    $scope.getUnit = function(){      
+    $scope.getUnit = function(){ 
+    if(angular.isObject($scope.formData.ward)){          
       var wardListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.ward.id;
       var units = $http.get(wardListURL, { cache: false});
       $q.all([units]).then(function(results){
         $scope.unitList = results[0].data;
       });
        $scope.healthAssistantList = [];
+     }
     }
 
-    $scope.getHealthAssistant = function(){      
+    $scope.getHealthAssistant = function(){   
+    if(angular.isObject($scope.formData.unit)){    
       var assistantListListURL = OPENSRP_WEB_BASE_URL+"/get-data-senders-by-location?locationId="+$scope.formData.unit.id;
       var assistants = $http.get(assistantListListURL, { cache: false});
       $q.all([assistants]).then(function(results){
         $scope.healthAssistantList = results[0].data;
         $scope.healthAssistantList =results[0].data;
       });
+    }
     }
     
     //$scope.healthAssistantList =[{"name":"sohel"},{"name":"asif"},{"name":"numera"}];
@@ -168,23 +180,47 @@ angular.module('opensrpSiteApp')
       }else{
         health_assistant = $scope.formData.health_assistant.user_name;
       }
-      
+      console.log($scope.currentPage);
       var apiURLs = OPENSRP_WEB_BASE_URL+"/camp/search?thana="+thana+"&union="+union
-      +"&ward="+ward+"&unit="+unit+"&healthAssistant="+health_assistant;
+      +"&ward="+ward+"&unit="+unit+"&healthAssistant="+health_assistant+"&p="+$scope.currentPage;
       console.log(apiURLs);
       var deferred = $q.defer();
       var campDateList = $http.get(apiURLs, { cache: false});               
       // search data
       $q.all([campDateList]).then(function(results){           
-        $scope.data = results[0].data;
-        if($scope.data.length ==0){
+        $scope.data = JSON.parse(results[0].data[0]); 
+        $scope.count = JSON.parse(results[0].data[1]);  
+       
+        /*if($scope.data.length ==0){
          $scope.dataShowHide = false;
          $scope.emptyDataShowHide= true;
       }else{
         $scope.dataShowHide = true;
         $scope.emptyDataShowHide= false;
-      }        
-        Camp.data($scope,$scope.data); 
+      }  */      
+       // Camp.data($scope,$scope.data,$scope.count); 
+      
+      $scope.users = []; //declare an empty array
+      $scope.pageno = 1; // initialize page no to 1
+      $scope.total_count = 0;
+      $scope.itemsPerPage = 10; //this could be a dynamic value from a drop down
+      $scope.getData = function(pageno){ // This would fetch the data on page change.
+          console.log(pageno);
+          var apiURLs = OPENSRP_WEB_BASE_URL+"/camp/search?thana="+thana+"&union="+union
+      +"&ward="+ward+"&unit="+unit+"&healthAssistant="+health_assistant+"&p="+pageno*$scope.itemsPerPage;
+     
+        var campDateList = $http.get(apiURLs, { cache: false}); 
+       $q.all([campDateList]).then(function(results){ 
+
+          $scope.users = JSON.parse(results[0].data[0]);  // data to be displayed on current page.
+          $scope.total_count = JSON.parse(results[0].data[1]);  // total data count.
+
+       });
+          //$scope.users = []; // 
+          console.log("ccc:"+$scope.count);
+          
+      };
+      $scope.getData($scope.pageno); // Call the function to fetch initial data on page load.
       });
     }   
     //default data   
@@ -201,8 +237,10 @@ angular.module('opensrpSiteApp')
         $scope.dataShowHide = true;
         $scope.emptyDataShowHide= false;
       }
+      
      
-      Camp.data($scope,$scope.data); 
+
+      Camp.data($scope,$scope.data,120); 
     });
      
   }else if(url == 'add'){  // add page

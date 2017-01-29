@@ -15,8 +15,7 @@ angular.module('opensrpSiteApp')
 		var roles = $http.get(getRoleUrl, { cache: false});
 		
 		$q.all([roles]).then(function(results){
-			$rootScope.roles = results[0].data;	
-			console.log($rootScope.roles);	
+			$rootScope.roles = results[0].data;
 			$cookies.put('userRoleName', true);				
 			for(var i=0;i<$rootScope.roles.length;i++){									
 				if($rootScope.roles[i].name == 'FWA'){	

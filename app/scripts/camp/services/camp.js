@@ -1,4 +1,4 @@
-'use strict';
+
 
 angular.module('opensrpSiteApp')
 .service('Camp', function ($q, $http, OPENSRP_WEB_BASE_URL, $rootScope,filterFilter) {     
@@ -48,14 +48,15 @@ angular.module('opensrpSiteApp')
      });       
     },
 
-    data: function($scope,data){     
-     $scope.sortReverse  = false;
-     $scope.currentPage = 1;
-     $scope.totalItems = data.length;        
-        $scope.entryLimit = 10; // items per page
-        console.log($scope.entryLimit);
-        $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
-      },
+    data: function($scope,data,count){ 
+      console.log($scope.currentPage)   
+      $scope.sortReverse  = true;
+      $scope.currentPage = 1;
+      $scope.sortType = 'session_date';
+      $scope.totalItems = count;        
+      $scope.entryLimit = 20; // items per page        
+      $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
+    },
 
     dateFormatterTodayInYYYYMMDD : function(){
        var today = new Date();
@@ -117,7 +118,7 @@ angular.module('opensrpSiteApp')
     var campNameList = $http.get(apiURLs, { cache: false});
     $q.all([campNameList]).then(function(results){
       $scope.sessionNameList = results[0].data;      
-		console.log($scope.sessionNameList);
+		
       });
     
   },
