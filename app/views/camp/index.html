@@ -91,7 +91,7 @@
                   </div>  <!--end panel-heading2 -->                     
                 </div> <!--end panel panel-default -->
                  
-                <div class="panel panel-default" dir-paginate="session_dates in users |itemsPerPage:itemsPerPage" total-items="total_count">
+                <div class="panel panel-default" dir-paginate="session_dates in users |orderBy:sortBy:reverse|itemsPerPage:itemsPerPage" total-items="total_count" current-page="pagination.current">
                   <div class="panel-heading2" role="tab" id="headingTwo2">
                     <table class="table table-striped collapsed"  data-toggle="collapse" data-parent="#accordion2" href="#{{session_dates.timestamp}}{{session_dates.session_date}}" aria-expanded="false" aria-controls="collapseTwo">
                       <thead>
