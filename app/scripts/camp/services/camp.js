@@ -58,7 +58,7 @@ angular.module('opensrpSiteApp')
       $scope.noOfPages = Math.ceil($scope.totalItems / $scope.entryLimit);
     },
 
-    dateFormatterTodayInYYYYMMDD : function(){
+  dateFormatterTodayInYYYYMMDD : function(){
        var today = new Date();
        var dd = today.getDate();
 	    var mm = today.getMonth()+1; //January is 0!
@@ -182,7 +182,8 @@ angular.module('opensrpSiteApp')
         //for unit selected options
         setSelectedValue($scope.camp.camp_dates[0].unit,$scope.unitList,'unit',$scope);
         setSelectedValueForUser($scope.camp.camp_dates[0].health_assistant,$scope.healthAssistantList,'health_assistant',$scope);
-       
+       $rootScope.loading = false;
+          
       });
       
      }); 

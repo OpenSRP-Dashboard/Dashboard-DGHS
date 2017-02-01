@@ -129,14 +129,14 @@
 								<fieldset  data-ng-repeat="campDate in campDates">
 									<div class="col-md-2">
 										
-										<input type="text" readonly="true"  class="form-control" ng-model="campDate.session_date" name="" value="{{campDate.session_date}}">
+									<input type="text" readonly="true"  class="form-control" ng-model="campDate.session_date" name="" value="{{campDate.session_date}}">
 									</div>
 									<div class="col-md-2">
 										<input type="text" readonly="true" class="form-control"  ng-model="campDate.status" value="{{campDate.status}}">
 									</div>
 									<div class="col-md-2">
 									
-										<div ng-show="removeShowHide('{{campDate.deleted}}')"  ng-click="removeCampDate('{{campDate.session_date}}')" class="btn btn-primary">remove</div>
+									<div ng-show="removeBtnShowHide('{{campDate.deleted}}')" ng-click="removeCampDate('{{campDate.session_date}}')" class="btn btn-primary">remove</div>
 										
 									</div>
 								</fieldset>
