@@ -29,12 +29,6 @@ angular.module('opensrpSiteApp')
                     delete  $http.defaults.headers.common.Authorization;
                     return false;
                 });
-            //return  $http({method: 'GET', url: authenticationURL,cache:false, headers: {'Authorization': authorizationHeader}});
-                /*.then(function () {                    
-                    return true;
-                }, function () {
-                    delete  $http.defaults.headers.common.Authorization;
-                    return false;
-                });*/
+            
         };
     });
