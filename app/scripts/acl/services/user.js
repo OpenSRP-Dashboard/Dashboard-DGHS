@@ -33,29 +33,24 @@ angular.module('opensrpSiteApp')
         var roleUrl = OPENSRP_WEB_BASE_URL + "/get-all-roles";
         var roleRequest = $http.get(roleUrl, { cache: false });
 
-        $q.all([userRequest, roleRequest]).then(function(results){
-          console.log(results);
+        $q.all([userRequest, roleRequest]).then(function(results){         
           var fetchedRoles = results[1].data;
           var fetchedUsers = results[0].data;
           $scope.users = [];
           $scope.formData.parent = {};
           $scope.formData.selectedChildren = [];
-          for(var i = 0 ; i < fetchedUsers.length; i++){
-            //$scope.users.push({ "name" : fetchedUsers.rows[i].key, "id" : fetchedUsers.rows[i].id });
-            //$scope.formData.selectedChildren[fetchedUsers.rows[i].key] = false;
-            $scope.users.push({ "name" : fetchedUsers[i].user_name, "id" : fetchedUsers[i].id });
+          for(var i = 0 ; i < fetchedUsers.length; i++){            
+            $scope.users.push({ "user_name" : fetchedUsers[i].user_name, "id" : fetchedUsers[i].id });
             $scope.formData.selectedChildren[fetchedUsers[i].user_name] = false;
-          }          
-          console.log($scope.formData.selectedChildren );                   
+          }              
 
           $scope.roles = [];
           $scope.formData.selectedRoles = [];
-          for(var i = 0 ; i < fetchedRoles.length; i++){
-            //$scope.roles.push({ "name" : fetchedRoles.rows[i].key, "id" : fetchedRoles.rows[i].id });
+          for(var i = 0 ; i < fetchedRoles.length; i++){            
             $scope.roles.push({ "name" : fetchedRoles[i].name, "id" : fetchedRoles[i].id });
             $scope.formData.selectedRoles[fetchedRoles[i].name] = false;
           }          
-          console.log($scope.formData.selectedRoles );
+         
           
           $scope.formData.password="";
           $scope.formData.email = "";
@@ -75,7 +70,7 @@ angular.module('opensrpSiteApp')
         delete data.selectedChildren;
         delete data.selectedRoles;
         delete data.decoyCheckbox;
-        console.log(data);    
+        
         $http.post(apiURLs, data).success(function (data) {
           $("#submit").html("Submit");
           $('#submit').prop('disabled', false);
@@ -100,7 +95,7 @@ angular.module('opensrpSiteApp')
         delete data.selectedChildren;
         delete data.selectedRoles;
         delete data.decoyCheckbox;
-        console.log(data);    
+        
         $http.post(apiURLs, data).success(function (data) {
           $("#submit").html("Submit");
            $('#submit').prop('disabled', false);
@@ -117,7 +112,7 @@ angular.module('opensrpSiteApp')
       };
 
       this.initiateLocationAssignment = function($scope,$rootScope,$timeout,id,$q){
-        console.log("User.initiateLocationAssignment called.");    
+          
         $rootScope.loading = true;
         var Userurl = OPENSRP_WEB_BASE_URL + "/get-user-by-name?userName=" + id;
         //var Userurl = COUCHURL+'/opensrp/_design/User/_view/by_user_name?key="' + id + '"';   
@@ -136,7 +131,7 @@ angular.module('opensrpSiteApp')
 
             $http.get(locationInfoUrl+ $scope.currentUser.location[0].id, { cache: false})
               .success(function(data){
-                console.log(data);
+               
                 $scope.selections['Ward'] = data.parentWard.id;
                 $scope.selectOptions['Ward'] = data.parentWardSiblings;  
 
@@ -179,10 +174,10 @@ angular.module('opensrpSiteApp')
           $("#submit").html("Submit");
            $('#submit').prop('disabled', false);
           if (data == 1) {            
-            console.log("Location assignment to user done.");
+            
             $window.location = '/#/users';
           }else{
-            console.log("Location assignment to user failed");
+            
           }
           
         });
@@ -207,10 +202,7 @@ angular.module('opensrpSiteApp')
         } );
 
         $q.all([fetchedRoles, fetchedUsers, fetchedCurrentUser]).then(function(results){
-          console.log(results[0].data);
-          console.log(results[1].data);
-          console.log(results[2].data);
-
+          
           $scope.roles = results[0].data;//[];
           $scope.formData.selectedRoles = [];
           for(var i = 0 ; i < $scope.roles.length; i++){
@@ -236,20 +228,16 @@ angular.module('opensrpSiteApp')
           $('select[name="parent"]').val('demosrp');//results[2].data.rows[0].value.parent.user_name);
           $scope.formData.parent={'user_name': results[2].data.parent.user_name, 
             'id':results[2].data.parent.id};
-          console.log("the parent is " + results[2].data.parent.user_name);
-          console.log("expected gender- " + results[2].data.gender);
-          //$scope.role = results[2].data.rows[0].value;
-          //$scope.formData.id = $scope.role._id;  
+           
           $scope.formData.password = "";
 
           for(var i = 0 ; i < results[2].data.roles.length; i++){
             $scope.formData.selectedRoles[results[2].data.roles[i].name] = true;
           }
           $("#decoyCheckbox").click();          
-          console.log($scope.formData.selectedRoles);
+         
           if(results[2].data.children){
-            for(var i = 0 ; i < results[2].data.children.length; i++){
-              console.log("found children- " + results[2].data.children[i].user_name);
+            for(var i = 0 ; i < results[2].data.children.length; i++){              
               $scope.formData.selectedChildren[results[2].data.children[i].user_name] = true;
             } 
           }

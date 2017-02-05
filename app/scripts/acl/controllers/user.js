@@ -10,15 +10,11 @@
 angular.module('opensrpSiteApp')
   .controller('UserCtrl', function ($scope,$rootScope,Flash,$window,$timeout,$location,$routeParams,$http,User,AclService, OPENSRP_WEB_BASE_URL,$q,Base64, Location) {   
     
-    //$scope.disabled = true;
-    console.log($location.path().indexOf('/location'));
     $scope.can = AclService.can;
-    var userName = $routeParams.name;
-    console.log("found userName- " + userName);
+    var userName = $routeParams.name;   
     if ($location.path() == '/add-user') {
       $rootScope.loading = true;      
-      $scope.formData = {};
-      //console.log($scope.formData.password + " -ho");
+      $scope.formData = {};      
       User.getRolesAndUsers($scope, $rootScope, $timeout);     
 
       $scope.save = function(){
@@ -38,7 +34,7 @@ angular.module('opensrpSiteApp')
             $scope.formData.roles.push({"name" : $scope.roles[i].name, "id" : $scope.roles[i].id});
           }
         }
-        console.log($scope.formData);
+        
         User.createUser($scope.formData,$window,Flash);
       }     
     }
@@ -52,7 +48,7 @@ angular.module('opensrpSiteApp')
       $scope.reachedTagIndex = 0;
       $scope.locationAssignment = true;
 
-      $scope.unitNames = ['Unit One', 'Unit Two', 'Unit Three', 'Unit Four', 'Unit Five', 'Unit Six', 'Unit Seven', 'Unit Eight'];
+      $scope.unitNames = ['1-KA', '1-KHA', '2-KA', '2-KHA', '3-KA', '3-KHA', '4-KA', '4-KHA'];
       for(var i = 0 ; i < $scope.unitNames.length; i++){
         $scope.unitSelections[$scope.unitNames[i]] = false;  
       }
@@ -99,9 +95,18 @@ angular.module('opensrpSiteApp')
 
         finalData.location = finalLocation;
 
-        console.log(finalData);
-
-        User.assignLocationToUser(finalData, $window);
+        if($scope.selectOptions['Unit'].length ==0){
+          if($scope.selections['Union'] ==""){
+            console.log(2222222222222);
+            finalLocation.push({ "name" : "Upazilla", "id" : $scope.selections['Upazilla']});
+          }else{
+            finalLocation.push({ "name" : "Union", "id" : $scope.selections['Union']});
+          }
+          
+        }
+finalData.location = finalLocation;
+console.log(finalData);
+       // User.assignLocationToUser(finalData, $window);
 
       }
     }
