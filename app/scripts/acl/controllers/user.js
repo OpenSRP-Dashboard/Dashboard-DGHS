@@ -39,8 +39,7 @@ angular.module('opensrpSiteApp')
       }     
     }
     else if($location.path().indexOf('/location') > 0){
-      $scope.userName = userName;
-      console.log("found assignee- " + userName);
+      $scope.userName = userName;      
       $scope.selections = {};
       $scope.selectOptions = {};    
       $scope.unitSelections = {};        
@@ -57,9 +56,10 @@ angular.module('opensrpSiteApp')
 
       $scope.loadChildSelect = function(nameOfSelectedTag){
         
-        console.log(nameOfSelectedTag + " --value of something"); 
-        console.log($scope.selections[nameOfSelectedTag]);    
+       /* console.log(nameOfSelectedTag + " --value of something"); 
+        console.log($scope.selections[nameOfSelectedTag]);    */
 
+        console.log($scope.sortedTags);
         var childTagName;
         for(var i =0; i<$scope.sortedTags.length; i++){
           if($scope.sortedTags[i].name === nameOfSelectedTag){
@@ -75,8 +75,7 @@ angular.module('opensrpSiteApp')
         }
 
         Location.getChildrenLocationsAndAppend($scope, $rootScope, $scope.selections[nameOfSelectedTag], childTagName); 
-        console.log($scope.selections);         
-        console.log($scope.selectOptions);
+        
       }
 
 
@@ -106,7 +105,7 @@ angular.module('opensrpSiteApp')
         }
 finalData.location = finalLocation;
 console.log(finalData);
-       // User.assignLocationToUser(finalData, $window);
+       User.assignLocationToUser(finalData, $window);
 
       }
     }

@@ -114,33 +114,37 @@ angular.module('opensrpSiteApp')
       this.initiateLocationAssignment = function($scope,$rootScope,$timeout,id,$q){
           
         $rootScope.loading = true;
-        var Userurl = OPENSRP_WEB_BASE_URL + "/get-user-by-name?userName=" + id;
-        //var Userurl = COUCHURL+'/opensrp/_design/User/_view/by_user_name?key="' + id + '"';   
+        var Userurl = OPENSRP_WEB_BASE_URL + "/get-user-by-name?userName=" + id;        
         var locationInfoUrl = OPENSRP_WEB_BASE_URL + '/get-location-info?locationId=' ;
-        
-        //this.getUserByName($scope,$rootScope,$timeout,id,$q);
-
         $http.get(Userurl, { 
           cache: false,
         })
         .success(function (data) {
           Location.getAllLocationTags($scope,$rootScope);
           
-          $scope.currentUser = data;//.rows[0].value;
+          $scope.currentUser = data;//.rows[0].value;          
           if($scope.currentUser.location && $scope.currentUser.location.length > 0){
 
             $http.get(locationInfoUrl+ $scope.currentUser.location[0].id, { cache: false})
               .success(function(data){
-               
-                $scope.selections['Ward'] = data.parentWard.id;
-                $scope.selectOptions['Ward'] = data.parentWardSiblings;  
+                
+                if($scope.currentUser.location[0].name =="Upazilla"){
+                  $scope.selections['Upazilla'] = $scope.currentUser.location[0].id;
+                  $scope.selectOptions['Upazilla'] = data.ownSiblings;
+                }else if($scope.currentUser.location[0].name=="Union"){
+                  $scope.selections['Union'] = $scope.currentUser.location[0].id;
+                  $scope.selectOptions['Union'] = data.ownSiblings;
+                  $scope.selections['Upazilla'] = data.parentUpazilla.id;
+                  $scope.selectOptions['Upazilla'] = data.parentUpazillaSiblings;
 
-                $scope.selections['Union'] = data.parentUnion.id;
-                $scope.selectOptions['Union'] = data.parentUnionSiblings;  
-
-                $scope.selections['Upazilla'] = data.parentUpazilla.id;
-                $scope.selectOptions['Upazilla'] = data.parentUpazillaSiblings;  
-
+                }else{
+                  $scope.selections['Ward'] = data.parentWard.id;
+                  $scope.selectOptions['Ward'] = data.parentWardSiblings;
+                  $scope.selections['Union'] = data.parentUnion.id;
+                  $scope.selectOptions['Union'] = data.parentUnionSiblings;
+                  $scope.selections['Upazilla'] = data.parentUpazilla.id;
+                  $scope.selectOptions['Upazilla'] = data.parentUpazillaSiblings;
+                }                
                 $scope.selections['District'] = data.parentDistrict.id;
                 $scope.selectOptions['District'] = data.parentDistrictSiblings;  
 
