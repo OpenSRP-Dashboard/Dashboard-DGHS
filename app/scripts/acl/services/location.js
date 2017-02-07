@@ -14,7 +14,7 @@ angular.module('opensrpSiteApp')
       this.getParentTag = function(targetParentId, tags){
         for(var i= 0; i< tags.length; i++){
           if(tags[i].parentTagId === targetParentId){
-            console.log("returning " + tags[i]);
+            
             return tags[i];
           }
         }
@@ -48,16 +48,16 @@ angular.module('opensrpSiteApp')
               break;
             }
           }   
-		console.log(data);
+		
           $scope.sortedTags = [];
           //$scope.sortedTags.push(rootTag);
           
           var currentTag = $scope.rootTag;
-          console.log(currentTag)
+          
           for(var i = 0; i < data.length - 1; i++){
             for(var j= 0; j< data.length; j++){
               if(data[j].parentTagId === currentTag.id){
-                console.log("returning " + data[j].name);
+                
                 currentTag = data[j];
                 break;
                 //return tags[i];
@@ -66,7 +66,7 @@ angular.module('opensrpSiteApp')
             $scope.sortedTags.push(currentTag);            
           }
 
-          console.log($scope.sortedTags);
+          
 
           if($scope.landingPage){
             $http.get(OPENSRP_WEB_BASE_URL + "/get-children-locations-of-root", { cache: false}).success(function (data) {
@@ -83,8 +83,7 @@ angular.module('opensrpSiteApp')
 
       this.getChildrenLocationsAndAppend = function($scope, $rootScope, parentId, parentLocationTag){
         var apiURLs;
-        console.log(parentId);
-        console.log(parentLocationTag);
+        
         if(parentId == ""){ 
           apiURLs = OPENSRP_WEB_BASE_URL + "/get-children-locations-of-root";
         }
@@ -99,11 +98,10 @@ angular.module('opensrpSiteApp')
             $.each(data, function() {
                 $scope.namesNotAvailable.push(this.name.toLowerCase());              
             });
-            console.log("names collected");
-            console.log($scope.namesNotAvailable);
+           
           }
           else{
-            console.log(data);
+            
             $scope.selectOptions[parentLocationTag] = data;  
           } 
 
@@ -124,7 +122,7 @@ angular.module('opensrpSiteApp')
         $("#submit").html("Please Wait");
         
         var apiURLs = OPENSRP_WEB_BASE_URL+"/add-dashboard-location";          
-        console.log(data);    
+        
 
         $http.post(apiURLs, data).success(function (data) {
           $("#submit").html("Submit");
@@ -169,13 +167,9 @@ angular.module('opensrpSiteApp')
         var locationTagUrl = OPENSRP_WEB_BASE_URL+"/get-all-location-tags";  
         var callForLocationTags = $http.get(locationTagUrl, { cache: false});
         var callForLocationInfo = $http.get(locationInfoUrl, { cache: false});
-        /*$http.get(locationInfoUrl, { cache: false}).success(function (data) {
-          console.log(data);
-          $
-        });*/
+        
         $q.all([callForLocationTags, callForLocationInfo]).then(function(results){
-          console.log(results[0].data);
-          console.log(results[1].data);
+          
 
           $scope.locationTags = [];
           $scope.allLocationTags = results[0].data;        
@@ -194,7 +188,7 @@ angular.module('opensrpSiteApp')
           for(var i = 0; i < results[0].data.length - 1; i++){
             for(var j= 0; j< results[0].data.length; j++){
               if(results[0].data[j].parentTagId === currentTag.id){
-                console.log("returning " + results[0].data[j].name);
+               
                 currentTag = results[0].data[j];
                 break;
                 //return tags[i];
@@ -203,7 +197,7 @@ angular.module('opensrpSiteApp')
             $scope.sortedTags.push(currentTag);            
           }
 
-          console.log($scope.sortedTags);
+         
           
           var found = 0;
           for(var i = 0; i < $scope.sortedTags.length; i++){

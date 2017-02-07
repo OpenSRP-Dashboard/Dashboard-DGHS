@@ -9,7 +9,49 @@
           <div show-during-resolve class="loader">   
               <center><img src="images/spinner.gif"  alt="Opensrp"/></center>
           </div>
-          
+          <div class="row"> <!-- main col left --> 
+            <div  class="starter-template3">
+              <form  name="camp" ng-submit="search()">  
+              <!--<div class="col-md-2"> 
+                <label>District</label>              
+                <select class="form-control"  ng-options="district.name for district in districtList" ng-model="formData.district" ng-change="getThana()" required><option></option>              
+                </select> 
+              </div>  --> 
+              <div class="col-md-2"> 
+                <label>Upazila</label>              
+                <select class="form-control"  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()" required><option></option>    
+                </select> 
+              </div>
+              <div class="col-md-2"> 
+                <label>Union</label>                
+                <select class="form-control" ng-options="union.name for union in unionList" ng-model="formData.union" ng-change="getWard()"><option></option> 
+                </select> 
+              </div>
+              <div class=" col-md-2">
+                <label>Ward</label>                 
+                <select class="form-control" ng-options="ward.name for ward in wardList" ng-model="formData.ward" ng-change="getUnit()"><option></option>               
+                </select> 
+              </div>
+              
+              <div class=" col-md-2">
+                <label>Unit</label> 
+                <select class="form-control" ng-options="unit.name for unit in unitList" ng-model="formData.unit" ng-change="getHealthAssistant()"><option></option> 
+                </select> 
+              </div>
+
+              <div class=" col-md-2">
+                <label>Health Assistant</label> 
+               <select class="form-control" ng-options="healthAssistant.user_name for healthAssistant in healthAssistantList" ng-model="formData.health_assistant">
+                  <option value=""></option>                  
+                </select>     
+              </div>
+              <div class=" col-md-2">
+                <br />
+               <button type="submit" class="btn btn-lg btn-primary ">Search</button>    
+              </div>
+              </form>   
+            </div> <!-- main col right -->                           
+          </div><!--/row-->
                    
           <div class="row">
           
@@ -49,8 +91,8 @@
                     </table>                        
                   </div>  <!--end panel-heading2 -->                     
                 </div> <!--end panel panel-default -->
-
-                <div class="panel panel-default" dir-paginate="household in data |itemsPerPage:itemsPerPage" total-items="total_count" current-page="pagination.current">
+                 
+                <div class="panel panel-default" ng-repeat="household in data | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
                   <div class="panel-heading2" role="tab" id="headingTwo2">
                     <table class="table table-striped collapsed"  data-toggle="collapse" data-parent="#accordion2" href="#{{household.caseId}}" aria-expanded="false" aria-controls="collapseTwo">
                       <thead>
@@ -72,12 +114,7 @@
                 </div> <!-- end panel panel-default -->
               <div class="row">
                 <div class="col-md-3 col-lg-10 ">
-                  <dir-pagination-controls
-                   max-size="8"
-                   direction-links="true"
-                   boundary-links="true" 
-                   on-page-change="defautData(newPageNumber)" >
-                </dir-pagination-controls>
+                  <pagination page="currentPage" boundary-links="true" max-size="6" total-items="totalItems" items-per-page="entryLimit"></pagination>
                 </div>                
               </div>
             </div><!-- end panel-group-->

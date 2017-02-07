@@ -55,11 +55,7 @@ angular.module('opensrpSiteApp')
       User.initiateLocationAssignment($scope,$rootScope,$timeout,userName,$q);      
 
       $scope.loadChildSelect = function(nameOfSelectedTag){
-        
-       /* console.log(nameOfSelectedTag + " --value of something"); 
-        console.log($scope.selections[nameOfSelectedTag]);    */
-
-        console.log($scope.sortedTags);
+       
         var childTagName;
         for(var i =0; i<$scope.sortedTags.length; i++){
           if($scope.sortedTags[i].name === nameOfSelectedTag){

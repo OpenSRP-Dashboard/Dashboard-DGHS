@@ -11,24 +11,28 @@ angular.module('opensrpSiteApp')
   .controller('MainCtrl', function ($scope,$http,$cookies,$rootScope,$q,$window,Base64,OPENSRP_WEB_BASE_URL,mapboxService,ngDialog,Main,Page,AclService,$timeout) {
 	   $scope.can = AclService.can;
 	   
-	   //var getRoleUrl = OPENSRP_WEB_BASE_URL+"/get-role-by-userName?userName="+$rootScope.username;
+	   
 	   var getUserUrl = OPENSRP_WEB_BASE_URL+"/get-user-by-name?userName="+$rootScope.username;
-	   //var roles = $http.get(getRoleUrl, { cache: true});	
+	   	
 	   var userInfo = $http.get(getUserUrl, { cache: true});	
 		$q.all([userInfo]).then(function(results){
 			$rootScope.users = results[0].data;
-					
-			$cookies.put('userRoleName', true);	
-			$cookies.put('locationId', $rootScope.users.location[0].id);	
+			console.log($rootScope.users.roles[0].name);
+			$cookies.put('userRoleName', true);
 			$cookies.put('roleName', $rootScope.users.roles[0].name);
-						
-			for(var i=0;i<results[0].data.roles.length;i++){									
-				if($rootScope.users.roles[i].name == 'FWA'){
-					console.log($rootScope.users.roles[i].name);
-					$cookies.put('userRoleName', false); 
-					break;
-				}
+			if($rootScope.users.roles[0].name == "Admin"){				
+				
+			}else if($rootScope.users.roles[0].name == "HA"){
+				
+			}else{
+				$cookies.put('locationId', $rootScope.users.location[0].id);	
+				var getLocationUrl = OPENSRP_WEB_BASE_URL+"/get-location-name?id="+$rootScope.users.location[0].id;
+				var location = $http.get(getLocationUrl, { cache: true});
+				$q.all([location]).then(function(results){				
+					$cookies.put('locationName', results[0].data);
+				});
 			}
+
 		});
     
   });
