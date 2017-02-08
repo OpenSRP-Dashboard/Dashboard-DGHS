@@ -10,46 +10,51 @@
               <center><img src="images/spinner.gif"  alt="Opensrp"/></center>
           </div>
           <div class="row"> <!-- main col left --> 
-            <div  class="starter-template3">
+            <div class="starter-template3">
               <form  name="camp" ng-submit="search()">  
               <!--<div class="col-md-2"> 
                 <label>District</label>              
                 <select class="form-control"  ng-options="district.name for district in districtList" ng-model="formData.district" ng-change="getThana()" required><option></option>              
                 </select> 
               </div>  --> 
-              <div class="col-md-2"> 
+              <div class="col-md-2" ng-show="thanaShowHide"> 
                 <label>Upazila</label>              
-                <select class="form-control"  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()" required><option></option>    
+                <select class="form-control"  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()"><option></option>    
                 </select> 
               </div>
-              <div class="col-md-2"> 
+              <div class="col-md-2" ng-show="unionShowHide"> 
                 <label>Union</label>                
                 <select class="form-control" ng-options="union.name for union in unionList" ng-model="formData.union" ng-change="getWard()"><option></option> 
                 </select> 
               </div>
-              <div class=" col-md-2">
+              <div class=" col-md-2" ng-show="wardShowHide">
                 <label>Ward</label>                 
                 <select class="form-control" ng-options="ward.name for ward in wardList" ng-model="formData.ward" ng-change="getUnit()"><option></option>               
                 </select> 
               </div>
               
-              <div class=" col-md-2">
+              <div class=" col-md-2" ng-show="unitShowHide">
                 <label>Unit</label> 
                 <select class="form-control" ng-options="unit.name for unit in unitList" ng-model="formData.unit" ng-change="getHealthAssistant()"><option></option> 
                 </select> 
               </div>
 
-              <div class=" col-md-2">
+              <div class=" col-md-2" ng-show="HAShowHide">
                 <label>Health Assistant</label> 
                <select class="form-control" ng-options="healthAssistant.user_name for healthAssistant in healthAssistantList" ng-model="formData.health_assistant">
                   <option value=""></option>                  
                 </select>     
               </div>
+              <div class=" col-md-2" ng-show="nameShowHide">
+                <label>Household Name</label> 
+               <input type="name" class="form-control"  id="total_hh" name="total_hh" ng-model="formData.HoH_Fname" placeholder="type HoH Fname">
+              </div>
               <div class=" col-md-2">
                 <br />
                <button type="submit" class="btn btn-lg btn-primary ">Search</button>    
               </div>
-              </form>   
+              </form>      
+
             </div> <!-- main col right -->                           
           </div><!--/row-->
                    
@@ -92,19 +97,20 @@
                   </div>  <!--end panel-heading2 -->                     
                 </div> <!--end panel panel-default -->
                  
-                <div class="panel panel-default" ng-repeat="household in data | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                <div class="panel panel-default" dir-paginate="household in data |itemsPerPage:itemsPerPage" total-items="total_count" current-page="pagination.current">
                   <div class="panel-heading2" role="tab" id="headingTwo2">
                     <table class="table table-striped collapsed"  data-toggle="collapse" data-parent="#accordion2" href="#{{household.caseId}}" aria-expanded="false" aria-controls="collapseTwo">
                       <thead>
                         <tr>
-                          <td style="width:150px;">                                           
+                          <th style="width:150px;">   
+                            <img src="images/photo.png" alt="">                                        
                             {{household.HoH_Fname}} {{household.HoH_Lname}}                             
-                          </td>                                       
-                          <td style="width:100px;">{{household.PROVIDERID}}</td>
-                          <td style="width:100px;">{{household.HoH_Mobile_No}}</td>
-                          <td style="width:100px;">{{household.HH_Member_No}}</td>
-                          <td style="width:100px;">{{household.HHID}}</td>
-                          <td style="width:100px;"><a href="/#/household/member/{{household.caseId}}">View Member</a>  </td> 
+                          </th>                                       
+                          <th style="width:100px;">{{household.PROVIDERID}}</th>
+                          <th style="width:100px;">{{household.HoH_Mobile_No}}</th>
+                          <th style="width:100px;">{{household.HH_Member_No}}</th>
+                          <th style="width:100px;">{{household.HHID}}</th>
+                          <th style="width:100px;"><a href="/#/household/details/{{household.id}}">View Details</a>
                         </tr>
                       </thead>
                     </table><!--//table body-->                    
@@ -114,7 +120,12 @@
                 </div> <!-- end panel panel-default -->
               <div class="row">
                 <div class="col-md-3 col-lg-10 ">
-                  <pagination page="currentPage" boundary-links="true" max-size="6" total-items="totalItems" items-per-page="entryLimit"></pagination>
+                  <dir-pagination-controls
+                   max-size="8"
+                   direction-links="true"
+                   boundary-links="true" 
+                   on-page-change="searchData(newPageNumber)" >
+                </dir-pagination-controls>
                 </div>                
               </div>
             </div><!-- end panel-group-->

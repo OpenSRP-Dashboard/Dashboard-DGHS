@@ -4,29 +4,16 @@ angular.module('opensrpSiteApp')
    .controller('HouseholdController', function ($scope,$rootScope,$cookies, $routeParams,$q,$location, $http, $window,$timeout,OPENSRP_WEB_BASE_URL,AclService, HouseholdService,LocationTree,DataService) {
         
         $scope.can = AclService.can; 
-     	
+     	LocationTree.location_tree($scope);
         var url = $location.path().split("/")[2]; 
         
+        // default data based on user type
+        // if user type is Admin then all data are showing
+        // if user type is HI then data showing only within his/her area which is thana based
+        // if user type is AHI then data showing only within his/her area which is Union based
+        // if user is HA then only his/her data are showing.
         if(url =='list'){
-	        /*var householsAPIURL = OPENSRP_WEB_BASE_URL+"/households/search?type=Household"+"&PROVIDERID="+$rootScope.username;
-			var deferred = $q.defer();
-			var allHousehold = $http.get(householsAPIURL, { cache: false});               
-			$scope.userRoleName = true;
-			if($cookies.get('userRoleName') == 'false'){
-				$scope.userRoleName = false;			
-				$q.all([allHousehold]).then(function(results){           
-				  $scope.data = results[0].data.hhRegisterEntries;
-				  if($scope.data.length ==0){
-					 $scope.dataShowHide = false;
-					 $scope.emptyDataShowHide= true;
-				  }else{
-					$scope.dataShowHide = true;
-					$scope.emptyDataShowHide= false;
-				}			 
-				DataService.data($scope,$scope.data); 
-				});  
-		
-			}*/
+        	$rootScope.loading = true;	        
 			var userCondition = "";
 			if($cookies.get('roleName') =="Admin"){
 				userCondition = "";
@@ -55,83 +42,125 @@ angular.module('opensrpSiteApp')
 		        $q.all([campDateList]).then(function(results){ 
 		           $scope.data = results[0].data.vaccineEntries;
 		           $scope.total_count =  $scope.count; 
+		           $rootScope.loading = false;
 		        });
 		      }
 		      $scope.defautData($scope.pageno);
 		    });
 
         }else if(url =='search'){
-        	
-        	if($cookies.get('roleName') =="Admin"){
-				LocationTree.location_tree($scope);
+        	if($cookies.get('roleName') =="Admin"){	
+        		$scope.thanaShowHide = true;			
+				$scope.unionShowHide = true;
+				$scope.wardShowHide = true;
+	        	$scope.unitShowHide = true;
+	        	$scope.HAShowHide = true;
+	        	$scope.nameShowHide = true;
 			}else if($cookies.get('roleName') =="HI"){
 				getUnionListByThanaId($cookies.get('locationId'));
-			}else if($cookies.get('roleName') =="AHI"){
-				console.log($cookies.get('roleName'));
+				$scope.unionShowHide = true;
+				$scope.wardShowHide = true;
+	        	$scope.unitShowHide = true;
+	        	$scope.HAShowHide = true;
+	        	$scope.nameShowHide = true;
+			}else if($cookies.get('roleName') =="AHI"){				
+				$scope.wardShowHide = true;
+	        	$scope.unitShowHide = true;
+	        	$scope.HAShowHide = true;
+	        	$scope.nameShowHide = true;				
 				getWordListByUnionId($cookies.get('locationId'));
 			}else if($cookies.get('roleName') =="HA"){
-				
+				$scope.nameShowHide = true;
 			}else{
+				$scope.thanaShowHide = false;			
+				$scope.unionShowHide = false;
+				$scope.wardShowHide = false;
+	        	$scope.unitShowHide = false;
+	        	$scope.HAShowHide = false;
+	        	$scope.nameShowHide = false;
+			}       	
 
-			}
-        	
+        }else if(url =='details'){
+        	var householdDetailsApiURL = OPENSRP_WEB_BASE_URL+"/get-household-details?id="+$routeParams.id;
+			var deferred = $q.defer();
+			var householdDetails = $http.get(householdDetailsApiURL, { cache: false}); 
+        	$q.all([householdDetails]).then(function(results){
+        		$scope.data = results[0].data;
+
+        	});
 
         }else{
+
         }
 
         $scope.search = function(){
-		  $scope.dataShowHide = false;
-		  var thana;
-		  var union;
-		  var unit;
-		  var ward;
-		  var health_assistant;
-		  if($scope.formData.thana =='undefined'){
-			thana ="";
-		  }else{
-			var  type = "type=Household";
-			thana = "&UPAZILLA="+'"'+$scope.formData.thana.name+'"';			
-		  }
-		  if(!angular.isObject($scope.formData.union)){
-			union = "";
-		  }else{			
-			union = "&UNION="+'"'+$scope.formData.union.name+'"';
-		  }
-		  if(!angular.isObject($scope.formData.ward)){
-			ward = "";
-		  }else{			  
-			ward = "&WARD="+'"'+$scope.formData.ward.name+'"';
-		  }
-		  if(!angular.isObject($scope.formData.unit)){
-			unit = "";
-		  }else{
-			unit = "&BLOCK="+'"'+$scope.formData.unit.name+'"';
-		  }
-		  if(!angular.isObject($scope.formData.health_assistant)){
-			health_assistant = "";
-		  }else{
-			health_assistant = "&PROVIDERID="+'"'+$scope.formData.health_assistant.user_name+'"';
-		  }
-		  
-		  var householsAPIURL = OPENSRP_WEB_BASE_URL+"/households/search?"+type+thana+union+ward+unit+health_assistant;
-		  
-		  var deferred = $q.defer();
-		  var householdData = $http.get(householsAPIURL, { cache: false});               
-		  // search data
-		  $q.all([householdData]).then(function(results){ 
-			        
-			$scope.data = results[0].data.hhRegisterEntries;
-			if($scope.data.length ==0){
-			 $scope.dataShowHide = false;
-			 $scope.emptyDataShowHide= true;
-		  }else{
-			$scope.dataShowHide = true;
-			$scope.emptyDataShowHide= false;
-		  }        
-			DataService.data($scope,$scope.data); 
-		  });
+        	$rootScope.loading = true;	
+			$scope.dataShowHide = false;
+			var thana;
+			var union;
+			var unit;
+			var ward;
+			var health_assistant;
+			var HouseholdName;
+			var type = "type=HouseHold"; 			
+			if(!angular.isObject($scope.formData.thana)){
+				thana ="";
+			}else{				
+				thana = "&UPAZILLA="+'"'+$scope.formData.thana.name+'"';			
+			}
+			if(!angular.isObject($scope.formData.union)){
+				union = "";
+			}else{			
+				union = "&UNION="+'"'+$scope.formData.union.name+'"';
+			}
+			if(!angular.isObject($scope.formData.ward)){
+				ward = "";
+			}else{			  
+				ward = "&WARD="+'"'+$scope.formData.ward.name+'"';
+			}
+			if(!angular.isObject($scope.formData.unit)){
+				unit = "";
+			}else{
+				unit = "&BLOCK="+'"'+$scope.formData.unit.name+'"';
+			}
+			if(!angular.isObject($scope.formData.health_assistant)){
+				health_assistant = "";
+			}else{
+				health_assistant = "&PROVIDERID="+'"'+$scope.formData.health_assistant.user_name+'"';
+			}
+			if($scope.formData.HoH_Fname =="" || $scope.formData.HoH_Fname==null){
+				console.log($scope.formData.HoH_Fname);
+				HouseholdName ="";
+			}else{				
+				HouseholdName = "&HoH_Fname="+'"'+$scope.formData.HoH_Fname+'"';			
+			} 
+			//only for unit or block label user
+			if($cookies.get('roleName') =="HA"){
+				health_assistant = "&PROVIDERID="+'"'+$rootScope.username+'"';
+			}else{}
+			var householdSearchCountApiURL = OPENSRP_WEB_BASE_URL+"/get-household-count-by-keys?"+type+thana+union+ward+unit+health_assistant+HouseholdName;
+			var deferred = $q.defer();
+			var householdSearchDataCount = $http.get(householdSearchCountApiURL, { cache: false}); 
+			$scope.pageno = 1; // initialize page no to 1         
+			$scope.itemsPerPage = 10; //this could be a dynamic value from a drop down    
+			$scope.data = []; 
+			$q.all([householdSearchDataCount]).then(function(results){
+			    $scope.count = results[0].data ;
+			    $scope.searchData=function(pageno){       
+			    var p = (pageno*$scope.itemsPerPage)-$scope.itemsPerPage;
+			    var householdSearchApiURL = OPENSRP_WEB_BASE_URL+"/household-search?"+type+thana+union+ward+unit+health_assistant+HouseholdName+"&p="+p+"&limit="+$scope.itemsPerPage;
+			    var deferred = $q.defer();
+			    var householdSerchDataList = $http.get(householdSearchApiURL, { cache: false}); 
+			        $q.all([householdSerchDataList]).then(function(results){ 
+			           $scope.data = results[0].data.vaccineEntries;
+			           $scope.total_count =  $scope.count;
+			           $rootScope.loading = false;	 
+			        });
+			    }
+			    $scope.searchData($scope.pageno);
+			});
+
 		}
-		
 		
 		function getUnionListByThanaId(thanaId){				
 			var unionListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+thanaId;
