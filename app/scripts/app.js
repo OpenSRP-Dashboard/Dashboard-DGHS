@@ -120,12 +120,11 @@ angular
 
       })
   })
-
-  .config(function ($routeProvider,$locationProvider) {
+.config(function ($routeProvider,$locationProvider) {
     $routeProvider
-      .when('/woman/view/:id', {
-        templateUrl: 'views/register/woman_view.html',
-        controller: 'WomanController',
+      .when('/member/search/:type', {
+        templateUrl: 'views/register/member_search.html',
+        controller: 'MemberController',
         controllerAs: 'WC' ,
         resolve : {
           'acl' : ['$q', 'AclService', function($q, AclService){
@@ -142,12 +141,11 @@ angular
 
       })
   })
-
-  .config(function ($routeProvider,$locationProvider) {
+.config(function ($routeProvider,$locationProvider) {
     $routeProvider
-      .when('/woman/list', {
-        templateUrl: 'views/register/woman_list.html',
-        controller: 'WomanController',
+      .when('/member/details/:id', {
+        templateUrl: 'views/register/member_details.html',
+        controller: 'MemberController',
         controllerAs: 'WC' ,
         resolve : {
           'acl' : ['$q', 'AclService', function($q, AclService){
@@ -164,15 +162,13 @@ angular
 
       })
   })
-
-
-
+  
   .config(function ($routeProvider,$locationProvider) {
     $routeProvider
-      .when('/child/list', {
-        templateUrl: 'views/register/child_list.html',
-        controller: 'ChildController',
-        controllerAs: 'CC' ,
+      .when('/member/list/:type', {
+        templateUrl: 'views/register/member_list.html',
+        controller: 'MemberController',
+        controllerAs: 'WC' ,
         resolve : {
           'acl' : ['$q', 'AclService', function($q, AclService){
             if(AclService.can('Camp List')){
@@ -187,29 +183,7 @@ angular
         }
 
       })
-  })
-
-  .config(function ($routeProvider,$locationProvider) {
-    $routeProvider
-      .when('/child/view/:id', {
-        templateUrl: 'views/register/child_view.html',
-        controller: 'ChildController',
-        controllerAs: 'CC' ,
-        resolve : {
-          'acl' : ['$q', 'AclService', function($q, AclService){
-            if(AclService.can('Camp List')){
-              // Has proper permissions
-              return true;
-            } else {
-              // Does not have permission
-              return $q.reject('Unauthorized');
-            
-            }
-          }]
-        }
-
-      })
-  })
+  })  
   .config(function ($routeProvider,$locationProvider) {
     $routeProvider
       .when('/camp/search', {
