@@ -11,7 +11,19 @@ angular.module('opensrpSiteApp')
   .controller('UserCtrl', function ($scope,$rootScope,Flash,$window,$timeout,$location,$routeParams,$http,User,AclService, OPENSRP_WEB_BASE_URL,$q,Base64, Location) {   
     
     $scope.can = AclService.can;
-    var userName = $routeParams.name;   
+    var userName = $routeParams.name; 
+    $scope.userRoleCheck = function(roles){
+      var boolean =false;
+      angular.forEach(roles, function(value, key){
+         if(value.name == "Admin"){
+            boolean = true;
+            return boolean;
+         }else{
+            boolean = false;
+         }
+      });
+      return boolean; 
+    }  
     if ($location.path() == '/add-user') {
       $rootScope.loading = true;      
       $scope.formData = {};      

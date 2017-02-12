@@ -28,20 +28,8 @@ angular.module('opensrpSiteApp')
     // if user type is AHI then data showing only within his/her area which is Union based
     // if user is HA then only his/her data are showing.
     if(url =='list'){
-        $rootScope.loading = true;	        
-		$scope.userCondition = "";
-		if($cookies.get('roleName') =="Admin"){
-			$scope.userCondition = "";
-		}else if($cookies.get('roleName') =="HI"){
-			$scope.userCondition = "&Member_UPAZILLA="+$cookies.get('locationName');
-		}else if($cookies.get('roleName') =="AHI"){
-			$scope.userCondition = "&Member_UNION="+$cookies.get('locationName');
-		}else if($cookies.get('roleName') =="HA"){
-			$scope.userCondition = "&PROVIDERID="+$rootScope.username;
-		}else{
-
-		}
-
+        $rootScope.loading = true;
+		CommonService.userRoleCondition($scope,$cookies);
 		var defaultApiURL = OPENSRP_WEB_BASE_URL+"/get-member-count-by-keys?type=Members"+$scope.memberType+$scope.userCondition;
 		var deferred = $q.defer();
 		var memberDateCount = $http.get(defaultApiURL, { cache: false}); 

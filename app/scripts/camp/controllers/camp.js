@@ -8,7 +8,7 @@
  * Controller of the opensrpSiteApp
  */
 angular.module('opensrpSiteApp')
- .controller('CampCtrl', function ($scope,$http,$rootScope,$routeParams,$q,$location,$cookies,Flash,Base64,OPENSRP_WEB_BASE_URL,ngDialog,AclService,$window,Camp) {
+ .controller('CampCtrl', function ($scope,$http,$rootScope,$routeParams,$q,$location,$cookies,Flash,Base64,OPENSRP_WEB_BASE_URL,ngDialog,AclService,$window,Camp,Common) {
   var today = Camp.dateFormatterTodayInYYYYMMDD();
   var first= new Date(today);  
   $scope.formData = [];
@@ -118,95 +118,27 @@ angular.module('opensrpSiteApp')
   });
  // list page 
  if(url =='search'){
-
-  $scope.search = function(){
-      var thana;
-      var union;
-      var unit;
-      var ward;
-      var health_assistant;
-      var thana_for_count="";
-      var union_for_count ="";
-      var ward_for_count ="";
-      var unit_for_count ="";
-      var health_assistant_for_count ="";
-      if($scope.formData.thana =='undefined'){
-        thana ="";
-        thana_for_count= "";
-      }else{
-        thana = "thana="+$scope.formData.thana.id;
-        thana_for_count = $scope.formData.thana.id;
-      }
-      if(!angular.isObject($scope.formData.union)){
-        union = "";
-      }else{        
-        union = "&union="+$scope.formData.union.id;
-        union_for_count = $scope.formData.union.id;
-      }
-      if(!angular.isObject($scope.formData.ward)){
-        ward = "";
-      }else{
-        ward = "&ward="+$scope.formData.ward.id;
-        ward_for_count = $scope.formData.ward.id;
-      }
-      if(!angular.isObject($scope.formData.unit)){
-        unit = "";
-      }else{
-        unit = "&unit="+$scope.formData.unit.id;
-        unit_for_count = $scope.formData.unit.id;
-      }
-      if(!angular.isObject($scope.formData.health_assistant)){
-        health_assistant = "";
-      }else{
-        health_assistant = "&health_assistant="+$scope.formData.health_assistant.user_name;
-        health_assistant_for_count = $scope.formData.health_assistant.user_name;
-      }
-      $rootScope.loading = true;
-      var apiURLs = OPENSRP_WEB_BASE_URL+"/camp-count-by-search?thana="+thana_for_count+"&union="+union_for_count
-            +"&ward="+ward_for_count+"&unit="+unit_for_count+"&healthAssistant="+health_assistant_for_count;
-      var deferred = $q.defer();
-      var campDateList = $http.get(apiURLs, { cache: true});               
-      // search data
-      $q.all([campDateList]).then(function(results){           
-        $scope.count = results[0].data;
-        if($scope.count ==0){
-           $scope.dataShowHide = false;
-           $scope.emptyDataShowHide= true;
-        }else{
-          $scope.dataShowHide = true;
-          $scope.emptyDataShowHide= false;
-        }
-        $scope.searchData = []; //declare an empty array
-        $scope.pageno = 1; // initialize page no to 1
-        $scope.total_count = 0;
-        $scope.sort = function(keyname){
-          $scope.sortBy = 'session_date';   //set the sortBy to the param passed
-          $scope.reverse = false; //if true make it false and vice versa
-        }
-        $scope.itemsPerPage = 10; //this could be a dynamic value from a drop down
-        $scope.getData = function(pageno){ // This would fetch the data on page change.         
-          console.log(pageno);
-          $scope.campData = []; 
-          var p = (pageno*$scope.itemsPerPage)-$scope.itemsPerPage;          
-          var apiURL = OPENSRP_WEB_BASE_URL+"/camp-date/search?"+thana+union+ward+unit+health_assistant+"&p="+p+"&limit="+$scope.itemsPerPage;
-          var campDateList = $http.get(apiURL, { cache: true}); 
-          $q.all([campDateList]).then(function(results){ 
-          $scope.searchData = results[0].data.vaccineEntries;   // data to be displayed on current page.
-          $scope.total_count = $scope.count;  // total data count.
-         });
-          $rootScope.loading = false;
-          
-      };
-      $scope.getData($scope.pageno); // Call the function to fetch initial data on page load.
-      });
-    } 
+    Common.createUserCondition($scope,$cookies);
+  
 
  }else if(url =='list'){ 
     $scope.dataShowHide = true;      
     // default data load
     console.log($cookies.get('locationId'));
-    var status = "&status=Active";
-    var defaultApiURL = OPENSRP_WEB_BASE_URL+"/camp-count-by-user-status?health_assistant="+$rootScope.username+status;
+    var userCondition = "";
+      if($cookies.get('roleName') =="Admin"){
+        userCondition = "";
+      }else if($cookies.get('roleName') =="HI"){
+        userCondition = "&thana="+$cookies.get('locationId');
+      }else if($cookies.get('roleName') =="AHI"){
+        userCondition = "&union="+$cookies.get('locationId');
+      }else if($cookies.get('roleName') =="HA"){
+        userCondition = "&health_assistant="+$rootScope.username;
+      }else{
+
+      }
+    var status = "&status=Active&type=CampDate";
+    var defaultApiURL = OPENSRP_WEB_BASE_URL+"/camp-count-by-keys?"+status+userCondition;
     var deferred = $q.defer();
     var campDateCount = $http.get(defaultApiURL, { cache: false}); 
     $scope.pageno = 1; // initialize page no to 1         
@@ -217,7 +149,7 @@ angular.module('opensrpSiteApp')
         console.log($scope.count); 
         $scope.defautData=function(pageno){       
           var p = (pageno*$scope.itemsPerPage)-$scope.itemsPerPage;
-          var defaultApiURL = OPENSRP_WEB_BASE_URL+"/camp-date/search?health_assistant="+$rootScope.username+status+"&p="+p+"&limit="+$scope.itemsPerPage;
+          var defaultApiURL = OPENSRP_WEB_BASE_URL+"/camp-date/search?"+userCondition+status+"&p="+p+"&limit="+$scope.itemsPerPage;
           var deferred = $q.defer();
           var campDateList = $http.get(defaultApiURL, { cache: false}); 
           $q.all([campDateList]).then(function(results){ 
@@ -290,6 +222,80 @@ angular.module('opensrpSiteApp')
     $scope.session_date = $routeParams.date;
     $scope.session_status = $routeParams.status;
   }
-
+  $scope.search = function(){
+      var thana;
+      var union;
+      var unit;
+      var ward;
+      var health_assistant;
+      var thana_for_count="";
+      var union_for_count ="";
+      var ward_for_count ="";
+      var unit_for_count ="";
+      var health_assistant_for_count ="";
+      if(!angular.isObject($scope.formData.thana)){
+        thana ="";       
+      }else{
+        thana = "&thana="+$scope.formData.thana.id;       
+      }
+      if(!angular.isObject($scope.formData.union)){
+        union = "";
+      }else{        
+        union = "&union="+$scope.formData.union.id;        
+      }
+      if(!angular.isObject($scope.formData.ward)){
+        ward = "";
+      }else{
+        ward = "&ward="+$scope.formData.ward.id;        
+      }
+      if(!angular.isObject($scope.formData.unit)){
+        unit = "";
+      }else{
+        unit = "&unit="+$scope.formData.unit.id;        
+      }
+      if(!angular.isObject($scope.formData.health_assistant)){
+        health_assistant = "";
+      }else{
+        health_assistant = "&health_assistant="+$scope.formData.health_assistant.user_name;
+        
+      }
+      $rootScope.loading = true;
+      var apiURLs = OPENSRP_WEB_BASE_URL+"/camp-count-by-keys?type=CampDate"+thana+union+ward+unit+health_assistant;
+      var deferred = $q.defer();
+      var campDateList = $http.get(apiURLs, { cache: true});               
+      // search data
+      $q.all([campDateList]).then(function(results){           
+        $scope.count = results[0].data;
+        if($scope.count ==0){
+           $scope.dataShowHide = false;
+           $scope.emptyDataShowHide= true;
+        }else{
+          $scope.dataShowHide = true;
+          $scope.emptyDataShowHide= false;
+        }
+        $scope.searchData = []; //declare an empty array
+        $scope.pageno = 1; // initialize page no to 1
+        $scope.total_count = 0;
+        $scope.sort = function(keyname){
+          $scope.sortBy = 'session_date';   //set the sortBy to the param passed
+          $scope.reverse = false; //if true make it false and vice versa
+        }
+        $scope.itemsPerPage = 10; //this could be a dynamic value from a drop down
+        $scope.getData = function(pageno){ // This would fetch the data on page change.         
+          console.log(pageno);
+          $scope.campData = []; 
+          var p = (pageno*$scope.itemsPerPage)-$scope.itemsPerPage;          
+          var apiURL = OPENSRP_WEB_BASE_URL+"/camp-date/search?type=CampDate"+thana+union+ward+unit+health_assistant+"&p="+p+"&limit="+$scope.itemsPerPage;
+          var campDateList = $http.get(apiURL, { cache: true}); 
+          $q.all([campDateList]).then(function(results){ 
+          $scope.searchData = results[0].data.vaccineEntries;   // data to be displayed on current page.
+          $scope.total_count = $scope.count;  // total data count.
+         });
+          $rootScope.loading = false;
+          
+      };
+      $scope.getData($scope.pageno); // Call the function to fetch initial data on page load.
+      });
+    } 
 
 });

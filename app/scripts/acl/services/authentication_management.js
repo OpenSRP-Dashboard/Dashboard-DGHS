@@ -45,6 +45,9 @@ angular.module('opensrpSiteApp')
         document.execCommand('ClearAuthenticationCache');
         $cookies.remove('authdata');
         $cookies.remove('userRoleName');
+        $cookies.remove('locationId');
+        $cookies.remove('locationName');
+        $cookies.remove('roleName');
         $http.defaults.headers.common.Authorization = 'Basic ';
     };
   })

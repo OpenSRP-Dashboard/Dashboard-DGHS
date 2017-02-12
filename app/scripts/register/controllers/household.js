@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('opensrpSiteApp')
-   .controller('HouseholdController', function ($scope,$rootScope,$cookies, $routeParams,$q,$location, $http, $window,$timeout,OPENSRP_WEB_BASE_URL,AclService, HouseholdService,LocationTree,DataService) {
+   .controller('HouseholdController', function ($scope,$rootScope,$cookies, $routeParams,$q,$location, $http, $window,$timeout,OPENSRP_WEB_BASE_URL,AclService, HouseholdService,LocationTree,CommonService) {
         
         $scope.can = AclService.can; 
      	LocationTree.location_tree($scope);
@@ -49,36 +49,7 @@ angular.module('opensrpSiteApp')
 		    });
 
         }else if(url =='search'){
-        	if($cookies.get('roleName') =="Admin"){	
-        		$scope.thanaShowHide = true;			
-				$scope.unionShowHide = true;
-				$scope.wardShowHide = true;
-	        	$scope.unitShowHide = true;
-	        	$scope.HAShowHide = true;
-	        	$scope.nameShowHide = true;
-			}else if($cookies.get('roleName') =="HI"){
-				getUnionListByThanaId($cookies.get('locationId'));
-				$scope.unionShowHide = true;
-				$scope.wardShowHide = true;
-	        	$scope.unitShowHide = true;
-	        	$scope.HAShowHide = true;
-	        	$scope.nameShowHide = true;
-			}else if($cookies.get('roleName') =="AHI"){				
-				$scope.wardShowHide = true;
-	        	$scope.unitShowHide = true;
-	        	$scope.HAShowHide = true;
-	        	$scope.nameShowHide = true;				
-				getWordListByUnionId($cookies.get('locationId'));
-			}else if($cookies.get('roleName') =="HA"){
-				$scope.nameShowHide = true;
-			}else{
-				$scope.thanaShowHide = false;			
-				$scope.unionShowHide = false;
-				$scope.wardShowHide = false;
-	        	$scope.unitShowHide = false;
-	        	$scope.HAShowHide = false;
-	        	$scope.nameShowHide = false;
-			}       	
+        	CommonService.userCondition($scope,$cookies);       	
 
         }else if(url =='details'){
         	var householdDetailsApiURL = OPENSRP_WEB_BASE_URL+"/get-household-details?id="+$routeParams.id;
@@ -86,6 +57,15 @@ angular.module('opensrpSiteApp')
 			var householdDetails = $http.get(householdDetailsApiURL, { cache: false}); 
         	$q.all([householdDetails]).then(function(results){
         		$scope.data = results[0].data;
+        		
+        		$scope.MEMBERDETAILS = $scope.data["MEMBERDETAILS"];
+        		delete $scope.data["MEMBERDETAILS"];
+        		$scope.details = $scope.data["details"];
+        		delete $scope.data["details"];
+        		$scope.multimediaAttachments = $scope.data["multimediaAttachments"];
+        		delete $scope.data["multimediaAttachments"];
+        		delete $scope.data["revision"];
+        		delete $scope.data["type"];
 
         	});
 

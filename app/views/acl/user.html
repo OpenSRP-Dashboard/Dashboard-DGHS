@@ -23,7 +23,7 @@
                     <!-- <a href="/#/user/{{role.roleId}}/{{role.roleName}}/{{role.userName}}/{{role.status}}" > -->
                     <tr ng-repeat="user in Users">
                       <td style="width: 10%"><a href="/#/user/{{user.user_name}}" >{{user.user_name}}</a>
-                      <a href="/#/user/{{user.user_name}}/location" >assign location</a> </td>
+                      <a  ng-if="userRoleCheck(user.roles) == false"  href="/#/user/{{user.user_name}}/location" >assign location</a> </td>
                       <td style="width: 10%"><span ng-repeat="role in user.roles"><a href="/#/role/{{role.id}}" >{{role.name}}</a><br/></span></td>
                       <td style="width: 10%">{{user.status}}  &nbsp;&nbsp;&nbsp;&nbsp; </td>                      
                     </tr>

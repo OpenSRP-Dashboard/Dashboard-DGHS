@@ -11,34 +11,38 @@
           <div class="row"> <!-- main col left --> 
             <div class="starter-template3">
               <form  name="camp" ng-submit="search()">    
-              <div class="col-md-2"> 
+              <div class="col-md-2" ng-show="thanaShowHide"> 
                 <label>Thana</label>              
-                <select class="form-control"  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()" required>
+                <select class="form-control"  ng-options="thana.name for thana in thanaList" ng-model="formData.thana" ng-change="getUnion()">
                 <option></option>              
                 </select> 
               </div>
-              <div class="col-md-2"> 
+              <div class="col-md-2" ng-show="unionShowHide"> 
                 <label>Union</label>                
                 <select class="form-control" ng-options="union.name for union in unionList" ng-model="formData.union" ng-change="getWard()"><option></option> 
                 </select> 
               </div>
-              <div class=" col-md-2">
+              <div class=" col-md-2" ng-show="wardShowHide">
                 <label>Ward</label>                 
                 <select class="form-control" ng-options="ward.name for ward in wardList" ng-model="formData.ward" ng-change="getUnit()"><option></option>               
                 </select> 
               </div>
               
-              <div class=" col-md-2">
+              <div class=" col-md-2" ng-show="unitShowHide">
                 <label>Unit</label> 
                 <select class="form-control" ng-options="unit.name for unit in unitList" ng-model="formData.unit" ng-change="getHealthAssistant()"><option></option> 
                 </select> 
               </div>
 
-              <div class=" col-md-2">
+              <div class=" col-md-2" ng-show="HAShowHide">
                 <label>Health Assistant</label> 
                <select class="form-control" ng-options="healthAssistant.user_name for healthAssistant in healthAssistantList" ng-model="formData.health_assistant">
                   <option value=""></option>                  
                 </select>     
+              </div>
+              <div class=" col-md-2" ng-show="nameShowHide">
+                <label>Household Name</label> 
+               <input type="name" class="form-control"  id="total_hh" name="total_hh" ng-model="formData.HoH_Fname" placeholder="type HoH Fname">
               </div>
               <div class=" col-md-2">
                 <br />
@@ -49,14 +53,7 @@
           </div><!--/row-->
                    
           <div class="row">
-          <div class="col-xs-12">
-            <div class="box">
-              <div class="box-header">
-                <h3 style="float:right" class="btn btn-info btn-lg">
-                  <a style="color:white" href="#/camp/add"> Add new camp</a></h3>
-              </div>
-            </div>
-          </div>
+         
           <div style="clear:both"></div>
           <div class="row" >
             <div class="alert alert-danger" ng-show="emptyDataShowHide"> No camp found....</div>

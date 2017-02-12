@@ -6,151 +6,17 @@
     <div class="row">
         <div class="col-sm-12 col-md-12">
            <div class="row"> 
-              <div class="starter-template3">
-                <div class="col-md-6"> 
-                  <label>caseId :</label>     {{data.caseId}}
+              <div class="col-sm-12 col-md-12">
+                <div class="row">
+                  <div class="col-md-3" ng-repeat="(key,value) in data"> 
+                    <label>{{key}} :</label>{{value}}
+                  </div>   
                 </div>
-                <div class="col-md-6"> 
-                  <label>INSTANCEID :</label>     {{data.INSTANCEID}}
-                </div>
-                
-              </div>
-              <div class="starter-template3">
-                <div class="col-md-2"> 
-                  <label>PROVIDERID :</label>     {{data.PROVIDERID}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>TODAY :</label>     {{data.TODAY}}
-                </div>
-                <div class="col-md-3"> 
-                  <label>Date_Of_Reg :</label>     {{data.Date_Of_Reg}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>COUNTRY :</label>     {{data.COUNTRY}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>DIVISION :</label>     {{data.DIVISION}}
-                </div>
-              </div>
-              <div class="starter-template3">
-                <div class="col-md-2"> 
-                  <label>DISTRICT :</label>     {{data.DISTRICT}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>UPAZILLA :</label>     {{data.UPAZILLA}}
-                </div>
-                <div class="col-md-3"> 
-                  <label>UNION :</label>     {{data.UNION}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>WARD :</label>     {{data.WARD}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>BLOCK :</label>     {{data.BLOCK}}
-                </div>
-              </div>
-              <div class="starter-template3">
-                <div class="col-md-2"> 
-                  <label>HHID :</label>     {{data.HHID}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>HoH_Reg_No :</label>     {{data.HoH_Reg_No}}
-                </div>
-                <div class="col-md-3"> 
-                  <label>HoH_Fname :</label>     {{data.HoH_Fname}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>HoH_birth_date :</label>     {{data.HoH_birth_date}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>HoH_birth_date_known :</label>     {{data.HoH_birth_date_known}}
-                </div>
-              </div>
-              <div class="starter-template3">
-                <div class="col-md-2"> 
-                  <label>HoH_Lname :</label>     {{data.HoH_Lname}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>HoH_age :</label>     {{data.HoH_age}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>HoH_Gender :</label>     {{data.HoH_Gender}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>HoH_Unique_ID :</label>     {{data.HoH_Unique_ID}}
-                </div>
-                <div class="col-md-3"> 
-                  <label>HoH_Mobile_No :</label>     {{data.HoH_Mobile_No}}
-                </div>
-              </div>
-              <div class="starter-template3">
-                <div class="col-md-2"> 
-                  <label>HoH_Education :</label>     {{data.HoH_Education}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>HoH_Occupation :</label>     {{data.HoH_Occupation}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>HH_Member_No :</label>     {{data.HH_Member_No}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>deviceid :</label>     {{data.deviceid}}
-                </div>
-                <div class="col-md-3"> 
-                  <label>subscriberid :</label>     {{data.subscriberid}}
-                </div>
-              </div>
-              <div class="starter-template3">
-                <div class="col-md-2"> 
-                  <label>simserial :</label>     {{data.simserial}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>phonenumber :</label>     {{data.phonenumber}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>phonenumber :</label>     {{data.phonenumber}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>PAURASAVA :</label>     {{data.PAURASAVA}}
-                </div>
-                <div class="col-md-3"> 
-                  <label>ADDRESS_LINE :</label>     {{data.ADDRESS_LINE}}
-                </div>
-              </div>
-              <div style="clear:both"></div>
-              <div class="starter-template3">
-                <div class="col-md-2"> 
-                  <label>HIE_FACILITIES :</label>     {{data.HIE_FACILITIES}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>calc_HoH_age :</label>     {{data.calc_HoH_age}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>calc_HoH_dob :</label>     {{data.calc_HoH_dob}}
-                </div>
-                <div class="col-md-2"> 
-                  <label>calc_HoH_dob_confirm :</label>     {{data.calc_HoH_dob_confirm}}
-                </div>
-                <div class="col-md-3"> 
-                  <label>calc_dob_estimated :</label>     {{data.calc_dob_estimated}}
-                </div>
-              </div>
-              <div style="clear:both"></div>
-              <div class="starter-template3">
-                <div class="col-md-4"> 
-                  <label>calc_HoH_age_confirm :</label>     {{data.calc_HoH_age_confirm}}
-                </div>
-                <div class="col-md-4"> 
-                  <label>birth_date_note :</label>     {{data.birth_date_note}}
-                </div>
-                <div class="col-md-4"> 
-                  <label>note_age :</label>     {{data.note_age}}
-                </div>
-                
-              </div>
+              </div> <!--end row -->
+             
             </div>
             <div> -------------------------------------------</div>
-            <div class="row"  ng-repeat="member in data.MEMBERDETAILS"> 
+            <div class="row"  ng-repeat="member in MEMBERDETAILS"> 
               <h1>Member : {{$index+1}}</h1>
               <div style="background-color:black">
                 <div ng-repeat="(key,value) in member" class="col-md-6" > 
@@ -158,6 +24,16 @@
                 </div>
               </div>
             </div>
+
+            <div> -------------------------------------------</div>
+             <div class="col-sm-12 col-md-12">
+              <h1>Household details</h1>
+                <div class="row">
+                  <div class="col-md-3" ng-repeat="(key,value) in details"> 
+                    <label>{{key}} :</label>{{value}}
+                  </div>   
+                </div>
+              </div> <!--end row -->
       </div>
     </div>
   </div>   <!--end container -->  
