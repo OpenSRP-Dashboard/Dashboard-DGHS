@@ -8,7 +8,7 @@
  * Controller of the opensrpSiteApp
  */
 angular.module('opensrpSiteApp')
- .controller('CampCtrl', function ($scope,$http,$rootScope,$routeParams,$q,$location,$cookies,Flash,Base64,OPENSRP_WEB_BASE_URL,ngDialog,AclService,$window,Camp,Common) {
+ .controller('CampCtrl', function ($scope,$http,$rootScope,$routeParams,$q,$location,$cookies,Flash,Base64,OPENSRP_WEB_BASE_URL,ngDialog,AclService,$window,Camp,Common,LocationTree) {
   var today = Camp.dateFormatterTodayInYYYYMMDD();
   var first= new Date(today);  
   $scope.formData = [];
@@ -26,68 +26,7 @@ angular.module('opensrpSiteApp')
 		  return false;
 	 }	
   }
-  var thanaAPIURL = OPENSRP_WEB_BASE_URL+"/get-upazillas";
-  var thanas =  $http.get(thanaAPIURL, { cache: true});
-  $rootScope.loading = true;
-  $q.all([thanas]).then(function(results){
-    $scope.thanaList = results[0].data;    
-    $scope.formData.thana="Please select";
-    $rootScope.loading = false;
-  });
-  
-  $scope.getUnion = function(){ 
-    $rootScope.loading = true;   
-    if(angular.isObject($scope.formData.thana)){
-      var unionListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.thana.id;
-      var unionList = $http.get(unionListURL, { cache: true});
-      $q.all([unionList]).then(function(results){            
-        $scope.unionList = results[0].data;
-      }); 
-      $scope.wardList = [];
-      $scope.unitList = [];
-      $scope.healthAssistantList = [];
-      $rootScope.loading = false;
-    }
-  }
-  $scope.getWard = function(){ 
-    $rootScope.loading = true;
-    if(angular.isObject($scope.formData.union)){     
-      var wardListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.union.id;
-      var wardList = $http.get(wardListURL, { cache: true});
-      $q.all([wardList]).then(function(results){
-        $scope.wardList = results[0].data;
-      }); 
-      $scope.unitList = []; 
-      $scope.healthAssistantList = [];
-      $rootScope.loading = false; 
-    }  
-  }
-
-  $scope.getUnit = function(){
-    $rootScope.loading = true; 
-    if(angular.isObject($scope.formData.ward)){          
-      var wardListURL = OPENSRP_WEB_BASE_URL+"/get-children-locations?dashboardLocationId="+$scope.formData.ward.id;
-      var units = $http.get(wardListURL, { cache: false});
-      $q.all([units]).then(function(results){
-        $scope.unitList = results[0].data;
-      });
-      $scope.healthAssistantList = [];
-      $rootScope.loading = false;
-    }
-  }
-
-  $scope.getHealthAssistant = function(){
-    $rootScope.loading = true;   
-    if(angular.isObject($scope.formData.unit)){    
-      var assistantListListURL = OPENSRP_WEB_BASE_URL+"/get-data-senders-by-location?locationId="+$scope.formData.unit.id;
-      var assistants = $http.get(assistantListListURL, { cache: false});
-      $q.all([assistants]).then(function(results){
-        $scope.healthAssistantList = results[0].data;
-        $rootScope.loading = false;
-      });
-    }
-  }    
-    //$scope.healthAssistantList =[{"name":"sohel"},{"name":"asif"},{"name":"numera"}];
+ LocationTree.location_tree($scope);
   
   $scope.removeCampDate = function(date){     
     for(var i = $scope.campDates.length - 1; i >= 0; i--) {
@@ -119,7 +58,7 @@ angular.module('opensrpSiteApp')
  // list page 
  if(url =='search'){
     Common.createUserCondition($scope,$cookies);
-  
+    Camp.getCampList($scope);
 
  }else if(url =='list'){ 
     $scope.dataShowHide = true;      
@@ -227,11 +166,12 @@ angular.module('opensrpSiteApp')
       var union;
       var unit;
       var ward;
-      var health_assistant;
+      var healthAssistant;
       var thana_for_count="";
       var union_for_count ="";
       var ward_for_count ="";
       var unit_for_count ="";
+      var campName = "";
       var health_assistant_for_count ="";
       if(!angular.isObject($scope.formData.thana)){
         thana ="";       
@@ -254,13 +194,18 @@ angular.module('opensrpSiteApp')
         unit = "&unit="+$scope.formData.unit.id;        
       }
       if(!angular.isObject($scope.formData.health_assistant)){
-        health_assistant = "";
+        healthAssistant = "";
       }else{
-        health_assistant = "&health_assistant="+$scope.formData.health_assistant.user_name;
+        healthAssistant = "&health_assistant="+$scope.formData.health_assistant.user_name;
         
       }
-      $rootScope.loading = true;
-      var apiURLs = OPENSRP_WEB_BASE_URL+"/camp-count-by-keys?type=CampDate"+thana+union+ward+unit+health_assistant;
+      if($scope.formData.session_name =="" || $scope.formData.session_name==null){       
+        campName ="";
+      }else{        
+        campName = "&session_name="+'"'+$scope.formData.session_name+'"';      
+      } 
+      $rootScope.loading = true;      
+      var apiURLs = OPENSRP_WEB_BASE_URL+"/camp-count-by-keys?type=CampDate"+thana+union+ward+unit+healthAssistant+campName;
       var deferred = $q.defer();
       var campDateList = $http.get(apiURLs, { cache: true});               
       // search data
@@ -285,7 +230,7 @@ angular.module('opensrpSiteApp')
           console.log(pageno);
           $scope.campData = []; 
           var p = (pageno*$scope.itemsPerPage)-$scope.itemsPerPage;          
-          var apiURL = OPENSRP_WEB_BASE_URL+"/camp-date/search?type=CampDate"+thana+union+ward+unit+health_assistant+"&p="+p+"&limit="+$scope.itemsPerPage;
+          var apiURL = OPENSRP_WEB_BASE_URL+"/camp-date/search?type=CampDate"+thana+union+ward+unit+healthAssistant+campName+"&p="+p+"&limit="+$scope.itemsPerPage;
           var campDateList = $http.get(apiURL, { cache: true}); 
           $q.all([campDateList]).then(function(results){ 
           $scope.searchData = results[0].data.vaccineEntries;   // data to be displayed on current page.

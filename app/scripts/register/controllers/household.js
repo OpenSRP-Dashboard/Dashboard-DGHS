@@ -80,7 +80,7 @@ angular.module('opensrpSiteApp')
 			var union;
 			var unit;
 			var ward;
-			var health_assistant;
+			var healthAssistant;
 			var HouseholdName;
 			var type = "type=HouseHold"; 			
 			if(!angular.isObject($scope.formData.thana)){
@@ -104,21 +104,25 @@ angular.module('opensrpSiteApp')
 				unit = "&BLOCK="+'"'+$scope.formData.unit.name+'"';
 			}
 			if(!angular.isObject($scope.formData.health_assistant)){
-				health_assistant = "";
+				healthAssistant = "";
 			}else{
-				health_assistant = "&PROVIDERID="+'"'+$scope.formData.health_assistant.user_name+'"';
+				healthAssistant = "&PROVIDERID="+'"'+$scope.formData.health_assistant.user_name+'"';
 			}
 			if($scope.formData.HoH_Fname =="" || $scope.formData.HoH_Fname==null){
-				console.log($scope.formData.HoH_Fname);
+				
 				HouseholdName ="";
 			}else{				
 				HouseholdName = "&HoH_Fname="+'"'+$scope.formData.HoH_Fname+'"';			
 			} 
 			//only for unit or block label user
 			if($cookies.get('roleName') =="HA"){
-				health_assistant = "&PROVIDERID="+'"'+$rootScope.username+'"';
+				healthAssistant = "&PROVIDERID="+'"'+$rootScope.username+'"';
 			}else{}
-			var householdSearchCountApiURL = OPENSRP_WEB_BASE_URL+"/get-household-count-by-keys?"+type+thana+union+ward+unit+health_assistant+HouseholdName;
+			if(thana=="" && union == "" && unit=="" && ward=="" && healthAssistant=="" && HouseholdName==""){
+				$scope.data="";
+				$scope.total_count=0;
+			}else{
+			var householdSearchCountApiURL = OPENSRP_WEB_BASE_URL+"/get-household-count-by-keys?"+type+thana+union+ward+unit+healthAssistant+HouseholdName;
 			var deferred = $q.defer();
 			var householdSearchDataCount = $http.get(householdSearchCountApiURL, { cache: false}); 
 			$scope.pageno = 1; // initialize page no to 1         
@@ -128,7 +132,7 @@ angular.module('opensrpSiteApp')
 			    $scope.count = results[0].data ;
 			    $scope.searchData=function(pageno){       
 			    var p = (pageno*$scope.itemsPerPage)-$scope.itemsPerPage;
-			    var householdSearchApiURL = OPENSRP_WEB_BASE_URL+"/household-search?"+type+thana+union+ward+unit+health_assistant+HouseholdName+"&p="+p+"&limit="+$scope.itemsPerPage;
+			    var householdSearchApiURL = OPENSRP_WEB_BASE_URL+"/household-search?"+type+thana+union+ward+unit+healthAssistant+HouseholdName+"&p="+p+"&limit="+$scope.itemsPerPage;
 			    var deferred = $q.defer();
 			    var householdSerchDataList = $http.get(householdSearchApiURL, { cache: false}); 
 			        $q.all([householdSerchDataList]).then(function(results){ 
@@ -139,6 +143,8 @@ angular.module('opensrpSiteApp')
 			    }
 			    $scope.searchData($scope.pageno);
 			});
+
+		}
 
 		}
 		
