@@ -4,7 +4,7 @@ angular.module('opensrpSiteApp')
    .controller('HouseholdController', function ($scope,$rootScope,$cookies, $routeParams,$q,$location, $http, $window,$timeout,OPENSRP_WEB_BASE_URL,AclService, HouseholdService,LocationTree,CommonService) {
         
         $scope.can = AclService.can; 
-     	LocationTree.location_tree($scope);
+     	
         var url = $location.path().split("/")[2]; 
         
         // default data based on user type
@@ -49,6 +49,7 @@ angular.module('opensrpSiteApp')
 		    });
 
         }else if(url =='search'){
+        	LocationTree.location_tree($scope);
         	CommonService.userCondition($scope,$cookies);       	
 
         }else if(url =='details'){

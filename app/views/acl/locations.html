@@ -5,7 +5,7 @@
   <div class="container">
     <div class="row">
         
-      <div class="col-sm-9 col-md-9">
+      <div class="col-sm-12 col-md-12">
 
         
         <a href="#/locations/add">
@@ -15,7 +15,7 @@
         <br/>
         <br/>
 
-        <div class="col-sm-4 col-md-4">
+        <div class="col-sm-12 col-md-4">
           <label>Select Location Tags</label>
           <select id="" class="form-control" name="tagSelection"  ng-change="loadLoactionsByTag()" ng-model="selectedTag">
             <option ng-click="" value="">Select Tag</option>
@@ -24,11 +24,19 @@
         </div>
 
         <div class="row">
-          <ul>
-          <li ng-repeat = "fetchedLocation in fetchedLocations"><a href="/#/locations/{{fetchedLocation.id}}" >{{fetchedLocation.name}}</a></li>
-          <ul>
-          
+         
+          <table>
+            <tr>
+              <th>Location Name </th>
+            </tr>
+            <tr ng-repeat="fetchedLocation in fetchedLocations">
+              <td style="width: 10%"><a href="/#/locations/{{fetchedLocation.id}}" >{{fetchedLocation.name}}</a>
+              </td>
+            </tr>        
+                     
+          </table>
         </div>
+
 
       </div>
     </div>

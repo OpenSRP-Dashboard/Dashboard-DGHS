@@ -58,16 +58,16 @@ angular.module('opensrpSiteApp')
       $scope.textboxReached = false;
       $scope.reachedTagIndex = 0;
       $scope.locationAssignment = true;
-
+      
       $scope.unitNames = ['1-KA', '1-KHA', '2-KA', '2-KHA', '3-KA', '3-KHA', '4-KA', '4-KHA'];
       for(var i = 0 ; i < $scope.unitNames.length; i++){
         $scope.unitSelections[$scope.unitNames[i]] = false;  
       }
 
       User.initiateLocationAssignment($scope,$rootScope,$timeout,userName,$q);      
-
+     
       $scope.loadChildSelect = function(nameOfSelectedTag){
-       
+      
         var childTagName;
         for(var i =0; i<$scope.sortedTags.length; i++){
           if($scope.sortedTags[i].name === nameOfSelectedTag){
@@ -76,7 +76,7 @@ angular.module('opensrpSiteApp')
           }
         }
 
-        //console.log('reached index- ' + $scope.reachedTagIndex);
+        
         for(var i = $scope.reachedTagIndex + 1; i<$scope.sortedTags.length; i++){
           $scope.selections[$scope.sortedTags[i].name] = '';
           $scope.selectOptions[$scope.sortedTags[i].name] = '';  

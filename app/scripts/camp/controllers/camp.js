@@ -160,6 +160,8 @@ angular.module('opensrpSiteApp')
     Camp.getCampById($scope,$routeParams.camp_id );
     $scope.session_date = $routeParams.date;
     $scope.session_status = $routeParams.status;
+  }else{
+    console.log("Wrong path.....");
   }
   $scope.search = function(){
       var thana;

@@ -8,7 +8,7 @@
  * Service in the opensrpSiteApp.
  */
 angular.module('opensrpSiteApp')
-  .service('User', function ($http,$rootScope,Base64,OPENSRP_WEB_BASE_URL, COUCHURL, $q, Location) {
+  .service('User', function ($http,$rootScope,$location,Base64,OPENSRP_WEB_BASE_URL, COUCHURL, $q, Location) {
     // AngularJS will instantiate a singleton by calling "new" on this function    
           
       this.getAllUsers = function ($scope,$rootScope){
@@ -122,7 +122,10 @@ angular.module('opensrpSiteApp')
         .success(function (data) {
           Location.getAllLocationTags($scope,$rootScope);
           
-          $scope.currentUser = data;//.rows[0].value;          
+          $scope.currentUser = data;//.rows[0].value;
+          if($scope.userRoleCheck($scope.currentUser.roles) ==true){
+            $location.path('/users');
+          };        
           if($scope.currentUser.location && $scope.currentUser.location.length > 0){
 
             $http.get(locationInfoUrl+ $scope.currentUser.location[0].id, { cache: false})

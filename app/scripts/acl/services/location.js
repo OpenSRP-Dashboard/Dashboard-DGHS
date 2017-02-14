@@ -144,9 +144,7 @@ angular.module('opensrpSiteApp')
         $("#submit").attr('disabled','disabled');
         $("#submit").html("Please Wait");
         
-        var apiURLs = OPENSRP_WEB_BASE_URL+"/edit-dashboard-location";          
-        console.log(data);    
-
+        var apiURLs = OPENSRP_WEB_BASE_URL+"/edit-dashboard-location";
         $http.post(apiURLs, data).success(function (data) {
           $("#submit").html("Submit");
            $('#submit').prop('disabled', false);
@@ -169,11 +167,8 @@ angular.module('opensrpSiteApp')
         var callForLocationInfo = $http.get(locationInfoUrl, { cache: false});
         
         $q.all([callForLocationTags, callForLocationInfo]).then(function(results){
-          
-
           $scope.locationTags = [];
-          $scope.allLocationTags = results[0].data;        
-          
+          $scope.allLocationTags = results[0].data;
           $scope.rootTag = {};
           for(var i = 0; i < results[0].data.length; i++){
             if(results[0].data[i].parentTagId === ""){
@@ -244,9 +239,6 @@ angular.module('opensrpSiteApp')
           $
         });*/
         $q.all([callForLocationTags, callForLocationInfo]).then(function(results){
-          console.log(results[0].data);
-          console.log(results[1].data);
-
           $scope.locationTags = [];
           $scope.allLocationTags = results[0].data;        
           
@@ -263,8 +255,7 @@ angular.module('opensrpSiteApp')
           var currentTag = $scope.rootTag;
           for(var i = 0; i < results[0].data.length - 1; i++){
             for(var j= 0; j< results[0].data.length; j++){
-              if(results[0].data[j].parentTagId === currentTag.id){
-                console.log("returning " + results[0].data[j].name);
+              if(results[0].data[j].parentTagId === currentTag.id){                
                 currentTag = results[0].data[j];
                 break;
                 //return tags[i];
@@ -273,7 +264,7 @@ angular.module('opensrpSiteApp')
             $scope.sortedTags.push(currentTag);            
           }
 
-          console.log($scope.sortedTags);
+          
           
           var found = 0;
           for(var i = 0; i < $scope.sortedTags.length; i++){
