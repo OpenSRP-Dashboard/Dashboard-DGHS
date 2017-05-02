@@ -4,7 +4,7 @@ angular.module('opensrpSiteApp')
    .controller('MemberController', function ($scope,$rootScope,$cookies, $routeParams,$q,$location, $http, $window,$timeout,OPENSRP_WEB_BASE_URL,AclService, HouseholdService,LocationTree,CommonService) {
         
     $scope.can = AclService.can; 
-    LocationTree.location_tree($scope);
+    
     var url = $location.path().split("/")[2];
     $scope.type = $routeParams.type ;
     $scope.memberType ="";
@@ -53,8 +53,8 @@ angular.module('opensrpSiteApp')
 		});
 
     }else if(url =='search'){
-        CommonService.userCondition($scope,$cookies);	      	
-
+    	LocationTree.location_tree($scope);
+        CommonService.userCondition($scope,$cookies);
     }else if(url =='details'){
         	var memberDetailsApiURL = OPENSRP_WEB_BASE_URL+"/get-member-details?id="+$routeParams.id;
 			var deferred = $q.defer();
